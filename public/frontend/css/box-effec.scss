@@ -1,0 +1,94 @@
+/* Scss Document */
+@mixin css-arrow($height: 10px, $border: 2px, $color: #efefef, $border-color: #999, $direction: bottom, $outside: true) {
+  $border-shift: $border;
+  
+  @if $border > 0px {
+    $border: round($border * 1.41421356);
+  }
+  
+  position: relative;
+  
+  &:after,
+  &:before {
+    border: solid transparent;
+    content: " ";
+    display: block;
+    height: 0;
+    position: absolute;
+    pointer-events: none;
+    width: 0;
+    
+    @if $direction == right {
+      @if $outside {
+        left: 100%;
+      }
+      @else {
+        margin-right: -$border-shift;
+        right: 0;
+      }
+    }
+  }
+
+  &:after {
+    border-color: rgba(255, 255, 255, 0);
+    @if $direction == right {
+      @if $outside {
+        border-left-color: $color;
+      }
+      @else {
+        border-right-color: $color;
+      }
+    }
+    
+    @if $direction == left or $direction == right {
+      top: 50%;
+      margin-top: -$height;
+    }
+    
+    border-width: $height;
+  }
+
+  &:before {
+    border-color: rgba(255, 255, 255, 0);
+    
+    @if $direction == right {
+      @if $outside {
+        border-left-color: $border-color;
+      }
+      @else {
+        border-right-color: $border-color;
+      }
+    }
+    
+    @if $direction == left or $direction == right {
+      top: 50%;
+      margin-top: -($height + $border);
+    }
+    
+    border-width: $height + $border;
+  }
+}
+
+$background: #c8e7f1;
+$border-color:  #97d4e8;
+$border-size: 3px;
+
+.page-effect {
+  padding: 50px;
+}
+
+.arrow {
+  border: $border-size solid $border-color;
+  border-radius: 4px;
+  background: $background;
+  color: #2d7187;
+  margin: 0 auto 40px;
+  padding: 20px;
+  text-align: center;
+  width: 200px;
+}
+
+.arrow--2 {
+  @include css-arrow(10px, $border-size, $background, $border-color, right);
+}
+

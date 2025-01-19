@@ -1,0 +1,175 @@
+[08-Feb-2023 06:29:15 UTC] PHP Fatal error:  Uncaught ReflectionException: Class App\Exceptions\Handler does not exist in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php:877
+Stack trace:
+#0 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(877): ReflectionClass->__construct('App\\Exceptions\\...')
+#1 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(758): Illuminate\Container\Container->build('App\\Exceptions\\...')
+#2 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(851): Illuminate\Container\Container->resolve('App\\Exceptions\\...', Array, false)
+#3 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(296): Illuminate\Foundation\Application->resolve('App\\Exceptions\\...', Array, false)
+#4 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Containe in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 879
+[06-Jun-2023 05:48:02 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 05:50:36 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 05:53:28 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 05:56:10 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 05:57:43 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 05:58:23 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 05:58:37 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 05:59:12 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:01:06 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:01:35 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:02:37 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:03:14 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:03:56 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:03:59 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:04:01 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:04:27 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:04:29 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:07:18 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:08:05 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:09:43 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:11:38 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:11:59 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:12:08 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:12:47 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:12:58 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[06-Jun-2023 06:45:55 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Comment.php on line 3
+[11-Jun-2023 07:28:31 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Admin\PropertyController::invoice() in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/PropertyController.php on line 1798
+[12-Jun-2023 16:12:04 UTC] PHP Fatal error:  Cannot declare class App\Models\Enquiries, because the name is already in use in /home/mrwebcoi/updates.mrweb.co.in/bromi/storage/framework/views/2e6e56b7b21df3457686e0e3099828448c6961ca.php on line 13
+[12-Jun-2023 16:12:18 UTC] PHP Fatal error:  Cannot declare class App\Models\Enquiries, because the name is already in use in /home/mrwebcoi/updates.mrweb.co.in/bromi/storage/framework/views/2e6e56b7b21df3457686e0e3099828448c6961ca.php on line 13
+[12-Jun-2023 16:21:50 UTC] PHP Fatal error:  Cannot declare class App\Models\Enquiries, because the name is already in use in /home/mrwebcoi/updates.mrweb.co.in/bromi/storage/framework/views/2e6e56b7b21df3457686e0e3099828448c6961ca.php on line 13
+[12-Jun-2023 16:22:22 UTC] PHP Fatal error:  Cannot declare class App\Models\Enquiries, because the name is already in use in /home/mrwebcoi/updates.mrweb.co.in/bromi/storage/framework/views/2e6e56b7b21df3457686e0e3099828448c6961ca.php on line 13
+[12-Jun-2023 16:22:32 UTC] PHP Fatal error:  Cannot declare class App\Models\Enquiries, because the name is already in use in /home/mrwebcoi/updates.mrweb.co.in/bromi/storage/framework/views/2e6e56b7b21df3457686e0e3099828448c6961ca.php on line 13
+[12-Jun-2023 16:22:32 UTC] PHP Fatal error:  Cannot declare class App\Models\Enquiries, because the name is already in use in /home/mrwebcoi/updates.mrweb.co.in/bromi/storage/framework/views/2e6e56b7b21df3457686e0e3099828448c6961ca.php on line 13
+[12-Jun-2023 16:22:51 UTC] PHP Fatal error:  Cannot declare class App\Models\Enquiries, because the name is already in use in /home/mrwebcoi/updates.mrweb.co.in/bromi/storage/framework/views/2e6e56b7b21df3457686e0e3099828448c6961ca.php on line 13
+[12-Jun-2023 16:43:57 UTC] PHP Fatal error:  Cannot declare class App\Models\Enquiries, because the name is already in use in /home/mrwebcoi/updates.mrweb.co.in/bromi/storage/framework/views/2e6e56b7b21df3457686e0e3099828448c6961ca.php on line 13
+[12-Jun-2023 16:48:44 UTC] PHP Fatal error:  Cannot declare class App\Models\Enquiries, because the name is already in use in /home/mrwebcoi/updates.mrweb.co.in/bromi/storage/framework/views/2e6e56b7b21df3457686e0e3099828448c6961ca.php on line 13
+[12-Jun-2023 16:51:43 UTC] PHP Fatal error:  Cannot declare class App\Models\Enquiries, because the name is already in use in /home/mrwebcoi/updates.mrweb.co.in/bromi/storage/framework/views/2e6e56b7b21df3457686e0e3099828448c6961ca.php on line 13
+[15-Jun-2023 18:08:36 UTC] PHP Fatal error:  Uncaught ReflectionException: Class config does not exist in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php:877
+Stack trace:
+#0 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(877): ReflectionClass->__construct('config')
+#1 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(758): Illuminate\Container\Container->build('config')
+#2 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(851): Illuminate\Container\Container->resolve('config', Array, true)
+#3 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(694): Illuminate\Foundation\Application->resolve('config', Array)
+#4 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(836): Illuminate\Container\Container->make('config', Array)
+# in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 879
+[15-Jun-2023 18:08:37 UTC] PHP Fatal error:  Uncaught ReflectionException: Class config does not exist in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php:877
+Stack trace:
+#0 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(877): ReflectionClass->__construct('config')
+#1 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(758): Illuminate\Container\Container->build('config')
+#2 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(851): Illuminate\Container\Container->resolve('config', Array, true)
+#3 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(694): Illuminate\Foundation\Application->resolve('config', Array)
+#4 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(836): Illuminate\Container\Container->make('config', Array)
+# in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 879
+[15-Jun-2023 18:08:37 UTC] PHP Fatal error:  Uncaught ReflectionExce[15-Jun-2023 18:10:03 UTC] PHP Fatal error:  Uncaught ReflectionException: Class config does not exist in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php:877
+Stack trace:
+#0 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(877): ReflectionClass->__construct('config')
+#1 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(758): Illuminate\Container\Container->build('config')
+#2 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(851): Illuminate\Container\Container->resolve('config', Array, true)
+#3 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(694): Illuminate\Foundation\Application->resolve('config', Array)
+#4 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(836): Illuminate\Container\Container->make('config', Array)
+# in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 879
+[15-Jun-2023 18:11:16 UTC] PHP Fatal error:  Uncaught ReflectionException: Class config does not exist in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php:877
+Stack trace:
+#0 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(877): ReflectionClass->__construct('config')
+#1 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(758): Illuminate\Container\Container->build('config')
+#2 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(851): Illuminate\Container\Container->resolve('config', Array, true)
+#3 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(694): Illuminate\Foundation\Application->resolve('config', Array)
+#4 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(836): Illuminate\Container\Container->make('config', Array)
+# in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 879
+[15-Jun-2023 18:11:18 UTC] PHP Fatal error:  Uncaught ReflectionException: Class config does not exist in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php:877
+Stack trace:
+#0 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(877): ReflectionClass->__construct('config')
+#1 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(758): Illuminate\Container\Container->build('config')
+#2 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(851): Illuminate\Container\Container->resolve('config', Array, true)
+#3 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(694): Illuminate\Foundation\Application->resolve('config', Array)
+#4 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(836): Illuminate\Container\Container->make('config', Array)
+# in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 879
+[15-Jun-2023 18:11:20 UTC] PHP Fatal error:  Uncaught ReflectionException: Class config does not exist in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php:877
+Stack trace:
+#0 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(877): ReflectionClass->__construct('config')
+#1 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(758): Illuminate\Container\Container->build('config')
+#2 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(851): Illuminate\Container\Container->resolve('config', Array, true)
+#3 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(694): Illuminate\Foundation\Application->resolve('config', Array)
+#4 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(836): Illuminate\Container\Container->make('config', Array)
+# in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 879
+[15-Jun-2023 18:11:20 UTC] PHP Fatal error:  Uncaught ReflectionException: Class config does not exist in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php:877
+Stack trace:
+#0 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(877): ReflectionClass->__construct('config')
+#1 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(758): Illuminate\Container\Container->build('config')
+#2 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(851): Illuminate\Container\Container->resolve('config', Array, true)
+#3 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(694): Illuminate\Foundation\Application->resolve('config', Array)
+#4 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(836): Illuminate\Container\Container->make('config', Array)
+# in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 879
+[15-Jun-2023 18:11:20 UTC] PHP Fatal error:  Uncaught ReflectionException: Class config does not exist in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php:877
+Stack trace:
+#0 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(877): ReflectionClass->__construct('config')
+#1 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(758): Illuminate\Container\Container->build('config')
+#2 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(851): Illuminate\Container\Container->resolve('config', Array, true)
+#3 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(694): Illuminate\Foundation\Application->resolve('config', Array)
+#4 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(836): Illuminate\Container\Container->make('config', Array)
+# in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 879
+[15-Jun-2023 18:11:21 UTC] PHP Fatal error:  Uncaught ReflectionException: Class config does not exist in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php:877
+Stack trace:
+#0 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(877): ReflectionClass->__construct('config')
+#1 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(758): Illuminate\Container\Container->build('config')
+#2 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(851): Illuminate\Container\Container->resolve('config', Array, true)
+#3 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(694): Illuminate\Foundation\Application->resolve('config', Array)
+#4 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(836): Illuminate\Container\Container->make('config', Array)
+# in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 879
+[15-Jun-2023 18:11:23 UTC] PHP Fatal error:  Uncaught ReflectionException: Class config does not exist in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php:877
+Stack trace:
+#0 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(877): ReflectionClass->__construct('config')
+#1 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(758): Illuminate\Container\Container->build('config')
+#2 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(851): Illuminate\Container\Container->resolve('config', Array, true)
+#3 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(694): Illuminate\Foundation\Application->resolve('config', Array)
+#4 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(836): Illuminate\Container\Container->make('config', Array)
+# in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 879
+[15-Jun-2023 18:12:00 UTC] PHP Fatal error:  Uncaught ReflectionException: Class config does not exist in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php:877
+Stack trace:
+#0 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(877): ReflectionClass->__construct('config')
+#1 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(758): Illuminate\Container\Container->build('config')
+#2 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(851): Illuminate\Container\Container->resolve('config', Array, true)
+#3 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php(694): Illuminate\Foundation\Application->resolve('config', Array)
+#4 /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Foundation/Application.php(836): Illuminate\Container\Container->make('config', Array)
+# in /home/mrwebcoi/updates.mrweb.co.in/bromi/vendor/laravel/framework/src/Illuminate/Container/Container.php on line 879
+[06-Aug-2023 09:15:15 UTC] PHP Fatal error:  Trait 'App\Models\SoftDeletes' not found in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Partner.php on line 8
+[06-Aug-2023 09:16:12 UTC] PHP Fatal error:  Trait 'App\Models\SoftDeletes' not found in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Partner.php on line 8
+[06-Aug-2023 09:17:45 UTC] PHP Fatal error:  Trait 'App\Models\SoftDeletes' not found in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Partner.php on line 8
+[06-Aug-2023 09:22:06 UTC] PHP Fatal error:  Trait 'App\Models\SoftDeletes' not found in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Models/Partner.php on line 8
+[18-Aug-2023 18:19:49 UTC] PHP Fatal error:  Cannot use Session as Session because the name is already in use in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Auth/AdminLoginController.php on line 15
+[20-Aug-2023 07:38:38 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Api\AuthController::register() in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Api/AuthController.php on line 152
+[20-Aug-2023 07:38:51 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Api\AuthController::register() in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Api/AuthController.php on line 152
+[20-Aug-2023 07:39:07 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Api\AuthController::register() in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Api/AuthController.php on line 152
+[20-Aug-2023 07:40:28 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Api\AuthController::register() in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Api/AuthController.php on line 152
+[20-Aug-2023 07:42:05 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Api\AuthController::register() in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Api/AuthController.php on line 153
+[20-Aug-2023 07:42:09 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Api\AuthController::register() in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Api/AuthController.php on line 153
+[20-Aug-2023 07:44:07 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Api\AuthController::register() in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Api/AuthController.php on line 153
+[20-Aug-2023 07:44:21 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Api\AuthController::register() in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Api/AuthController.php on line 153
+[20-Aug-2023 07:44:24 UTC] PHP Fatal error:  Cannot redeclare App\Http\Controllers\Api\AuthController::register() in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Api/AuthController.php on line 153
+[08-Sep-2023 05:04:46 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[08-Sep-2023 05:13:28 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[08-Sep-2023 05:21:34 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[08-Sep-2023 05:21:46 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[08-Sep-2023 05:24:13 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[08-Sep-2023 05:24:57 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[08-Sep-2023 05:34:51 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[08-Sep-2023 05:58:01 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[08-Sep-2023 06:13:11 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[08-Sep-2023 06:13:37 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[08-Sep-2023 06:25:36 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[08-Sep-2023 06:25:38 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[08-Sep-2023 06:39:59 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[08-Sep-2023 06:42:13 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[08-Sep-2023 06:42:15 UTC] PHP Fatal error:  Can't use method return value in write context in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/EnquiriesController.php on line 287
+[15-Sep-2023 07:44:14 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/PropertyController.php on line 5
+[15-Sep-2023 07:44:40 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/PropertyController.php on line 5
+[15-Sep-2023 07:44:41 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/PropertyController.php on line 5
+[15-Sep-2023 07:44:46 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/PropertyController.php on line 5
+[15-Sep-2023 07:46:03 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/PropertyController.php on line 5
+[15-Sep-2023 07:46:38 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/PropertyController.php on line 5
+[15-Sep-2023 07:46:41 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/PropertyController.php on line 5
+[15-Sep-2023 07:46:49 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/PropertyController.php on line 5
+[28-Sep-2023 16:18:19 UTC] PHP Fatal error:  Cannot use Goutte\Client as Client because the name is already in use in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/integrationController.php on line 21
+[27-Oct-2023 18:23:29 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/SettingsController.php on line 4
+[27-Oct-2023 18:23:44 UTC] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Admin/SettingsController.php on line 4
+[03-Feb-2024 17:39:56 Asia/Kolkata] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Superadmin/PlanController.php on line 3
+[03-Feb-2024 17:42:45 Asia/Kolkata] PHP Fatal error:  Namespace declaration statement has to be the very first statement or after any declare call in the script in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Superadmin/PlanController.php on line 3
+[25-Feb-2024 10:35:59 Asia/Kolkata] PHP Fatal error:  Cannot use Illuminate\Support\Carbon as Carbon because the name is already in use in /home/mrwebcoi/updates.mrweb.co.in/bromi/app/Http/Controllers/Auth/AdminLoginController.php on line 20
