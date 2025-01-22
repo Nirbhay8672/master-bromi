@@ -27,6 +27,7 @@ use App\Http\Controllers\Admin\DistrictController;
 use App\Http\Controllers\Admin\TalukaController;
 use App\Http\Controllers\Admin\VillageController;
 use App\Http\Controllers\Admin\LocationController;
+use App\Http\Controllers\Admin\MasterPropertyController;
 use App\Http\Controllers\Admin\ShareController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -386,4 +387,10 @@ Route::group(['middleware' => 'revalidate'], function () {
 	Route::any('forget-password', [AdminLoginController::class, 'submitForgetPasswordForm'])->name('admin.forget.password.post');
 	Route::any('reset-password/{token}', [AdminLoginController::class, 'showResetPasswordForm'])->name('admin.reset.password.get');
 	Route::post('reset-password', [AdminLoginController::class, 'submitResetPasswordForm'])->name('admin.reset.password.post');
+
+	//Master Property Routes
+	Route::prefix('master-properties')->as('admin.master_properties.')->group(function () {
+		Route::get('index', [MasterPropertyController::class, 'index'])->name('index');
+		Route::get('data-table', [MasterPropertyController::class, 'dataTable'])->name('data_table');
+	});
 });
