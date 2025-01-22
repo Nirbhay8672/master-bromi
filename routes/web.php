@@ -36,6 +36,10 @@ Route::group(['middleware' => 'revalidate'], function () {
 		return redirect()->route('admin');
 	});
 
+	Route::get('/test', function() {
+		return view('test');
+	});
+
 	// Login, Register, Forgot Password, Reset Password
 	Auth::routes(['verify' => true]);
 });
