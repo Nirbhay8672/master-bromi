@@ -677,15 +677,8 @@ Helper::set_default_measuerement();
                                 @can('property-list')
 
                                 <li class="sidebar-list">
-                                    <a class="sidebar-link @if (
-											$route == 'admin.properties' ||
-												$route == 'admin.industrial.properties' ||
-												$route == 'admin.land.properties' ||
-												$route == 'admin.insta.properties' ||
-												$route == 'admin.shared.properties' ||
-												$route == 'admin.settings.property_configuration') active @endif" href="{{ route('admin.properties') }}">
+                                    <a class="sidebar-link {{ $route == 'admin.master_properties.index' ? 'active' : '' }}" href="{{ route('admin.master_properties.index') }}">
                                         <img src="https://updates.mrweb.co.in/bromi/public/admins/assets/images/icons/property.png" style="width: 20px;" alt="">
-                                        {{-- <i class="fa fa-th-large"></i> --}}
                                         <span class="lan-6">Properties</span>
                                     </a>
                                 </li>

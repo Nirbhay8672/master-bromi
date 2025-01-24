@@ -395,5 +395,6 @@ Route::group(['middleware' => 'revalidate'], function () {
 	Route::prefix('master-properties')->as('admin.master_properties.')->group(function () {
 		Route::get('index', [MasterPropertyController::class, 'index'])->name('index');
 		Route::get('data-table', [MasterPropertyController::class, 'dataTable'])->name('data_table');
+		Route::get('form', [MasterPropertyController::class, 'addForm'])->name('addForm');
 	});
 });
