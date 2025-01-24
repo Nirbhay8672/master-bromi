@@ -104,9 +104,10 @@
                                     <select class="form-select" id="state_id" required>
                                         <option value="">State</option>
                                         @forelse ($states as $state)
-                                            @if($state->user_id == auth()->user()->id)
+                                         {{-- NO need this condition its was handle from backend  --}}
+                                            {{-- @if($state->user_id == auth()->user()->id) --}}
                                                 <option value="{{ $state->id }}">{{ $state->name }}</option>
-                                            @endif
+                                            {{-- @endif --}}
                                         @empty
                                         @endforelse
                                     </select>

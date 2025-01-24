@@ -2,13 +2,11 @@
 
 namespace App\Models;
 
-use App\Scopes\VendorScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Session;
 use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Activitylog\Models\Activity;
 
 class State extends Model
 {
@@ -26,5 +24,10 @@ class State extends Model
 	public function cities()
 	{
 		return $this->hasMany(SuperCity::class);
+	}
+
+	public function user(): BelongsTo
+	{
+		return $this->belongsTo(User::class);
 	}
 }

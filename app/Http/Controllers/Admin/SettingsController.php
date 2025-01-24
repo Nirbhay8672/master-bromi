@@ -23,7 +23,7 @@ use Rap2hpoutre\FastExcel\FastExcel;
 use App\Models\PropertyConstructionDocs;
 use DB;
 use Illuminate\Support\Facades\DB as FacadesDB;
-
+use Illuminate\Validation\Rule;
 
 class SettingsController extends Controller
 {
@@ -35,16 +35,12 @@ class SettingsController extends Controller
 	public function cities_index(Request $request)
 	{
 		if ($request->ajax()) {
-			$data = FacadesDB::table('city')
-    	        ->select([
-    	            'city.*',
-    	            'state.name AS state_name'
-    	        ])
-    	        ->where('city.user_id',Auth::user()->id)
-				->where('city.deleted_at','=',null)
-    	        ->join('state', 'city.state_id', 'state.id')
-    	        ->get();
-	        
+			$query = City::query()->with(['State:id,name']);
+
+			Helper::applyOnlyTeamRecordQuery($query);	
+	
+			$data = $query->get();
+
 			return DataTables::of($data)
 				->editColumn('select_checkbox', function ($row) {
 					$abc = '<div class="form-check checkbox checkbox-primary mb-0">
@@ -54,21 +50,25 @@ class SettingsController extends Controller
 					return $abc;
 				})
 				->editColumn('state_id', function ($row) {
-					if (!empty($row->state_name)) {
-						return $row->state_name;
+					if (!empty($row->State)) {
+						return $row->State->name;
 					}
 					return '';
 				})
 				->editColumn('Actions', function ($row) {
 					$buttons = '';
-					$buttons =  $buttons . '<i role="button" data-id="' . $row->id . '" title="Edit" onclick=getCity(this) class="fa-pencil pointer fa fs-22 py-2 mx-2  " type="button"></i>';
-					$buttons =  $buttons . '<i role="button" data-id="' . $row->id . '" title="Delete" onclick=deleteCity(this) class="fa-trash pointer fa fs-22 py-2 mx-2 text-danger" type="button"></i>';
+					if($row->user_id == Auth::user()->id || Auth::user()->parent_id == null) {
+						$buttons =  $buttons . '<i role="button" data-id="' . $row->id . '" title="Edit" onclick=getCity(this) class="fa-pencil pointer fa fs-22 py-2 mx-2  " type="button"></i>';
+						$buttons =  $buttons . '<i role="button" data-id="' . $row->id . '" title="Delete" onclick=deleteCity(this) class="fa-trash pointer fa fs-22 py-2 mx-2 text-danger" type="button"></i>';
+					}					
 					return $buttons;
 				})
 				->rawColumns(['Actions', 'select_checkbox'])
 				->make(true);
 		}
-		$states = State::orderBy('name')->get();;
+
+		$states = Helper::applyOnlyTeamRecordQuery(State::query())->get();
+
 		return view('admin.settings.city_index', compact('states'));
 	}
 
@@ -113,35 +113,21 @@ class SettingsController extends Controller
 
 	public function cities_store(Request $request)
 	{
-		if (!empty($request->id) && $request->id != '') {
-			$data = City::find($request->id);
-			if (empty($data)) {
-				$data =  new City();
+		$request->validate([
+			'name' => ['required', 'max:255', Rule::unique('city')->where(function($query) use ($request) {
+				return $query->where('state_id', $request->state_id)
+					->where('id', '!=', $request->id ?? 0);
+			})],
+			'state_id' => 'required|exists:state,id',
+		]);
 
-				$city = City::where('name',$request->name)->where('id','!=',$data->id)->where('user_id',Auth::user()->id)->first();
+		$city = City::find($request->id) ?? new City();
 
-				if(!$city) {
-					$data->name = $request->name;
-					$data->state_id = $request->state_id;
-					$data->save();
-				}
-			} else {
-				$data->fill([
-					'name' => $request->name,
-					'state_id' => $request->state_id,
-				])->save();
-			}
-		} else {
-			$city = City::where('name',$request->name)->where('user_id',Auth::user()->id)->first();
-
-			if(!$city) {
-				$data =  new City();
-				$data->user_id = Auth::user()->id;
-				$data->name = $request->name;
-				$data->state_id = $request->state_id;
-				$data->save();
-			}
-		}
+		$city->fill([
+			'user_id' => $city->user_id ?? Auth::user()->id,
+			'name' => $request->name,
+			'state_id' => $request->state_id,
+		])->save();
 	}
 
 	public function cities_import(Request $request)
@@ -207,7 +193,8 @@ class SettingsController extends Controller
 	public function states_index(Request $request)
 	{
 		if ($request->ajax()) {
-			$data = State::orderBy('id', 'desc')->where('user_id',Auth::user()->id)->get();
+			$data = Helper::applyOnlyTeamRecordQuery(State::query())->get();
+	
 			return DataTables::of($data)
 				->editColumn('gst_type', function ($row) {
 
@@ -225,8 +212,12 @@ class SettingsController extends Controller
 				})
 				->editColumn('Actions', function ($row) {
 					$buttons = '';
-					$buttons =  $buttons . '<i role="button" data-id="' . $row->id . '" title="Edit" onclick=getState(this) class="fa-pencil pointer fa fs-22 py-2 mx-2  " type="button"></i>';
-					$buttons =  $buttons . '<i role="button" data-id="' . $row->id . '" title="Delete" onclick=deleteState(this) class="fa-trash pointer fa fs-22 py-2 mx-2 text-danger" type="button"></i>';
+
+					if($row->user_id == Auth::user()->id || Auth::user()->parent_id == null) {
+						$buttons =  $buttons . '<i role="button" data-id="' . $row->id . '" title="Edit" onclick=getState(this) class="fa-pencil pointer fa fs-22 py-2 mx-2  " type="button"></i>';
+						$buttons =  $buttons . '<i role="button" data-id="' . $row->id . '" title="Delete" onclick=deleteState(this) class="fa-trash pointer fa fs-22 py-2 mx-2 text-danger" type="button"></i>';
+					}
+
 					return $buttons;
 				})
 				->rawColumns(['Actions'])
@@ -254,35 +245,26 @@ class SettingsController extends Controller
 	}
 
 	public function states_store(Request $request)
-	{
-		if (!empty($request->id) && $request->id != '') {
-			$data = State::find($request->id);
-			if (empty($data)) {
-				$data =  new State();
+	{	
+		/**
+		 * @var \App\Models\User $authUser
+		 */
+		$authUser = Auth::user();
 
-				$state = State::where('name',$request->name)->where('id','!=',$data->id)->where('user_id',Auth::user()->id)->first();
+		$request->validate([
+			'name' => ['required', 'max:255', Rule::unique('state')->where(function($query) use ($request, $authUser) {
+				return $query->whereIn('user_id', $authUser->teamUsers()->pluck('id')->toArray())
+					->where('id', '!=', $request->id);
+			})],
+		]);
 
-				if(!$state) {
-					$data->name = $request->name;
-					$data->gst_type = $request->gst_type;
-					$data->save();
-				}
-			} else  {
-				$data->name = $request->name;
-				$data->gst_type = $request->gst_type;
-				$data->save();
-			}
-		} else {
-			$state = State::where('name',$request->name)->where('user_id',Auth::user()->id)->first();
+		$state = !empty($request->id) ? State::find($request->id) : new State();
 
-			if(!$state) {
-				$data =  new State();
-				$data->user_id = Auth::user()->id;
-				$data->name = $request->name;
-				$data->gst_type = $request->gst_type;
-				$data->save();
-			}
-		}
+		$state->fill([
+			'name' => $request->name,
+			'gst_type' => $request->gst_type,
+			'user_id' => $state->user_id ?? Auth::user()->id
+		])->save();
 	}
     
     public function save_const_docs(Request $request)

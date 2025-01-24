@@ -17,6 +17,7 @@ use App\Models\Projects;
 use App\Models\Properties;
 use App\Models\State;
 use App\Models\UserNotifications;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -517,4 +518,14 @@ class Helper
             }
         }
     }
+
+	public static function applyOnlyTeamRecordQuery(Builder $query):Builder
+	{
+		/**
+		 * @var App\Models\User $authUser
+		 */
+		$authUser = Auth::user();
+		
+		return $query->whereIn('user_id', $authUser->teamUsers()->pluck('id')->toArray());
+	}
 }

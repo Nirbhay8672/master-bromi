@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 class AreaController extends Controller
@@ -28,7 +29,7 @@ class AreaController extends Controller
 
 
 	public function index(Request $request)
-	{
+	{	
 		if (Auth::check()) {
             $status = Auth::user()->status;
 			if($status == 0) {
@@ -40,15 +41,18 @@ class AreaController extends Controller
         }
 		
 		if ($request->ajax()) {
-			$data = DB::table('areas')
-				->select([
-					'areas.*',
-					'city.name as city_name',
-					'state.name as state_name',
-				])
-				->join('city','areas.city_id','city.id')
-				->join('state','areas.state_id','state.id')
-				->where('areas.user_id',Auth::user()->id)->get();
+			// $data = DB::table('areas')
+			// 	->select([
+			// 		'areas.*',
+			// 		'city.name as city_name',
+			// 		'state.name as state_name',
+			// 	])
+			// 	->join('city','areas.city_id','city.id')
+			// 	->join('state','areas.state_id','state.id')
+			// 	->where('areas.user_id',Auth::user()->id)->get();
+
+			$data = Helper::applyOnlyTeamRecordQuery(Areas::query())->with(['City:id,name','State:id,name'])->get();
+			
 
 			return DataTables::of($data)
 			->editColumn('select_checkbox', function ($row) {
@@ -59,14 +63,14 @@ class AreaController extends Controller
 				return $abc;
 			})
 				->editColumn('city', function ($row) {
-					if (isset($row->city_name)) {
-						return $row->city_name;
+					if (isset($row->City)) {
+						return $row->city->name;
 					}
 					return '';
 				})
 				->editColumn('state', function ($row) {
-					if (isset($row->state_name)) {
-						return $row->state_name;
+					if (isset($row->State->name)) {
+						return $row->State->name;
 					}
 					return '';
 				})
@@ -90,47 +94,52 @@ class AreaController extends Controller
 						return ($var['name'] == 'area-delete');
 					});
 
-					if(count($edit_permission) > 0) {
-						$buttons =  $buttons . '<i role="button" title="Edit" data-id="' . $row->id . '" onclick=getArea(this) class="fa-pencil pointer fa fs-22 py-2 mx-2  " type="button"></i>';
+					if($row->user_id == Auth::user()->id || Auth::user()->parent_id == null) {
+						if(count($edit_permission) > 0) {
+							$buttons =  $buttons . '<i role="button" title="Edit" data-id="' . $row->id . '" onclick=getArea(this) class="fa-pencil pointer fa fs-22 py-2 mx-2  " type="button"></i>';
+						}
+	
+						if(count($delete_permission) > 0) {
+							$buttons =  $buttons . '<i role="button" title="Delete" data-id="' . $row->id . '" onclick=deleteArea(this) class="fa-trash pointer fa fs-22 py-2 mx-2 text-danger" type="button"></i>';
+						}
 					}
 
-					if(count($delete_permission) > 0) {
-						$buttons =  $buttons . '<i role="button" title="Delete" data-id="' . $row->id . '" onclick=deleteArea(this) class="fa-trash pointer fa fs-22 py-2 mx-2 text-danger" type="button"></i>';
-					}
 					return $buttons;
 				})
 				->rawColumns(['Actions','select_checkbox'])
 				->make(true);
 		}
-		$cities = City::orderBy('name')->where('user_id', Auth::user()->id)->get()->toArray();
-		$states = State::orderBy('name')->get()->toArray();
-		$supercities = SuperCity::orderBy('name')->get()->toArray();
+
+		$cities = Helper::applyOnlyTeamRecordQuery(City::query())->get()->toArray();
+		$states = Helper::applyOnlyTeamRecordQuery(State::query())->get()->toArray();
+		$supercities = SuperCity::query()->get()->toArray();
+
 		return view('admin.areas.index', compact('cities', 'states','supercities'));
 	}
 
 	public function saveArea(Request $request)
 	{
-		$existingRecord = DB::table('areas')->where('id', $request->id)->first();
 
-		if ($existingRecord) {
-			DB::table('areas')->where('id', $request->id)->update([
-				'user_id' => Auth::user()->id,
-				'name' => $request->name,
-				'city_id' => $request->city_id,
-				'pincode' => $request->pincode,
-				'state_id' => $request->state_id,
-				'status' => $request->status,
-			]);
-		} else {
-			DB::table('areas')->insert([
-				'user_id' => Auth::user()->id,
-				'name' => $request->name,
-				'city_id' => $request->city_id,
-				'pincode' => $request->pincode,
-				'state_id' => $request->state_id,
-				'status' => $request->status,
-			]);
-		}
+		$request->validate([
+			'name' => ['required', 'max:255', Rule::unique('areas')->where(function($query) use ($request) {
+				return $query->where('state_id', $request->state_id)
+					->where('city_id', $request->city_id)
+					->where('id', '!=', $request->id ?? 0);
+			})],
+			'state_id' => 'required|exists:state,id',
+			'city_id' => 'required|exists:city,id',
+		]);
+
+		$area = Areas::find($request->id) ?? new Areas();
+
+		$area->fill([
+			'user_id' => $area->user_id ?? Auth::user()->id,
+			'name' => $request->name,
+			'city_id' => $request->city_id,
+			'pincode' => $request->pincode,
+			'state_id' => $request->state_id,
+			'status' => $request->status,
+		])->save();
 	}
 
 	public function importArea(Request $request)

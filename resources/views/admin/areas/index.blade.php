@@ -105,9 +105,9 @@
                                     <select id="state_id" required>
                                         <option value=""> State</option>
                                         @foreach ($states as $state)
-                                            @if($state['user_id'] == auth()->user()->id)
+                                            {{-- @if($state['user_id'] == auth()->user()->id) --}}
                                                 <option value="{{ $state['id'] }}">{{ $state['name'] }}</option>
-                                            @endif
+                                            {{-- @endif --}}
                                         @endforeach
                                     </select>
                                 </div>
@@ -116,9 +116,9 @@
                                     <select id="city_id" required>
                                         <option value=""> City</option>
                                         @foreach ($cities as $city)
-                                            @if($city['user_id'] == auth()->user()->id)
+                                            {{-- @if($city['user_id'] == auth()->user()->id) --}}
                                                 <option value="{{ $city['id'] }}">{{ $city['name'] }}</option>
-                                            @endif
+                                            {{-- @endif --}}
                                         @endforeach
                                     </select>
                                 </div>

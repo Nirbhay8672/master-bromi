@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -156,5 +157,22 @@ class User extends Authenticatable
 	public function superCity()
 	{
 		return $this->belongsTo(SuperCity::class, 'city_id', 'id')->withTrashed();
+	}
+
+    /**
+     * Retrieve the users that belong to the same team as the current user.
+     *
+     * This function returns a collection of User models where the parent_id
+     * matches the current user's parent_id or id. It also includes the user
+     * itself if the id matches the current user's parent_id or id.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+
+	public function teamUsers():Collection
+	{
+		return User::where('parent_id', $this->parent_id ?? $this->id)
+			->orWhere('id', $this->parent_id ?? $this->id)
+			->get();
 	}
 }

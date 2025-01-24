@@ -293,10 +293,13 @@ Route::group(['middleware' => 'revalidate'], function () {
 		Route::post('/settings-delete-city', [SettingsController::class, 'cities_destroy'])->name('admin.settings.destroycity');
 		Route::post('/settings-get-city-for-import', [SettingsController::class, 'getCityForImport'])->name('admin.settings.getCityForImport');
 		Route::post('/settings-get-area-for-import', [SettingsController::class, 'getAreaForImport'])->name('admin.settings.getAreaForImport');
+		//States - start
 		Route::get('/settings-state', [SettingsController::class, 'states_index'])->name('admin.settings.state');
 		Route::post('/settings-get-state', [SettingsController::class, 'get_state'])->name('admin.settings.getstate');
 		Route::post('/settings-save-state', [SettingsController::class, 'states_store'])->name('admin.settings.savestate');
 		Route::post('/settings-delete-state', [SettingsController::class, 'states_destroy'])->name('admin.settings.destroystate');
+		//States - end
+
 		Route::get('/settings-builder', [SettingsController::class, 'builder_index'])->name('admin.settings.builder');
 		Route::post('/settings-get-builder', [SettingsController::class, 'get_builder'])->name('admin.settings.getbuilder');
 		Route::post('/settings-save-builder', [SettingsController::class, 'builder_store'])->name('admin.settings.savebuilder');
