@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -30,7 +30,12 @@ class City extends Model
 		return $this->belongsTo(State::class, 'state_id', 'id')->withTrashed();
 	}
 
-	public function user():BelongsTo
+	public function localities() : HasMany
+	{
+		return $this->hasMany(Areas::class, 'city_id');
+	}
+
+	public function user()
     {
         return $this->belongsTo(User::class);
     }

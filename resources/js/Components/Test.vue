@@ -3,10 +3,9 @@ import { ref } from 'vue';
 
 const props =  defineProps([
     'msg'
-]); 
+]);
 
 console.log(props.msg);
-
 
 let count =  ref(7);
 </script>
