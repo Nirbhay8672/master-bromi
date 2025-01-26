@@ -81,6 +81,7 @@ class MasterPropertyController extends Controller
         $projects = Projects::whereIn('user_id', $user_ids)->get();
         $land_units = PropertyLandUnit::all();
         $property_source = PropertySource::all();
+        $country_codes = DB::table('countries')->get();
 
         return view('admin.master_properties.add_form')->with([
             'property_for_type' => $property_for_type,
@@ -89,6 +90,7 @@ class MasterPropertyController extends Controller
             'projects' => $projects,
             'land_units' => $land_units,
             'property_source' => $property_source,
+            'country_codes' => $country_codes,
         ]);
     }
 }

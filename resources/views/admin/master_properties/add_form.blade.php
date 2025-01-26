@@ -45,6 +45,7 @@
                                 :authuser="{{ auth()->user() }}"
                                 :land_units="{{ $land_units }}"
                                 :property_source="{{ $property_source }}"
+                                :country_codes="{{ $country_codes }}"
                             ></add-property-form>
                         </div>
                     </div>
@@ -56,6 +57,7 @@
 @endsection
 
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="{{ asset('admins/assets/js/form-wizard/property_wizard.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
 @endpush
