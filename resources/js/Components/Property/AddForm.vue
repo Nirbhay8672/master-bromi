@@ -536,7 +536,7 @@
                         <select class="form-select" :id="`unit_available_${index}`">
                             <option value="">Available</option>
                             <option value="Rent Out">Rent Out</option>
-                            <option value="Sold Sout">Sold Out</option>
+                            <option value="Sold Out">Sold Out</option>
                         </select>
                     </div>
                     <div class="col-12 col-md-2">

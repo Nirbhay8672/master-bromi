@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\MasterProperty\MasterProperty;
+use App\Models\MasterProperty\PropertyAreaSize;
 use App\Models\MasterProperty\PropertyCategory;
 use App\Models\MasterProperty\PropertyConstructionType;
+use App\Models\MasterProperty\PropertyContactDetail;
 use App\Models\MasterProperty\PropertyForType;
 use App\Models\MasterProperty\PropertyLandUnit;
 use App\Models\MasterProperty\PropertySource;
+use App\Models\MasterProperty\PropertyUnitDetail;
 use App\Models\Projects;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -109,5 +112,144 @@ class MasterPropertyController extends Controller
             'property_source' => $property_source,
             'country_codes' => $country_codes,
         ]);
+    }
+    
+    public function store(Request $request)
+    {
+        $transformedRequest = $this->transformRequest($request);
+        
+        // dd($transformedRequest->all());
+        try {
+            DB::beginTransaction();
+            $masterProperty = MasterProperty::create($transformedRequest->basic_detail);
+
+            PropertyAreaSize::create(['property_id' => $masterProperty->id,...$transformedRequest->size_area]);
+            
+            foreach ($transformedRequest->unit_details as $unit_detail) {
+                $propertyUnitDetail = new PropertyUnitDetail();
+                $propertyUnitDetail->fill(['property_id' => $masterProperty->id,...$unit_detail])->save();
+            }
+
+            foreach ($transformedRequest->contact_details as $contact_detail) {
+                $propertyContactDetail =  new PropertyContactDetail();
+                $propertyContactDetail->fill(['property_id' => $masterProperty->id,...$contact_detail])->save();
+            }
+            
+            DB::commit();
+            return response()->json(['message' => 'Property added successfully']);
+            // return redirect()->route('admin.master_properties.index')->with(['success' => 'Property added successfully']);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            throw $th;
+        }
+    }
+
+    public function transformRequest(Request $request)
+    {
+
+        $washrooms = [
+            'Private Washrooms' => 1,
+            'Public Washrooms' => 2,
+            'Not Available' => 3,    
+        ];
+
+        $priorityType = [
+            'High' => 1,
+            'Medium' => 2,
+            'Low' => 3,
+        ];
+
+        $availabilityStatus = [
+            'Under Construction' => 0,
+            'Available' => 1,
+        ];
+
+        $propertyAge = [
+            '0-1 Years' => 1,
+            '1-5 Years' => 2,
+            '5-10 Years' => 3,
+            '10+ Years' => 4,
+        ];
+
+        $availabilityStatus = [
+            'Rent Out' => 1,
+            'Sold Out' => 2,
+        ];
+
+        $furnishedStatus = [
+            'Furnished' => 1,
+            'Semi Furnished' => 2,
+            'Unfurnished' => 3,
+            'Can Furnished' => 4,
+        ];
+
+        $transformed_request_array = [
+            'basic_detail' => [
+                'project_id' => $request->basic_detail['selected_project'],
+                'property_for' => $request->basic_detail['property_for'],
+                'property_contruction_type_id' => $request->basic_detail['property_construction_type'],
+                'category_id' => $request->basic_detail['property_category'],
+                'sub_category_id' => $request->basic_detail['property_sub_category'],
+                'city_id' => $request->basic_detail['selected_city'],
+                'area_id' => $request->basic_detail['selected_locality'],
+                'address' => $request->basic_detail['address'],
+                'location_link' => $request->basic_detail['location_link'],
+                'units_in_project' => $request->other_details['units_in_project'],
+                'no_of_floors' => $request->other_details['number_of_floor'],
+                'units_in_tower' => $request->other_details['units_in_towers'],
+                'units_in_floor' => $request->other_details['units_on_floor'],
+                'no_of_elevators' => $request->other_details['number_of_elevators'],
+                'service_elevator' => $request->other_details['service_elevator'],
+                'hot_property' => $request->other_details['is_hot'],
+                'washroom_type' => $washrooms[$request->other_details['washrooms']] ?? null,
+                'fourwheller_parking' => $request->other_details['four_wheeler_parking'],
+                'twowheller_parking' => $request->other_details['two_wheeler_parking'],
+                'priority_type' => $priorityType[$request->other_details['priority']] ?? null,
+                'source' => $request->other_details['source'],
+                'availability_status' => $availabilityStatus[$request->other_details['availability_status']] ?? null,
+                'property_age' => $propertyAge[$request->other_details['age_of_property']] ?? null,
+                'available_from' => $request->other_details['available_from'],
+                'remark' => $request->other_details['remark'],
+                'user_id' => auth()->user()->id,
+                'parent_id' => auth()->user()->parent_id,
+            ],
+            'size_area' => [
+                'carpet_area_value' => $request->other_details['saleable_area'],
+                'carpet_area_measurement_id' => $request->other_details['saleable_area_unit'],
+                'ceiling_height_value' => $request->other_details['ceiling_height'],
+                'ceiling_height_measurement_id' => '4' ?? $request->other_details['ceiling_height_unit'],
+                'salable_area_value' => $request->other_details['carpet_area'],
+                'salable_area_measurement_id' => $request->other_details['carpet_area_unit'],
+                'terrace_carpet_area_value' => $request->other_details['terrace_saleable_area'],
+                'terrace_carpet_area_measurement_id' => $request->other_details['terrace_saleable_area_unit'],
+                'terrace_salable_area_value' => $request->other_details['terrace_carpet_area'],
+                'terrace_salable_area_measurement_id' => $request->other_details['terrace_carpet_area_unit'],  
+            ], 
+            'unit_details' => [],
+            'contact_details' => [],
+        ];
+
+        foreach ($request->unit_details ?? [] as $key => $value) {
+            $transformed_request_array['unit_details'][] = [
+                'wing' => $value['wing'],
+                'unit_unit_no' => $value['unit_number'] ?? 0, 
+                'availability_status' => $availabilityStatus[$value['available']] ?? 0,
+                'price_rent' => $value['price_rent'],
+                'furniture_status' => $furnishedStatus[$value['furnished_status']] ?? null,   
+            ];
+        }
+
+        foreach ($request->other_contact_details as $contact_detail) {
+            $transformed_request_array['contact_details'][] = [
+                'name' =>  $contact_detail["name"],
+                'contact_no' => $contact_detail["contact"],
+                'country_code' => $contact_detail["contact_code"] ?? '+91',
+                "position" => $contact_detail["position"],
+            ];
+        }
+
+        $request->replace($transformed_request_array);
+
+        return $request;
     }
 }
