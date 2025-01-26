@@ -8,6 +8,8 @@ use App\Models\MasterProperty\MasterProperty;
 use App\Models\MasterProperty\PropertyCategory;
 use App\Models\MasterProperty\PropertyConstructionType;
 use App\Models\MasterProperty\PropertyForType;
+use App\Models\MasterProperty\PropertyLandUnit;
+use App\Models\MasterProperty\PropertySource;
 use App\Models\Projects;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -77,7 +79,8 @@ class MasterPropertyController extends Controller
 
         $cities = City::with(['localities'])->whereIn('user_id', $user_ids)->get();
         $projects = Projects::whereIn('user_id', $user_ids)->get();
-        $land_units = DB::table('land_units')->get();
+        $land_units = PropertyLandUnit::all();
+        $property_source = PropertySource::all();
 
         return view('admin.master_properties.add_form')->with([
             'property_for_type' => $property_for_type,
@@ -85,6 +88,7 @@ class MasterPropertyController extends Controller
             'cities' => $cities,
             'projects' => $projects,
             'land_units' => $land_units,
+            'property_source' => $property_source,
         ]);
     }
 }

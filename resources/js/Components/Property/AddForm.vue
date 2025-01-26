@@ -18,13 +18,6 @@
                     </div>
                 </div>
             </div>
-            <p>Property For - {{ data.property_for }}</p>
-            <p>Property Type - {{ data.property_construction_type }}</p>
-            <p>Property Category - {{ data.property_category }}</p>
-            <p>Property Sub Category - {{ data.property_sub_category }}</p>
-            <p>City - {{ data.selected_city }}</p>
-            <p>Locality - {{ data.selected_locality }}</p>
-            <p>saleable area - {{ other_details.saleable_area_unit }}</p>
         </div>
         <div class="col-12 col-md-9 col-lg-10 border-start ps-4">
             <div class="row">
@@ -127,7 +120,7 @@
                     </select>
                 </div>
                 <div class="col-md-2 m-b-4 mb-4">
-                    <select class="form-select" id="city_id" v-model="data.selected_city">
+                    <select class="form-select" id="city_id">
                         <option value="">City</option>
                         <template v-for="(city , city_index) in props.cities">
                             <option :value="city.id" :selected="city_index == 0">{{ city.name }}</option>
@@ -173,7 +166,6 @@
             </div>
             
             <div class="row gy-2">
-                <hr class="ms-3">
                 <b>Area Size</b>
                 <div class="col-md-4">
                     <div class="input-group">
@@ -228,7 +220,7 @@
                 <div class="col">
                     <label for="add_carpet_area" class="add-input-link">{{ other_details.add_carpet_area != 1 ? '+ Add' : '- Remove'}} Carpet Area</label>
                     <input type="checkbox" value="1" id="add_carpet_area" class="d-none" v-model="other_details.add_carpet_area">
-                    <label for="add_terrace_carpet_area" class="add-input-link ms-3" v-if="other_details.is_terrace">{{ other_details.add_terrace_carpet_area != 1 ? '+ Add' : '- Remove'}} Terrace Carpet Area</label>
+                    <label for="add_terrace_carpet_area" class="add-input-link ms-3" v-if="other_details.is_terrace == 1">{{ other_details.add_terrace_carpet_area != 1 ? '+ Add' : '- Remove'}} Terrace Carpet Area</label>
                     <input type="checkbox" value="1" id="add_terrace_carpet_area" class="d-none" v-model="other_details.add_terrace_carpet_area">
                 </div>
             </div>        
@@ -341,13 +333,215 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row mt-3">
+                <div class="row div_checkboxes1">
+                    <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                        <input class="form-check-input" id="service_elevator" type="checkbox" v-model="other_details.service_elevator">
+                        <label class="form-check-label" for="service_elevator">Service Elevator</label>
+                    </div>
+
+                    <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                        <input class="form-check-input" id="is_hot" type="checkbox" v-model="other_details.is_hot">
+                        <label class="form-check-label" for="is_hot">Hot</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <b>Washrooms</b>
+                <div class="m-checkbox-inline custom-radio-ml mt-2 mb-2">
+                    <div class="btn-group bromi-checkbox-btn me-1" role="group" aria-label="Basic radio toggle button group">
+                        <input
+                            type="radio"
+                            class="btn-check"
+                            value="Private Washrooms"
+                            name="washrooms"
+                            id="private_washroom"
+                            v-model="other_details.washrooms">
+                        <label class="btn btn-outline-primary btn-pill btn-sm py-1" for="private_washroom">Private Washrooms</label>
+                    </div>
+                    <div class="btn-group bromi-checkbox-btn me-1" role="group" aria-label="Basic radio toggle button group">
+                        <input
+                            type="radio"
+                            class="btn-check"
+                            value="Public Washrooms"
+                            name="washrooms"
+                            id="public_washroom"
+                            v-model="other_details.washrooms">
+                        <label class="btn btn-outline-primary btn-pill btn-sm py-1" for="public_washroom">Public Washrooms</label>
+                    </div>
+                    <div class="btn-group bromi-checkbox-btn me-1" role="group" aria-label="Basic radio toggle button group">
+                        <input
+                            type="radio"
+                            class="btn-check"
+                            value="Not Available"
+                            name="washrooms"
+                            id="not_available"
+                            v-model="other_details.washrooms">
+                        <label class="btn btn-outline-primary btn-pill btn-sm py-1" for="not_available">Not Available</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row gy-2 mt-3">
+                <div class="col-12 col-md-2">
+                    <div class="fname" :class="other_details.four_wheeler_parking !== '' ? 'focused' : ''">
+                        <label for="four_wheeler_parking">Four wheeler parking</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="four_wheeler_parking" v-model="other_details.four_wheeler_parking">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="fname" :class="other_details.two_wheeler_parking !== '' ? 'focused' : ''">
+                        <label for="two_wheeler_parking">Two wheeler parking</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="two_wheeler_parking" v-model="other_details.two_wheeler_parking">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 m-b-4 mb-4">
+                    <select class="form-select" id="priority">
+                        <option value="">Priority</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+                <div class="col-md-2 m-b-4 mb-4">
+                    <select class="form-select" id="source">
+                        <option value="">Source</option>
+                        <template v-for="(source) in props.property_source">
+                            <option :value="source.id">{{ source.name }}</option>
+                        </template>
+                    </select>   
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <b>Availability Status</b>
+                <div class="m-checkbox-inline custom-radio-ml mt-2 mb-2">
+                    <div class="btn-group bromi-checkbox-btn me-1" role="group" aria-label="Basic radio toggle button group">
+                        <input
+                            type="radio"
+                            class="btn-check"
+                            value="Available"
+                            name="availability_status"
+                            id="available"
+                            v-model="other_details.availability_status">
+                        <label class="btn btn-outline-primary btn-pill btn-sm py-1" for="available">Available</label>
+                    </div>
+                    <div class="btn-group bromi-checkbox-btn me-1" role="group" aria-label="Basic radio toggle button group">
+                        <input
+                            type="radio"
+                            class="btn-check"
+                            value="Under Construction"
+                            name="availability_status"
+                            id="under_con"
+                            v-model="other_details.availability_status">
+                        <label class="btn btn-outline-primary btn-pill btn-sm py-1" for="under_con">Under Construction</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2" v-if="other_details.availability_status">
+                <div class="m-checkbox-inline custom-radio-ml mt-2 mb-2" v-if="other_details.availability_status == 'Available'">
+                    <template v-for="(age) in age_of_property">
+                        <div class="btn-group bromi-checkbox-btn me-1" role="group" aria-label="Basic radio toggle button group">
+                            <input
+                                type="radio"
+                                class="btn-check"
+                                :value="age"
+                                name="age_of_property"
+                                :id="`age-${age}`"
+                                v-model="other_details.age_of_property">
+                            <label class="btn btn-outline-primary btn-pill btn-sm py-1" :for="`age-${age}`">{{ age }}</label>
+                        </div>
+                    </template>
+                </div>
+                <div class="col-12 col-md-2" v-if="other_details.availability_status == 'Under Construction'">
+                    <div class="fname" :class="other_details.available_from !== '' ? 'focused' : ''">
+                        <label for="available_from">Available From</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="available_from" v-model="other_details.available_from">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row gy-2 mt-3">
+                <div class="col-12 col-md-7">   
+                    <div class="fname" :class="other_details.remark !== '' ? 'focused' : ''">
+                        <label for="remark">Property Remark</label>
+                        <div class="fvalue">
+                            <textarea class="form-control" type="text" value="" id="remark" v-model="other_details.remark"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <b>Unit Details</b>
+            </div>
+            <template v-for="(unit , index) in unit_details">
+                <div class="row mt-2">
+                    <div class="col-12 col-md-2">
+                        <div class="fname" :class="unit.wing !== '' ? 'focused' : ''">
+                            <label :for="`unit_wing_${index}`">Wing</label>
+                            <div class="fvalue">
+                                <input class="form-control" type="text" value="" :id="`unit_wing_${index}`" v-model="unit.wing">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <div class="fname" :class="unit.unit_number !== '' ? 'focused' : ''">
+                            <label :for="`unit_unit_number_${index}`">Unit No</label>
+                            <div class="fvalue">
+                                <input class="form-control" type="text" value="" :id="`unit_unit_number_${index}`" v-model="unit.wing">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 m-b-4 mb-4">
+                        <select class="form-select" :id="`unit_available_${index}`">
+                            <option value="">Available</option>
+                            <option value="Rent Out">Rent Out</option>
+                            <option value="Sold Sout">Sold Out</option>
+                        </select>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <div class="fname" :class="unit.price_rent !== '' ? 'focused' : ''">
+                            <label :for="`unit_price_rent_${index}`">Price Rent</label>
+                            <div class="fvalue">
+                                <input class="form-control" type="text" value="" :id="`unit_price_rent_${index}`" v-model="unit.price_rent">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-2 m-b-4 mb-4">
+                        <select class="form-select" :id="`furnished_status_${index}`">
+                            <option value="">Furnished Status</option>
+                            <option value="Furnished">Furnished</option>
+                            <option value="Semi Furnished">Semi Furnished</option>
+                            <option value="Unfurnished">Unfurnished</option>
+                            <option value="Can Furnished">Can Furnished</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1 m-b-4 mb-4" v-if="index == 0">
+                        <button class="btn btn-primary" type="button" @click="addUnit()">+</button>
+                    </div>
+                    <div class="col-md-1 m-b-4 mb-4" v-else>
+                        <button class="btn btn-danger" type="button" @click="removeUnit(index)">-</button>
+                    </div>
+                </div>
+            </template>
+
         </div>
     </div>
 </template>
 
 <script setup>
 
-import { reactive , onMounted } from 'vue';
+import { reactive , onMounted, nextTick } from 'vue';
 
 onMounted(() => {
     $('#project_id').select2().on('change', function () {
@@ -388,6 +582,16 @@ onMounted(() => {
     $('#terrace_carpet_area_unit').select2().on('change', function () {
         other_details.terrace_carpet_area_unit = $(this).val();
     });
+
+    $('#priority').select2().on('change', function () {
+        other_details.priority = $(this).val();
+    });
+
+    $('#source').select2().on('change', function () {
+        other_details.source = $(this).val();
+    });
+
+    unitDetailsSelect2(); // for unit details
 });
 
 const props = defineProps([
@@ -397,7 +601,10 @@ const props = defineProps([
     'cities',
     'authuser',
     'land_units',
+    'property_source',
 ]);
+
+const age_of_property = ['0-1 Years', '1-5 Years' , '5-10 Years' , '10+ Years'];
 
 const data = reactive({
     'property_for': null,
@@ -410,7 +617,6 @@ const data = reactive({
     'address' : '',
     'location_link' : '',
 });
-
 
 const other_details = reactive({
     'saleable_area' : '',
@@ -436,7 +642,66 @@ const other_details = reactive({
     'units_in_towers' : '',
     'units_on_floor' : '',
     'number_of_elevators' : '',
+
+    'service_elevator' : '',
+    'is_hot' : '',
+
+    'washrooms' : '',
+
+    'four_wheeler_parking' : '',
+    'two_wheeler_parking' : '',
+
+    'priority' : '',
+    'source' : '',
+
+    'availability_status' : '',
+    'age_of_property' : '',
+    'available_from' : '',
+
+    'remark' : '',
 });
+
+const unit_details = reactive([
+        {
+            'wing' : '',
+            'unit_number' : '',
+            'available' : '',
+            'price_rent' : '',
+            'furnished_status' : '',
+        }
+    ],
+);
+
+function unitDetailsSelect2() {
+    unit_details.forEach((unit_detail , index) => {
+        $(`#unit_available_${index}`).select2().on('change', function () {
+            unit_details[index].available = $(this).val();               
+        });
+
+        $(`#furnished_status_${index}`).select2().on('change', function () {
+            unit_details[index].furnished_status = $(this).val();
+        }); 
+    });
+}
+
+function addUnit() {
+
+    unit_details.push({
+        'wing' : '',
+        'unit_number' : '',
+        'available' : '',
+        'price_rent' : '',
+        'furnished_status' : '',
+    });
+    
+    nextTick(() => {
+        unitDetailsSelect2();
+    });
+}
+
+function removeUnit(index) {
+    unit_details.splice(index , 1);
+}
 
 function resetValue(clicked_value) {
     // reset selected value on change input

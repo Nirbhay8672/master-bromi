@@ -10,7 +10,11 @@
 
         .add-input-link {
             color:#0078DB;
-            cursor: pointer
+            cursor: pointer;
+        }
+    
+        .btn {
+            border-radius: 5px;
         }
     </style>
 @endpush
@@ -40,6 +44,7 @@
                                 :cities="{{ $cities }}"
                                 :authuser="{{ auth()->user() }}"
                                 :land_units="{{ $land_units }}"
+                                :property_source="{{ $property_source }}"
                             ></add-property-form>
                         </div>
                     </div>
