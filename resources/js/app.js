@@ -12,4 +12,6 @@ app.component('add-property-form', defineAsyncComponent(() =>
     import('./Components/Property/AddForm.vue')
 ));
 
+app.use(require('vue-template-compiler'));
+
 app.mount('#app');
