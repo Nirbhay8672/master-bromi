@@ -32,6 +32,9 @@
                                             </div>
                                         </th>
                                         <th>Project Name</th>
+                                        <th>Information</th>
+                                        <th>City Name</th>
+                                        <th>Address</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -63,6 +66,18 @@
                 {
                     data: 'project_name',
                     name: 'Project Name'
+                },
+                {
+                    data: 'information',
+                    name: 'Information'
+                },
+                {
+                    data: 'city_name',
+                    name: 'City Name'
+                },
+                {
+                    data: 'address',
+                    name: 'Address'
                 },
                 {
                     data: 'Actions',

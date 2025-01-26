@@ -27,6 +27,16 @@ class MasterPropertyController extends Controller
     public function dataTable(Request $request)
     {
         $query = MasterProperty::query();
+
+        $query->with([
+            'project',
+            'city',
+            'propertyFor',
+            'propertyConstructionType',
+            'propertyCategory',
+            'propertySubCategory',
+        ]);
+        
         $user = Auth::user();
 
         // check admin or sub user
@@ -39,6 +49,15 @@ class MasterPropertyController extends Controller
 
         // return datatable
         return DataTables::of($query->get())
+            ->editColumn('project_name', function ($row) {
+                return $row->project->project_name;
+            })
+            ->editColumn('information', function ($row) {
+                return $row->propertyFor->name . " > " . $row->propertyConstructionType->name . " > " . $row->propertyCategory->name . " > " . $row->propertySubCategory->name;
+            })
+            ->editColumn('city_name', function ($row) {
+                return $row->city->name;
+            })
             ->editColumn('select_checkbox', function ($row) {
                 $checkbox = '<div class="form-check checkbox checkbox-primary mb-0">
                     <input class="form-check-input table_checkbox" data-id="' . $row->id . '" name="select_row[]" id="checkbox-primary-' . $row->id . '" type="checkbox">
@@ -48,10 +67,8 @@ class MasterPropertyController extends Controller
                 return $checkbox;
             })
             ->editColumn('Actions', function ($row) {
-                $buttons = '';
+                $buttons = '<span class="text-danger">Next step</span>';
 
-                $buttons += '<a href="{{ route(`admin.master_properties.addForm`) }}" class="btn custom-icon-theme-button tooltip-btn" data-tooltip="Edit Property"><i class="fa fa-pencil"></i></a>';
-                
                 return $buttons;
             })
             ->rawColumns(['Actions','select_checkbox'])
