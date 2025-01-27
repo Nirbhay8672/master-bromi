@@ -62,7 +62,7 @@
                                     <template v-for="(category, index ) in construction_type.category"
                                         :key="`category_stage_${index}`">
                                         <div class="btn-group bromi-checkbox-btn me-1 property-type-element" role="group"
-                                            v-if="category.id != 8 && (category.id == 1 || category.id == 2)"
+                                            v-if="category.id != 8"
                                             aria-label="Basic radio toggle button group">
                                             <input type="radio" class="btn-check" :value="category.id"
                                                 name="property_category" :id="`category-${category.id}}`" autocomplete="off"
@@ -71,18 +71,16 @@
                                                 :for="`category-${category.id}}`">{{ category.name }}</label>
                                         </div>
                                         <template v-else>
-                                            <template v-if="(category.id == 1 || category.id == 2)">
-                                                <div class="btn-group bromi-checkbox-btn me-1 property-type-element"
-                                                    role="group" v-if="data.property_for == 2"
-                                                    aria-label="Basic radio toggle button group">
-                                                    <input type="radio" class="btn-check" :value="category.id"
-                                                        name="property_category" :id="`category-${category.id}}`"
-                                                        autocomplete="off" v-model="data.property_category"
-                                                        @change="resetValue(3)">
-                                                    <label class="btn btn-outline-primary btn-pill btn-sm py-1"
-                                                        :for="`category-${category.id}}`">{{ category.name }}</label>
-                                                </div>
-                                            </template>
+                                            <div class="btn-group bromi-checkbox-btn me-1 property-type-element"
+                                                role="group" v-if="data.property_for == 2"
+                                                aria-label="Basic radio toggle button group">
+                                                <input type="radio" class="btn-check" :value="category.id"
+                                                    name="property_category" :id="`category-${category.id}}`"
+                                                    autocomplete="off" v-model="data.property_category"
+                                                    @change="resetValue(3)">
+                                                <label class="btn btn-outline-primary btn-pill btn-sm py-1"
+                                                    :for="`category-${category.id}}`">{{ category.name }}</label>
+                                            </div>
                                         </template>
                                     </template>
                                 </template>
