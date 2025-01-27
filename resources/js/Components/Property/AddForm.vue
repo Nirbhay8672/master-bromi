@@ -20,6 +20,8 @@
             </div>
         </div>
         <div class="col-12 col-md-9 col-lg-10 border-start ps-4">
+
+            <!-- first part start -->
             <div class="row">
                 <div class="row mb-2">
                     <div class="col">
@@ -162,350 +164,19 @@
                     </div>
                 </div>
             </div>
+            <!-- first part end -->
 
-            <div class="row gy-2">
-                <b>Area Size</b>
-                <div class="col-md-3">
-                    <div class="input-group">
-                        <div class="form-group col-md-7 m-b-20">
-                            <div class="fname" :class="other_details.saleable_area !== '' ? 'focused' : ''">
-                                <label for="saleable_area">Salable Area</label>
-                                <div class="fvalue">
-                                    <input class="form-control" type="text" value="" id="saleable_area"
-                                        v-model="other_details.saleable_area">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group-append col-md-5">
-                            <div class="form-group">
-                                <select class="form-select" id="salable_area_unit">
-                                    <template v-for="(unit) in props.land_units">
-                                        <option :value="unit.id">{{ unit.unit_name }}</option>
-                                    </template>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="input-group">
-                        <div class="form-group col-md-7 m-b-20">
-                            <div class="fname" :class="other_details.ceiling_height !== '' ? 'focused' : ''">
-                                <label for="ceiling_height">Ceiling Height</label>
-                                <div class="fvalue">
-                                    <input class="form-control" type="text" value="" id="ceiling_height"
-                                        v-model="other_details.ceiling_height">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group-append col-md-5">
-                            <div class="form-group">
-                                <select class="form-select" id="ceiling_height_unit">
-                                    <option value="ft">ft.</option>
-                                    <option value="mt">mt.</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3" v-show="data.property_category == 2">
-                    <div class="input-group">
-                        <div class="form-group col-md-7 m-b-20">
-                            <div class="fname" :class="other_details.opening_width !== '' ? 'focused' : ''">
-                                <label for="opening_width">Opening Width</label>
-                                <div class="fvalue">
-                                    <input class="form-control" type="text" value="" id="opening_width"
-                                        v-model="other_details.opening_width">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group-append col-md-5">
-                            <div class="form-group">
-                                <select class="form-select" id="opening_width_unit">
-                                    <option value="ft">ft.</option>
-                                    <option value="mt">mt.</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-check checkbox checkbox-solid-success">
-                        <input class="form-check-input" id="is_terrace" type="checkbox" v-model="other_details.is_terrace">
-                        <label class="form-check-label" for="is_terrace">Terrace</label>
-                    </div>
-                </div>
-            </div>
+            <!-- second part start -->
+            <office-retail-form
+                ref="office_retail_form"
+                :land_units="props.land_units"
+                :property_source="props.property_source"
+                :property_category="data.property_category"
+                v-if="[1,2].includes(data.property_category)"
+            ></office-retail-form>
+            <!-- second part end -->
 
-            <div class="row gy-2">
-                <div class="col">
-                    <label for="add_carpet_area" class="add-input-link">{{ other_details.add_carpet_area != 1 ? '+ Add' : '- Remove'}} Carpet Area</label>
-                    <input type="checkbox" value="1" id="add_carpet_area" class="d-none"
-                        v-model="other_details.add_carpet_area">
-                    <label for="add_terrace_carpet_area" class="add-input-link ms-3" v-if="other_details.is_terrace == 1">{{
-                        other_details.add_terrace_carpet_area != 1 ? '+ Add' : '- Remove' }} Terrace Carpet Area</label>
-                    <input type="checkbox" value="1" id="add_terrace_carpet_area" class="d-none"
-                        v-model="other_details.add_terrace_carpet_area">
-                </div>
-            </div>
-
-            <div class="row gy-2 mt-1">
-                <div class="col-md-4" v-show="other_details.add_carpet_area == 1">
-                    <div class="input-group">
-                        <div class="form-group col-md-7">
-                            <div class="fname" :class="other_details.carpet_area !== '' ? 'focused' : ''">
-                                <label for="carpet_area">Carpet Area</label>
-                                <div class="fvalue">
-                                    <input class="form-control" type="text" value="" id="carpet_area"
-                                        v-model="other_details.carpet_area">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group-append col-md-5">
-                            <div class="form-group">
-                                <select class="form-select" id="carpet_area_unit">
-                                    <template v-for="(unit) in props.land_units">
-                                        <option :value="unit.id">{{ unit.unit_name }}</option>
-                                    </template>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4" v-show="other_details.is_terrace == 1">
-                    <div class="input-group">
-                        <div class="form-group col-md-7">
-                            <div class="fname" :class="other_details.terrace_saleable_area !== '' ? 'focused' : ''">
-                                <label for="terrace_saleable_area">Terrace Saleable Area</label>
-                                <div class="fvalue">
-                                    <input class="form-control" type="text" value="" id="terrace_saleable_area"
-                                        v-model="other_details.terrace_saleable_area">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group-append col-md-5">
-                            <div class="form-group">
-                                <select class="form-select" id="terrace_saleable_area_unit">
-                                    <template v-for="(unit) in props.land_units">
-                                        <option :value="unit.id">{{ unit.unit_name }}</option>
-                                    </template>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4" v-show="other_details.add_terrace_carpet_area == 1">
-                    <div class="input-group">
-                        <div class="form-group col-md-7">
-                            <div class="fname" :class="other_details.terrace_carpet_area !== '' ? 'focused' : ''">
-                                <label for="terrace_carpet_area">Terrace Carpet Area</label>
-                                <div class="fvalue">
-                                    <input class="form-control" type="text" value="" id="terrace_carpet_area"
-                                        v-model="other_details.terrace_carpet_area">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-group-append col-md-5">
-                            <div class="form-group">
-                                <select class="form-select" id="terrace_carpet_area_unit">
-                                    <template v-for="(unit) in props.land_units">
-                                        <option :value="unit.id">{{ unit.unit_name }}</option>
-                                    </template>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row gy-2 mt-3">
-                <div class="col-12 col-md-2">
-                    <div class="fname" :class="other_details.units_in_project !== '' ? 'focused' : ''">
-                        <label for="units_in_project">Units in project</label>
-                        <div class="fvalue">
-                            <input class="form-control" type="text" value="" id="units_in_project"
-                                v-model="other_details.units_in_project">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-2">
-                    <div class="fname" :class="other_details.number_of_floor !== '' ? 'focused' : ''">
-                        <label for="number_of_floor">Number of floor</label>
-                        <div class="fvalue">
-                            <input class="form-control" type="text" value="" id="number_of_floor"
-                                v-model="other_details.number_of_floor">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-2">
-                    <div class="fname" :class="other_details.units_in_towers !== '' ? 'focused' : ''">
-                        <label for="units_in_towers">Units in towers</label>
-                        <div class="fvalue">
-                            <input class="form-control" type="text" value="" id="units_in_towers"
-                                v-model="other_details.units_in_towers">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-2" v-if="data.property_category == 1">
-                    <div class="fname" :class="other_details.units_on_floor !== '' ? 'focused' : ''">
-                        <label for="units_on_floor">Units on floor</label>
-                        <div class="fvalue">
-                            <input class="form-control" type="text" value="" id="units_on_floor"
-                                v-model="other_details.units_on_floor">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-2">
-                    <div class="fname" :class="other_details.number_of_elevators !== '' ? 'focused' : ''">
-                        <label for="number_of_elevators">Number of elevators</label>
-                        <div class="fvalue">
-                            <input class="form-control" type="text" value="" id="number_of_elevators"
-                                v-model="other_details.number_of_elevators">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="row div_checkboxes1">
-                    <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                        <input class="form-check-input" id="service_elevator" type="checkbox"
-                            v-model="other_details.service_elevator">
-                        <label class="form-check-label" for="service_elevator">Service Elevator</label>
-                    </div>
-
-                    <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                        <input class="form-check-input" id="is_hot" type="checkbox" v-model="other_details.is_hot">
-                        <label class="form-check-label" for="is_hot">Hot</label>
-                    </div>
-
-                    <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2"
-                        v-if="data.property_category == 2">
-                        <input class="form-check-input" id="is_two_road_corner" type="checkbox"
-                            v-model="other_details.two_road_corner">
-                        <label class="form-check-label" for="is_two_road_corner">Two Road Corner</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <b>Washrooms</b>
-                <div class="m-checkbox-inline custom-radio-ml mt-2 mb-2">
-                    <div class="btn-group bromi-checkbox-btn me-1" role="group"
-                        aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" value="Private Washrooms" name="washrooms"
-                            id="private_washroom" v-model="other_details.washrooms">
-                        <label class="btn btn-outline-primary btn-pill btn-sm py-1" for="private_washroom">Private
-                            Washrooms</label>
-                    </div>
-                    <div class="btn-group bromi-checkbox-btn me-1" role="group"
-                        aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" value="Public Washrooms" name="washrooms" id="public_washroom"
-                            v-model="other_details.washrooms">
-                        <label class="btn btn-outline-primary btn-pill btn-sm py-1" for="public_washroom">Public
-                            Washrooms</label>
-                    </div>
-                    <div class="btn-group bromi-checkbox-btn me-1" role="group"
-                        aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" value="Not Available" name="washrooms" id="not_available"
-                            v-model="other_details.washrooms">
-                        <label class="btn btn-outline-primary btn-pill btn-sm py-1" for="not_available">Not
-                            Available</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row gy-2 mt-3">
-                <div class="col-12 col-md-2">
-                    <div class="fname" :class="other_details.four_wheeler_parking !== '' ? 'focused' : ''">
-                        <label for="four_wheeler_parking">Four wheeler parking</label>
-                        <div class="fvalue">
-                            <input class="form-control" type="text" value="" id="four_wheeler_parking"
-                                v-model="other_details.four_wheeler_parking">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-2">
-                    <div class="fname" :class="other_details.two_wheeler_parking !== '' ? 'focused' : ''">
-                        <label for="two_wheeler_parking">Two wheeler parking</label>
-                        <div class="fvalue">
-                            <input class="form-control" type="text" value="" id="two_wheeler_parking"
-                                v-model="other_details.two_wheeler_parking">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-2 m-b-4 mb-4">
-                    <select class="form-select" id="priority">
-                        <option value="">Priority</option>
-                        <option value="High">High</option>
-                        <option value="Medium">Medium</option>
-                        <option value="Low">Low</option>
-                    </select>
-                </div>
-                <div class="col-md-2 m-b-4 mb-4">
-                    <select class="form-select" id="source">
-                        <option value="">Source</option>
-                        <template v-for="(source) in props.property_source">
-                            <option :value="source.id">{{ source.name }}</option>
-                        </template>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row mt-2">
-                <b>Availability Status</b>
-                <div class="m-checkbox-inline custom-radio-ml mt-2 mb-2">
-                    <div class="btn-group bromi-checkbox-btn me-1" role="group"
-                        aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" value="Available" name="availability_status" id="available"
-                            v-model="other_details.availability_status">
-                        <label class="btn btn-outline-primary btn-pill btn-sm py-1" for="available">Available</label>
-                    </div>
-                    <div class="btn-group bromi-checkbox-btn me-1" role="group"
-                        aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" value="Under Construction" name="availability_status"
-                            id="under_con" v-model="other_details.availability_status">
-                        <label class="btn btn-outline-primary btn-pill btn-sm py-1" for="under_con">Under
-                            Construction</label>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mt-2" v-if="other_details.availability_status">
-                <div class="m-checkbox-inline custom-radio-ml mt-2 mb-2"
-                    v-if="other_details.availability_status == 'Available'">
-                    <template v-for="(age) in age_of_property">
-                        <div class="btn-group bromi-checkbox-btn me-1" role="group"
-                            aria-label="Basic radio toggle button group">
-                            <input type="radio" class="btn-check" :value="age" name="age_of_property" :id="`age-${age}`"
-                                v-model="other_details.age_of_property">
-                            <label class="btn btn-outline-primary btn-pill btn-sm py-1" :for="`age-${age}`">{{ age
-                            }}</label>
-                        </div>
-                    </template>
-                </div>
-                <div class="col-12 col-md-2" v-if="other_details.availability_status == 'Under Construction'">
-                    <div class="fname" :class="other_details.available_from !== '' ? 'focused' : ''">
-                        <label for="available_from">Available From</label>
-                        <div class="fvalue">
-                            <input class="form-control" type="text" value="" id="available_from"
-                                v-model="other_details.available_from">
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row gy-2 mt-3">
-                <div class="col-12 col-md-7">
-                    <div class="fname" :class="other_details.remark !== '' ? 'focused' : ''">
-                        <label for="remark">Property Remark</label>
-                        <div class="fvalue">
-                            <textarea class="form-control" type="text" value="" id="remark"
-                                v-model="other_details.remark"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- 3rd part start -->
 
             <div class="row mt-5">
                 <b>Unit Details</b>
@@ -564,7 +235,6 @@
                 </div>
             </template>
 
-
             <div class="row mt-2">
                 <b>Owner Information</b>
             </div>
@@ -621,7 +291,6 @@
                     </div>
                 </div>
             </div>
-
 
             <div class="row mt-3">
                 <b>Other Contact Details</b>
@@ -701,7 +370,10 @@
 
 <script setup>
 
-import { reactive, onMounted, nextTick } from 'vue';
+import { reactive, onMounted, nextTick , ref } from 'vue';
+import officeRetailForm from './Forms/officeRetailForm.vue';
+
+let office_retail_form = ref(null); 
 
 onMounted(() => {
     $('#project_id').select2().on('change', function () {
@@ -722,38 +394,6 @@ onMounted(() => {
     });
 
     $('#city_id').val(props.cities[0]['id']).trigger('change');
-
-    $('#salable_area_unit').select2().on('change', function () {
-        other_details.saleable_area_unit = $(this).val();
-    });
-
-    $('#ceiling_height_unit').select2().on('change', function () {
-        other_details.ceiling_height_unit = $(this).val();
-    });
-
-    $('#opening_width_unit').select2().on('change', function () {
-        other_details.opening_width_unit = $(this).val();
-    });
-
-    $('#carpet_area_unit').select2().on('change', function () {
-        other_details.carpet_area_unit = $(this).val();
-    });
-
-    $('#terrace_saleable_area_unit').select2().on('change', function () {
-        other_details.terrace_saleable_area_unit = $(this).val();
-    });
-
-    $('#terrace_carpet_area_unit').select2().on('change', function () {
-        other_details.terrace_carpet_area_unit = $(this).val();
-    });
-
-    $('#priority').select2().on('change', function () {
-        other_details.priority = $(this).val();
-    });
-
-    $('#source').select2().on('change', function () {
-        other_details.source = $(this).val();
-    });
 
     $('#owner_type').select2().on('change', function () {
         other_details.owner_type = $(this).val();
@@ -782,8 +422,6 @@ const props = defineProps([
     'country_codes',
 ]);
 
-const age_of_property = ['0-1 Years', '1-5 Years', '5-10 Years', '10+ Years'];
-
 const data = reactive({
     'property_for': 1,
     'property_construction_type': 1,
@@ -797,51 +435,6 @@ const data = reactive({
 });
 
 const other_details = reactive({
-    'saleable_area': '',
-    'saleable_area_unit': '',
-
-    'opening_width': '',
-    'opening_width_unit': '',
-
-    'ceiling_height': '',
-    'ceiling_height_unit': '',
-
-    'add_carpet_area': '',
-    'carpet_area': '',
-    'carpet_area_unit': '',
-
-    'is_terrace': '',
-    'terrace_saleable_area': '',
-    'terrace_saleable_area_unit': '',
-
-    'add_terrace_carpet_area': '',
-    'terrace_carpet_area': '',
-    'terrace_carpet_area_unit': '',
-
-    'units_in_project': '',
-    'number_of_floor': '',
-    'units_in_towers': '',
-    'units_on_floor': '',
-    'number_of_elevators': '',
-
-    'service_elevator': '',
-    'is_hot': '',
-
-    'washrooms': '',
-
-    'four_wheeler_parking': '',
-    'two_wheeler_parking': '',
-
-    'priority': '',
-    'source': '',
-
-    'availability_status': '',
-    'age_of_property': '',
-    'available_from': '',
-
-    'two_road_corner': '',
-    'remark': '',
-
     'owner_type': '',
     'owner_name': '',
     'owner_contact_code': '',
@@ -853,14 +446,14 @@ const other_details = reactive({
 });
 
 const unit_details = reactive([
-    {
-        'wing': '',
-        'unit_number': '',
-        'available': '',
-        'price_rent': '',
-        'furnished_status': '',
-    }
-],
+        {
+            'wing': '',
+            'unit_number': '',
+            'available': '',
+            'price_rent': '',
+            'furnished_status': '',
+        }
+    ],
 );
 
 function unitDetailsSelect2() {
@@ -939,12 +532,28 @@ function resetValue(clicked_value) {
 
 function submitForm() {
 
-    axios.post('/admin/master-properties/store-property', {
+    let post_data = {
         'basic_detail' : data,
         'other_details' : other_details,
         'unit_details' : unit_details,
         'other_contact_details' : other_contact_details,
-    })
+    };
+
+    if([1,2].includes(data.property_category)) {
+
+        let office_retail_data = office_retail_form.value.getData();
+
+        post_data.other_details = {
+            ...post_data.other_details,
+            ...office_retail_data
+        };
+    }
+
+    if(data.property_category == 3) {
+
+    }
+
+    axios.post('/admin/master-properties/store-property', post_data)
     .then(response => {
         window.location.href = "/admin/master-properties/index";
     })

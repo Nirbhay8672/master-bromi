@@ -35,6 +35,7 @@
                                         <th>Information</th>
                                         <th>City Name</th>
                                         <th>Address</th>
+                                        <th>Remark</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -78,6 +79,10 @@
                 {
                     data: 'address',
                     name: 'Address'
+                },
+                {
+                    data: 'remark',
+                    name: 'Remark'
                 },
                 {
                     data: 'Actions',
