@@ -17,8 +17,7 @@ class CreatePropertyUnitDetailsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('property_id');
             $table->string('wing')->nullable();
-            $table->integer('unit_no');
-            // $table->integer('unit_unit_no');
+            $table->integer('unit_no')->nullable();
             $table->tinyInteger('availability_status')->nullable()->comment('0 => Available, 1 => Rent Out, 2 => Sold Out');
             $table->double('price_rent')->nullable();
             $table->tinyInteger('furniture_status')->nullable()->comment('0 => Furnished, 1 => Semi-Furnished, 2 => Unfurnished, 2 => Can Furnish');            

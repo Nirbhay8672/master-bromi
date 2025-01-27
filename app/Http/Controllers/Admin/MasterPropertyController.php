@@ -117,8 +117,6 @@ class MasterPropertyController extends Controller
     public function store(Request $request)
     {
         $transformedRequest = $this->transformRequest($request);
-        
-        // dd($transformedRequest->all());
         try {
             DB::beginTransaction();
             $masterProperty = MasterProperty::create($transformedRequest->basic_detail);
@@ -146,7 +144,6 @@ class MasterPropertyController extends Controller
 
     public function transformRequest(Request $request)
     {
-
         $washrooms = [
             'Private Washrooms' => 1,
             'Public Washrooms' => 2,
@@ -171,7 +168,7 @@ class MasterPropertyController extends Controller
             '10+ Years' => 4,
         ];
 
-        $availabilityStatus = [
+        $unitavailabilityStatus = [
             'Rent Out' => 1,
             'Sold Out' => 2,
         ];
@@ -206,7 +203,7 @@ class MasterPropertyController extends Controller
                 'twowheller_parking' => $request->other_details['two_wheeler_parking'],
                 'priority_type' => $priorityType[$request->other_details['priority']] ?? null,
                 'source' => $request->other_details['source'],
-                'availability_status' => $availabilityStatus[$request->other_details['availability_status']] ?? null,
+                'availability_status' => $request->other_details['availability_status'] ? $availabilityStatus[$request->other_details['availability_status']] : null,
                 'property_age' => $propertyAge[$request->other_details['age_of_property']] ?? null,
                 'available_from' => $request->other_details['available_from'],
                 'remark' => $request->other_details['remark'],
@@ -232,8 +229,8 @@ class MasterPropertyController extends Controller
         foreach ($request->unit_details ?? [] as $key => $value) {
             $transformed_request_array['unit_details'][] = [
                 'wing' => $value['wing'],
-                'unit_unit_no' => $value['unit_number'] ?? 0, 
-                'availability_status' => $availabilityStatus[$value['available']] ?? 0,
+                'unit_no' => $value['unit_number'] ?? 0, 
+                'availability_status' => $unitavailabilityStatus[$value['available']] ?? 0,
                 'price_rent' => $value['price_rent'],
                 'furniture_status' => $furnishedStatus[$value['furnished_status']] ?? null,   
             ];

@@ -528,7 +528,7 @@
                             <label :for="`unit_unit_number_${index}`">Unit No</label>
                             <div class="fvalue">
                                 <input class="form-control" type="text" value="" :id="`unit_unit_number_${index}`"
-                                    v-model="unit.wing">
+                                    v-model="unit.unit_number">
                             </div>
                         </div>
                     </div>
@@ -692,8 +692,10 @@
                 </div>
             </div>
 
-            <div class="row">
-                <button class="btn btn-primary" @click="submitForm()">Submit</button>
+            <div class="row mt-5">
+                <div class="col-12 col-3">
+                    <button class="btn btn-primary" @click="submitForm()">Submit</button>
+                </div>
             </div>
         </div>
     </div>

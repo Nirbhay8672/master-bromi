@@ -15,17 +15,17 @@ class CreatePropertyAreaSizesTable extends Migration
     {
         Schema::create('property_area_size', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('property_id');
-            $table->double('carpet_area_value');
-            $table->unsignedInteger('carpet_area_measurement_id');
-            $table->double('ceiling_height_value');
-            $table->unsignedInteger('ceiling_height_measurement_id');
-            $table->double('salable_area_value');
-            $table->unsignedInteger('salable_area_measurement_id');
-            $table->double('terrace_carpet_area_value');
-            $table->unsignedInteger('terrace_carpet_area_measurement_id');
-            $table->double('terrace_salable_area_value');
-            $table->unsignedInteger('terrace_salable_area_measurement_id');
+            $table->unsignedBigInteger('property_id')->nullable();
+            $table->double('carpet_area_value')->nullable();
+            $table->unsignedInteger('carpet_area_measurement_id')->nullable();
+            $table->double('ceiling_height_value')->nullable();
+            $table->unsignedInteger('ceiling_height_measurement_id')->nullable();
+            $table->double('salable_area_value')->nullable();
+            $table->unsignedInteger('salable_area_measurement_id')->nullable();
+            $table->double('terrace_carpet_area_value')->nullable();
+            $table->unsignedInteger('terrace_carpet_area_measurement_id')->nullable();
+            $table->double('terrace_salable_area_value')->nullable();
+            $table->unsignedInteger('terrace_salable_area_measurement_id')->nullable();
             $table->timestamps();
         });
     }

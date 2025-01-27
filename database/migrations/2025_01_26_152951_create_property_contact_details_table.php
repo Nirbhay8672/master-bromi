@@ -17,8 +17,8 @@ class CreatePropertyContactDetailsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('property_id');
             $table->string('name')->nullable();
-            $table->string('contact_no');
-            $table->string('country_code');
+            $table->string('contact_no')->nullable();
+            $table->string('country_code')->nullable();
             $table->string('position')->nullable();
             $table->timestamps();
         });
