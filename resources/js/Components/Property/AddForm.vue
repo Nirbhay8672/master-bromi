@@ -346,7 +346,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 col-md-2">
+                <div class="col-12 col-md-2" v-if="data.property_category == 1">
                     <div class="fname" :class="other_details.units_on_floor !== '' ? 'focused' : ''">
                         <label for="units_on_floor">Units on floor</label>
                         <div class="fvalue">
