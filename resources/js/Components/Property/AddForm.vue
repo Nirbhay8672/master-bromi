@@ -174,7 +174,16 @@
                 :property_category="data.property_category"
                 v-if="[1,2].includes(data.property_category)"
             ></office-retail-form>
+
+            <storage-industrial-form
+                ref="storage_industrial_form"
+                :land_units="props.land_units"
+                :property_source="props.property_source"
+                :property_category="data.property_category"
+                v-if="[3].includes(data.property_category)"
+            ></storage-industrial-form>
             <!-- second part end -->
+
 
             <!-- 3rd part start -->
 
@@ -372,8 +381,10 @@
 
 import { reactive, onMounted, nextTick , ref } from 'vue';
 import officeRetailForm from './Forms/officeRetailForm.vue';
+import storageIndustrialForm from './Forms/storageIndustrialForm.vue';
 
-let office_retail_form = ref(null); 
+let office_retail_form = ref(null);
+let storage_industrial_form = ref(null);
 
 onMounted(() => {
     $('#project_id').select2().on('change', function () {
@@ -425,8 +436,8 @@ const props = defineProps([
 const data = reactive({
     'property_for': 1,
     'property_construction_type': 1,
-    'property_category': 1,
-    'property_sub_category': 1,
+    'property_category': 3,
+    'property_sub_category': 9,
     'selected_project': '',
     'selected_city': '',
     'selected_locality': '',
@@ -484,13 +495,13 @@ function addUnit() {
 }
 
 const other_contact_details = reactive([
-    {
-        'name': '',
-        'contact_code': '',
-        'contact': '',
-        'position': '',
-    }
-],
+        {
+            'name': '',
+            'contact_code': '',
+            'contact': '',
+            'position': '',
+        }
+    ],
 );
 
 function otherContactSelect2() {
@@ -550,7 +561,12 @@ function submitForm() {
     }
 
     if(data.property_category == 3) {
+        let storage_industrial_data = storage_industrial_form.value.getData();
 
+        post_data.other_details = {
+            ...post_data.other_details,
+            ...storage_industrial_data
+        };
     }
 
     axios.post('/admin/master-properties/store-property', post_data)

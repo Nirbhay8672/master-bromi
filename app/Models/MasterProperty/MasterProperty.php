@@ -14,6 +14,10 @@ class MasterProperty extends Model
 	protected $table = 'property_master';
 	protected $guarded = [];
 
+	protected $casts = [
+        'storage_inductrial_other_details' => 'array',
+    ];
+
 	public function areaSize(): HasMany
 	{
 		return $this->hasMany(PropertyAreaSize::class);
