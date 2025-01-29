@@ -18,6 +18,7 @@
                     </div>
                 </div>
             </div>
+            Property Category : {{ data.property_category }}
         </div>
         <div class="col-12 col-md-9 col-lg-10 border-start ps-4">
 
@@ -47,10 +48,8 @@
                                 :key="`property_construction_type_${index}`">
                                 <input class="form-check-input" :id="construction_type.name" type="radio"
                                     name="property_type" :value="construction_type.id"
-                                    v-model="data.property_construction_type" @change="resetValue(2)"
-                                    v-if="construction_type.id == 1">
-                                <label class="form-check-label ms-2" :for="construction_type.name"
-                                    v-if="construction_type.id == 1">{{ construction_type.name
+                                    v-model="data.property_construction_type" @change="resetValue(2)">
+                                <label class="form-check-label ms-2" :for="construction_type.name">{{ construction_type.name
                                     }}</label>
                             </template>
                         </div>
@@ -115,7 +114,7 @@
                     </template>
                 </div>
             </div>
-            <div class="row mt-5">
+            <div class="row mt-5" v-show="data.property_category !== 4">
                 <div class="col-md-2 m-b-4 mb-4">
                     <select class="form-select" id="project_id">
                         <option value="">Project</option>
@@ -145,6 +144,54 @@
                     </select>
                 </div>
             </div>
+
+            <div class="row mt-5" v-show="data.property_category == 4">
+                <div class="col-md-2 m-b-4 mb-4">
+                    <select class="form-select" id="district_id">
+                        <option value="">District</option>
+                        <template v-for="(district) in props.districts">
+                            <option :value="district.id">{{ district.name }}</option>
+                        </template>
+                    </select>
+                </div>
+                <div class="col-md-2 m-b-4 mb-4">
+                    <select class="form-select" id="taluka_id">
+                        <option value="">Taluka</option>
+                        <template v-for="(district) in props.districts">
+                            <template v-if="district.id == data.selected_district">
+                                <template v-for="(taluka) in district.talukas">
+                                    <option :value="taluka.id">{{ taluka.name }}</option>
+                                </template>
+                            </template>
+                        </template>
+                    </select>
+                </div>
+                <div class="col-md-2 m-b-4 mb-4">
+                    <select class="form-select" id="village_id">
+                        <option value="">Village</option>
+                        <template v-for="(district) in props.districts">
+                            <template v-if="district.id == data.selected_district">
+                                <template v-for="(taluka) in district.talukas">
+                                    <template v-if="taluka.id == data.selected_taluka">
+                                        <template v-for="(village) in taluka.villages">
+                                            <option :value="village.id">{{ village.name }}</option>
+                                        </template>
+                                    </template>
+                                </template>
+                            </template>
+                        </template>
+                    </select>
+                </div>
+                <div class="col-md-2 m-b-4 mb-4">
+                    <select class="form-select" id="zone_id">
+                        <option value="">Zones</option>
+                        <template v-for="(zone) in props.property_zones">
+                            <option :value="zone.id">{{ zone.name }}</option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-md-5 m-b-4 mb-3">
                     <div class="fname" :class="data.address !== '' ? 'focused' : ''">
@@ -182,67 +229,179 @@
                 :property_category="data.property_category"
                 v-if="[3].includes(data.property_category)"
             ></storage-industrial-form>
+
+            <land-form
+                ref="land_form"
+                :land_units="props.land_units"
+                :property_source="props.property_source"
+                :property_category="data.property_category"
+                v-if="[4].includes(data.property_category)"
+            ></land-form>
+
             <!-- second part end -->
 
 
             <!-- 3rd part start -->
 
-            <div class="row mt-5">
+            <div class="row mt-5" v-show="data.property_category != 4">
                 <b>Unit Details</b>
+                <template v-for="(unit, index) in unit_details">
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-2">
+                            <div class="fname" :class="unit.wing !== '' ? 'focused' : ''">
+                                <label :for="`unit_wing_${index}`">Wing</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_wing_${index}`"
+                                        v-model="unit.wing">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="fname" :class="unit.unit_number !== '' ? 'focused' : ''">
+                                <label :for="`unit_unit_number_${index}`">Unit No</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_unit_number_${index}`"
+                                        v-model="unit.unit_number">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 m-b-4 mb-4">
+                            <select class="form-select" :id="`unit_available_${index}`">
+                                <option value="">Available</option>
+                                <option value="Rent Out">Rent Out</option>
+                                <option value="Sold Out">Sold Out</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="fname" :class="unit.price_rent !== '' ? 'focused' : ''">
+                                <label :for="`unit_price_rent_${index}`">Price Rent</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_price_rent_${index}`"
+                                        v-model="unit.price_rent">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 m-b-4 mb-4">
+                            <select class="form-select" :id="`furnished_status_${index}`">
+                                <option value="">Furnished Status</option>
+                                <option value="Furnished">Furnished</option>
+                                <option value="Semi Furnished">Semi Furnished</option>
+                                <option value="Unfurnished">Unfurnished</option>
+                                <option value="Can Furnished">Can Furnished</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1 m-b-4 mb-4" v-if="index == 0">
+                            <button class="btn btn-primary" type="button" @click="addUnit()">+</button>
+                        </div>
+                        <div class="col-md-1 m-b-4 mb-4" v-else>
+                            <button class="btn btn-danger" type="button" @click="removeUnit(index)">-</button>
+                        </div>
+                    </div>
+                </template>
             </div>
-            <template v-for="(unit, index) in unit_details">
-                <div class="row mt-2">
-                    <div class="col-12 col-md-2">
-                        <div class="fname" :class="unit.wing !== '' ? 'focused' : ''">
-                            <label :for="`unit_wing_${index}`">Wing</label>
-                            <div class="fvalue">
-                                <input class="form-control" type="text" value="" :id="`unit_wing_${index}`"
-                                    v-model="unit.wing">
-                            </div>
+
+            <div class="row mt-3" v-show="data.property_category == 4">
+                <b>Survey Details</b>
+            </div>
+
+            <div class="row gy-2 mt-2" v-show="data.property_category == 4">
+                <div class="col-12 col-md-3">
+                    <div class="fname" :class="other_details.survey_number !== '' ? 'focused' : ''">
+                        <label for="survey_number">Survey Number</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="survey_number"
+                                v-model="other_details.survey_number">
                         </div>
-                    </div>
-                    <div class="col-12 col-md-2">
-                        <div class="fname" :class="unit.unit_number !== '' ? 'focused' : ''">
-                            <label :for="`unit_unit_number_${index}`">Unit No</label>
-                            <div class="fvalue">
-                                <input class="form-control" type="text" value="" :id="`unit_unit_number_${index}`"
-                                    v-model="unit.unit_number">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 m-b-4 mb-4">
-                        <select class="form-select" :id="`unit_available_${index}`">
-                            <option value="">Available</option>
-                            <option value="Rent Out">Rent Out</option>
-                            <option value="Sold Out">Sold Out</option>
-                        </select>
-                    </div>
-                    <div class="col-12 col-md-2">
-                        <div class="fname" :class="unit.price_rent !== '' ? 'focused' : ''">
-                            <label :for="`unit_price_rent_${index}`">Price Rent</label>
-                            <div class="fvalue">
-                                <input class="form-control" type="text" value="" :id="`unit_price_rent_${index}`"
-                                    v-model="unit.price_rent">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-2 m-b-4 mb-4">
-                        <select class="form-select" :id="`furnished_status_${index}`">
-                            <option value="">Furnished Status</option>
-                            <option value="Furnished">Furnished</option>
-                            <option value="Semi Furnished">Semi Furnished</option>
-                            <option value="Unfurnished">Unfurnished</option>
-                            <option value="Can Furnished">Can Furnished</option>
-                        </select>
-                    </div>
-                    <div class="col-md-1 m-b-4 mb-4" v-if="index == 0">
-                        <button class="btn btn-primary" type="button" @click="addUnit()">+</button>
-                    </div>
-                    <div class="col-md-1 m-b-4 mb-4" v-else>
-                        <button class="btn btn-danger" type="button" @click="removeUnit(index)">-</button>
                     </div>
                 </div>
-            </template>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <div class="form-group col-md-7 m-b-20">
+                            <div class="fname" :class="other_details.survey_plot_size !== '' ? 'focused' : ''">
+                                <label for="survey_plot_size">Plot size</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" id="survey_plot_size"
+                                        v-model="other_details.survey_plot_size">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group-append col-md-5">
+                            <div class="form-group">
+                                <select class="form-select" id="survey_plot_size_unit">
+                                    <template v-for="(unit) in props.land_units">
+                                        <option :value="unit.id">{{ unit.unit_name }}</option>
+                                    </template>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="fname" :class="other_details.survey_price !== '' ? 'focused' : ''">
+                        <label for="survey_price">Price</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="survey_price"
+                                v-model="other_details.survey_price">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2" v-show="data.property_category == 4">
+                <b>Tp Details</b>
+            </div>
+
+            <div class="row gy-2 mt-2" v-show="data.property_category == 4">
+                <div class="col-12 col-md-3">
+                    <div class="fname" :class="other_details.tp_number !== '' ? 'focused' : ''">
+                        <label for="tp_number">TP Number</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="tp_number"
+                                v-model="other_details.tp_number">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="fname" :class="other_details.fp_number !== '' ? 'focused' : ''">
+                        <label for="fp_number">FP Number</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="fp_number"
+                                v-model="other_details.fp_number">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="input-group">
+                        <div class="form-group col-md-7 m-b-20">
+                            <div class="fname" :class="other_details.tp_plot_size !== '' ? 'focused' : ''">
+                                <label for="tp_plot_size">Plot size</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" id="tp_plot_size"
+                                        v-model="other_details.tp_plot_size">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group-append col-md-5">
+                            <div class="form-group">
+                                <select class="form-select" id="tp_plot_size_unit">
+                                    <template v-for="(unit) in props.land_units">
+                                        <option :value="unit.id">{{ unit.unit_name }}</option>
+                                    </template>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="fname" :class="other_details.tp_price !== '' ? 'focused' : ''">
+                        <label for="tp_price">Price</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="tp_price"
+                                v-model="other_details.tp_price">
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="row mt-2">
                 <b>Owner Information</b>
@@ -368,7 +527,18 @@
                 </div>
             </div>
 
-            <div class="row mt-5">
+            <div class="row gy-2 mt-3">
+                <div class="col-12 col-md-4">
+                    <b>Images : </b>
+                    <input type="file" class="form-control mt-2" style="border:2px solid;border-radius: 5px;">
+                </div>
+                <div class="col-12 col-md-4">
+                    <b>Documments :</b>
+                    <input type="file" class="form-control mt-2" style="border:2px solid;border-radius: 5px;">
+                </div>
+            </div>
+
+            <div class="row mt-4">
                 <div class="col-12 col-3">
                     <button class="btn btn-primary" @click="submitForm()">Submit</button>
                 </div>
@@ -382,9 +552,11 @@
 import { reactive, onMounted, nextTick , ref } from 'vue';
 import officeRetailForm from './Forms/officeRetailForm.vue';
 import storageIndustrialForm from './Forms/storageIndustrialForm.vue';
+import landForm from './Forms/LandForm.vue';
 
 let office_retail_form = ref(null);
 let storage_industrial_form = ref(null);
+let land_form = ref(null);
 
 onMounted(() => {
     $('#project_id').select2().on('change', function () {
@@ -404,10 +576,34 @@ onMounted(() => {
         data.selected_locality = $(this).val();
     });
 
+    $('#district_id').select2().on('change', function () {
+        data.selected_district = $(this).val();
+    });
+
+    $('#taluka_id').select2().on('change', function () {
+        data.selected_taluka = $(this).val();
+    });
+
+    $('#village_id').select2().on('change', function () {
+        data.selected_village = $(this).val();
+    });
+
+    $('#zone_id').select2().on('change', function () {
+        data.selected_zone = $(this).val();
+    });
+
     $('#city_id').val(props.cities[0]['id']).trigger('change');
 
     $('#owner_type').select2().on('change', function () {
         other_details.owner_type = $(this).val();
+    });
+
+    $('#survey_plot_size_unit').select2().on('change', function () {
+        other_details.survey_plot_size_unit = $(this).val();
+    });
+
+    $('#tp_plot_size_unit').select2().on('change', function () {
+        other_details.tp_plot_size_unit = $(this).val();
     });
 
     $('#owner_contact_code').select2().on('change', function () {
@@ -431,21 +627,39 @@ const props = defineProps([
     'land_units',
     'property_source',
     'country_codes',
+    'districts',
+    'property_zones',
 ]);
 
 const data = reactive({
     'property_for': 1,
     'property_construction_type': 1,
-    'property_category': 3,
-    'property_sub_category': 9,
+    'property_category': 4,
+    'property_sub_category': 11,
     'selected_project': '',
     'selected_city': '',
     'selected_locality': '',
+    'selected_district': '',
+    'selected_taluka': '',
+    'selected_village': '',
+    'selected_zone' : '',
     'address': '',
     'location_link': '',
 });
 
 const other_details = reactive({
+
+    'survey_number': '',
+    'survey_plot_size': '',
+    'survey_plot_size_unit': '',
+    'survey_price': '',
+
+    'tp_number' : '',
+    'fp_number' : '',
+    'tp_plot_size' : '',
+    'tp_plot_size_unit' : '',
+    'tp_price' : '',
+
     'owner_type': '',
     'owner_name': '',
     'owner_contact_code': '',
@@ -492,6 +706,10 @@ function addUnit() {
     nextTick(() => {
         unitDetailsSelect2();
     });
+}
+
+function removeUnit(index) {
+    unit_details.splice(index , 1);
 }
 
 const other_contact_details = reactive([

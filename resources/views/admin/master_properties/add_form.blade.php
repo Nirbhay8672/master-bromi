@@ -46,6 +46,8 @@
                                 :land_units="{{ $land_units }}"
                                 :property_source="{{ $property_source }}"
                                 :country_codes="{{ $country_codes }}"
+                                :districts="{{ $districts }}"
+                                :property_zones="{{ $property_zones }}"
                             ></add-property-form>
                         </div>
                     </div>

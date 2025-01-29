@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
+use App\Models\District;
 use App\Models\MasterProperty\MasterProperty;
 use App\Models\MasterProperty\PropertyAreaSize;
 use App\Models\MasterProperty\PropertyCategory;
@@ -13,7 +14,9 @@ use App\Models\MasterProperty\PropertyForType;
 use App\Models\MasterProperty\PropertyLandUnit;
 use App\Models\MasterProperty\PropertySource;
 use App\Models\MasterProperty\PropertyUnitDetail;
+use App\Models\MasterProperty\PropertyZone;
 use App\Models\Projects;
+use App\Models\Taluka;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -103,6 +106,9 @@ class MasterPropertyController extends Controller
         $property_source = PropertySource::all();
         $country_codes = DB::table('countries')->get();
 
+        $districts = District::with(['talukas.villages'])->whereIn('user_id' , $user_ids)->get();
+        $property_zone = PropertyZone::all();
+
         return view('admin.master_properties.add_form')->with([
             'property_for_type' => $property_for_type,
             'property_construction_type' => $property_construction_type,
@@ -111,6 +117,8 @@ class MasterPropertyController extends Controller
             'land_units' => $land_units,
             'property_source' => $property_source,
             'country_codes' => $country_codes,
+            'districts' => $districts,
+            'property_zones' => $property_zone,
         ]);
     }
     

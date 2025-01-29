@@ -19,4 +19,9 @@ class Taluka extends Model
 	{
 		return $this->belongsTo(District::class, 'district_id', 'id')->withTrashed();
 	}
+
+	public function villages()
+	{
+		return $this->hasMany(Village::class);
+	}
 }

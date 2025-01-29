@@ -90,8 +90,9 @@
                 <div class="input-group-append col-md-5">
                     <div class="form-group">
                         <select class="form-select" id="road_width_of_front_side_unit">
-                            <option value="ft">ft.</option>
-                            <option value="mt">mt.</option>
+                            <template v-for="(unit) in props.land_units">
+                                <option :value="unit.id" v-if="[24,25].includes(unit.id)">{{ unit.unit_name }}</option>
+                            </template>
                         </select>
                     </div>
                 </div>
