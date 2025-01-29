@@ -787,6 +787,15 @@ function submitForm() {
         };
     }
 
+    if(data.property_category == 4) {
+        let land_data = land_form.value.getData();
+
+        post_data.other_details = {
+            ...post_data.other_details,
+            ...land_data
+        };
+    }
+
     axios.post('/admin/master-properties/store-property', post_data)
     .then(response => {
         window.location.href = "/admin/master-properties/index";

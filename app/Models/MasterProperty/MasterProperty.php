@@ -3,7 +3,9 @@
 namespace App\Models\MasterProperty;
 
 use App\Models\City;
+use App\Models\District;
 use App\Models\Projects;
+use App\Models\Village;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -61,5 +63,15 @@ class MasterProperty extends Model
 	public  function contactDetails(): HasMany
 	{
 		return $this->hasMany(PropertyContactDetail::class);
+	}
+
+	public 	function village(): BelongsTo
+	{
+		return $this->belongsTo(Village::class);
+	}
+
+	public function district(): BelongsTo
+	{
+		return $this->belongsTo(District::class);
 	}
 }
