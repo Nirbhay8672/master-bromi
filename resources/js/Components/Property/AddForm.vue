@@ -238,8 +238,15 @@
                 v-if="[4].includes(data.property_category)"
             ></land-form>
 
-            <!-- second part end -->
+            <flat-form
+                ref="flat_form"
+                :land_units="props.land_units"
+                :property_source="props.property_source"
+                :property_category="data.property_category"
+                v-if="[5].includes(data.property_category)"
+            ></flat-form>
 
+            <!-- second part end -->
 
             <!-- 3rd part start -->
 
@@ -553,10 +560,12 @@ import { reactive, onMounted, nextTick , ref } from 'vue';
 import officeRetailForm from './Forms/officeRetailForm.vue';
 import storageIndustrialForm from './Forms/storageIndustrialForm.vue';
 import landForm from './Forms/LandForm.vue';
+import flatForm from './Forms/flatForm.vue';
 
 let office_retail_form = ref(null);
 let storage_industrial_form = ref(null);
 let land_form = ref(null);
+let flat_form = ref(null);
 
 onMounted(() => {
     $('#project_id').select2().on('change', function () {
@@ -633,9 +642,9 @@ const props = defineProps([
 
 const data = reactive({
     'property_for': 1,
-    'property_construction_type': 1,
-    'property_category': 4,
-    'property_sub_category': 11,
+    'property_construction_type': 2,
+    'property_category': 5,
+    'property_sub_category': 13,
     'selected_project': '',
     'selected_city': '',
     'selected_locality': '',
