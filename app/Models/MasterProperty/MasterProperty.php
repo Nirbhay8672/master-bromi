@@ -18,6 +18,7 @@ class MasterProperty extends Model
 
 	protected $casts = [
         'storage_inductrial_other_details' => 'array',
+		'amenities' => 'array',
     ];
 
 	public function areaSize(): HasMany
