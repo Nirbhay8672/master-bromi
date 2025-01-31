@@ -243,6 +243,7 @@
                 :land_units="props.land_units"
                 :property_source="props.property_source"
                 :property_category="data.property_category"
+                :amenities="props.amenities"
                 v-if="[5].includes(data.property_category)"
             ></flat-form>
 
@@ -638,6 +639,7 @@ const props = defineProps([
     'country_codes',
     'districts',
     'property_zones',
+    'amenities',
 ]);
 
 const data = reactive({
@@ -802,6 +804,15 @@ function submitForm() {
         post_data.other_details = {
             ...post_data.other_details,
             ...land_data
+        };
+    }
+
+    if(data.property_category == 5){
+        let flat_data = flat_form.value.getData();
+
+        post_data.other_details = {
+            ...post_data.other_details,
+            ...flat_data
         };
     }
 

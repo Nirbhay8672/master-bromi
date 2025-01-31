@@ -27,7 +27,7 @@
         <div class="input-group">
             <div class="form-group col-md-7 m-b-20">
                 <div class="fname" :class="other_details.builtup_height !== '' ? 'focused' : ''">
-                    <label for="builtup_height">Ceiling Height</label>
+                    <label for="builtup_height">Builtup Area</label>
                     <div class="fvalue">
                         <input class="form-control" type="text" value="" id="builtup_height"
                             v-model="other_details.builtup_height">
@@ -317,45 +317,25 @@
     <div class="row mt-3">
         <div class="row div_checkboxes1">
             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                <input class="form-check-input" id="emenities" type="checkbox"
-                    v-model="other_details.emenities">
-                <label class="form-check-label" for="emenities">Emenities</label>
+                <input class="form-check-input" id="is_have_amenities" type="checkbox"
+                    v-model="other_details.is_have_amenities">
+                <label class="form-check-label" for="is_have_amenities">Amenities</label>
             </div>
         </div>
     </div>
 
-    <div class="row mt-3">
+    <div v-if="other_details.is_have_amenities" class="row mt-3">
         <b>Amenities</b>
         <div class="row div_checkboxes1 mt-2">
-            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                <input class="form-check-input" id="A" type="checkbox"
-                    v-model="other_details.A">
-                <label class="form-check-label" for="A">A</label>
-            </div>
-            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                <input class="form-check-input" id="A" type="checkbox"
-                    v-model="other_details.A">
-                <label class="form-check-label" for="A">A</label>
-            </div>
-            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                <input class="form-check-input" id="A" type="checkbox"
-                    v-model="other_details.A">
-                <label class="form-check-label" for="A">A</label>
-            </div>
-            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                <input class="form-check-input" id="A" type="checkbox"
-                    v-model="other_details.A">
-                <label class="form-check-label" for="A">A</label>
-            </div>
-            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                <input class="form-check-input" id="A" type="checkbox"
-                    v-model="other_details.A">
-                <label class="form-check-label" for="A">A</label>
-            </div>
-            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                <input class="form-check-input" id="A" type="checkbox"
-                    v-model="other_details.A">
-                <label class="form-check-label" for="A">A</label>
+            <div v-for="amenity in amenities" class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                <input
+                    v-model="other_details.amenities[amenity.id]"
+                    class="form-check-input"
+                    :id="`amenity-${amenity.id}`"
+                    :key="`amenity-${amenity.id}`"
+                    type="checkbox"
+                >
+                <label class="form-check-label" :for="`amenity-${amenity.id}`">{{ amenity.name }}</label>
             </div>
         </div>
     </div>
@@ -412,6 +392,7 @@ const props = defineProps([
     'land_units',
     'property_source',
     'property_category',
+    'amenities',
 ]);
 
 const age_of_property = ['0-1 Years', '1-5 Years', '5-10 Years', '10+ Years'];
@@ -457,6 +438,8 @@ const other_details = reactive({
     'available_from': '',
 
     'remark': '',
+    'is_have_amenities': false,
+    'amenities': props.amenities.reduce((acc, el) => ({ ...acc, [el.id]: false }), {})
 });
 
 function getData() {
