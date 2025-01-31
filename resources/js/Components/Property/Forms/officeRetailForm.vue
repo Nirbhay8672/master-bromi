@@ -5,7 +5,7 @@
         <div class="input-group">
             <div class="form-group col-md-7 m-b-20">
                 <div class="fname" :class="other_details.saleable_area !== '' ? 'focused' : ''">
-                    <label for="saleable_area">Salable Area</label>
+                    <label for="saleable_area">Saleble Area</label>
                     <div class="fvalue">
                         <input class="form-control" type="text" value="" id="saleable_area"
                             v-model="other_details.saleable_area">
@@ -132,7 +132,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4" v-show="other_details.add_terrace_carpet_area == 1">
+        <div class="col-md-4" v-show="other_details.add_terrace_carpet_area == 1 && other_details.is_terrace == 1">
             <div class="input-group">
                 <div class="form-group col-md-7">
                     <div class="fname" :class="other_details.terrace_carpet_area !== '' ? 'focused' : ''">

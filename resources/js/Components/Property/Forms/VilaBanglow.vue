@@ -1,107 +1,89 @@
 <template>
     <div class="row gy-2">
-    <b>Area Size</b>
-    <div class="col-md-3">
-        <div class="input-group">
-            <div class="form-group col-md-7 m-b-20">
-                <div class="fname" :class="other_details.saleable_area !== '' ? 'focused' : ''">
-                    <label for="saleable_area">Saleble Area</label>
-                    <div class="fvalue">
-                        <input class="form-control" type="text" value="" id="saleable_area"
-                            v-model="other_details.saleable_area">
-                    </div>
-                </div>
-            </div>
-            <div class="input-group-append col-md-5">
-                <div class="form-group">
-                    <select class="form-select" id="saleable_area_unit">
-                        <template v-for="(unit) in props.land_units">
-                            <option :value="unit.id">{{ unit.unit_name }}</option>
-                        </template>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="input-group">
-            <div class="form-group col-md-7 m-b-20">
-                <div class="fname" :class="other_details.builtup_height !== '' ? 'focused' : ''">
-                    <label for="builtup_height">Builtup Area</label>
-                    <div class="fvalue">
-                        <input class="form-control" type="text" value="" id="builtup_height"
-                            v-model="other_details.builtup_height">
-                    </div>
-                </div>
-            </div>
-            <div class="input-group-append col-md-5">
-                <div class="form-group">
-                    <select class="form-select" id="builtup_height_unit">
-                        <template v-for="(unit) in props.land_units">
-                            <option :value="unit.id" v-if="[24,25].includes(unit.id)">{{ unit.unit_name }}</option>
-                        </template>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3" v-show="props.property_category == 2">
-        <div class="input-group">
-            <div class="form-group col-md-7 m-b-20">
-                <div class="fname" :class="other_details.opening_width !== '' ? 'focused' : ''">
-                    <label for="opening_width">Opening Width</label>
-                    <div class="fvalue">
-                        <input class="form-control" type="text" value="" id="opening_width"
-                            v-model="other_details.opening_width">
-                    </div>
-                </div>
-            </div>
-            <div class="input-group-append col-md-5">
-                <div class="form-group">
-                    <select class="form-select" id="opening_width_unit">
-                        <template v-for="(unit) in props.land_units">
-                            <option :value="unit.id" v-if="[24,25].includes(unit.id)">{{ unit.unit_name }}</option>
-                        </template>
-                    </select>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-check checkbox checkbox-solid-success">
-            <input class="form-check-input" id="is_terrace" type="checkbox" v-model="other_details.is_terrace">
-            <label class="form-check-label" for="is_terrace">Terrace</label>
-        </div>
-    </div>
-    </div>
-
-    <div class="row gy-2">
-        <div class="col">
-            <label for="add_carpet_area" class="add-input-link">{{ other_details.add_carpet_area != 1 ? '+ Add' : '- Remove'}} Carpet Area</label>
-            <input type="checkbox" value="1" id="add_carpet_area" class="d-none"
-                v-model="other_details.add_carpet_area">
-            <label for="add_terrace_carpet_area" class="add-input-link ms-3" v-if="other_details.is_terrace == 1">{{
-                other_details.add_terrace_carpet_area != 1 ? '+ Add' : '- Remove' }} Terrace Carpet Area</label>
-            <input type="checkbox" value="1" id="add_terrace_carpet_area" class="d-none"
-                v-model="other_details.add_terrace_carpet_area">
-        </div>
-    </div>
-
-    <div class="row gy-2 mt-1">
-        <div class="col-md-4" v-show="other_details.add_carpet_area == 1">
+        <b>Area Size</b>
+        <div class="col-md-3">
             <div class="input-group">
-                <div class="form-group col-md-7">
-                    <div class="fname" :class="other_details.carpet_area !== '' ? 'focused' : ''">
-                        <label for="carpet_area">Carpet Area</label>
+                <div class="form-group col-md-7 m-b-20">
+                    <div class="fname" :class="other_details.saleable_plot_area !== '' ? 'focused' : ''">
+                        <label for="saleable_plot_area">Saleble Plot Area</label>
                         <div class="fvalue">
-                            <input class="form-control" type="text" value="" id="carpet_area"
-                                v-model="other_details.carpet_area">
+                            <input class="form-control" type="text" value="" id="saleable_plot_area"
+                                v-model="other_details.saleable_plot_area">
                         </div>
                     </div>
                 </div>
                 <div class="input-group-append col-md-5">
                     <div class="form-group">
-                        <select class="form-select" id="carpet_area_unit">
+                        <select class="form-select" id="saleable_plot_area_unit">
+                            <template v-for="(unit) in props.land_units">
+                                <option :value="unit.id">{{ unit.unit_name }}</option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <div class="form-group col-md-7 m-b-20">
+                    <div class="fname" :class="other_details.saleable_constructed_area !== '' ? 'focused' : ''">
+                        <label for="saleable_constructed_area">Saleable constructed Area</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="saleable_constructed_area"
+                                v-model="other_details.saleable_constructed_area">
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group-append col-md-5">
+                    <div class="form-group">
+                        <select class="form-select" id="saleable_constructed_area_unit">
+                            <template v-for="(unit) in props.land_units">
+                                <option :value="unit.id">{{ unit.unit_name }}</option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-check checkbox checkbox-solid-success">
+                <input class="form-check-input" id="is_terrace" type="checkbox" v-model="other_details.is_terrace">
+                <label class="form-check-label" for="is_terrace">Terrace</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="row gy-2">
+        <div class="col">
+            <label for="add_carpet_plot_area" class="add-input-link">{{ other_details.add_carpet_plot_area != 1 ? '+ Add' : '- Remove'}} Carpet Plot Area</label>
+            <input type="checkbox" value="1" id="add_carpet_plot_area" class="d-none" v-model="other_details.add_carpet_plot_area">
+
+            <label for="add_terrace_carpet_area" class="add-input-link ms-3" v-if="other_details.is_terrace == 1">{{ other_details.add_terrace_carpet_area != 1 ? '+ Add' : '- Remove' }} Terrace Carpet Area</label>
+            <input type="checkbox" value="1" id="add_terrace_carpet_area" class="d-none" v-model="other_details.add_terrace_carpet_area">
+
+            <label for="add_constructed_carpet_area" class="add-input-link ms-3">{{ other_details.add_constructed_carpet_area != 1 ? '+ Add' : '- Remove' }} Constructed Carpet Area</label>
+            <input type="checkbox" value="1" id="add_constructed_carpet_area" class="d-none" v-model="other_details.add_constructed_carpet_area">
+
+            <label for="add_constructed_builtup_area" class="add-input-link ms-3">{{ other_details.add_constructed_builtup_area != 1 ? '+ Add' : '- Remove' }} Constructed Builtup Area</label>
+            <input type="checkbox" value="1" id="add_constructed_builtup_area" class="d-none" v-model="other_details.add_constructed_builtup_area">
+        </div>
+    </div>
+
+    <div class="row gy-3 mt-1">
+        <div class="col-md-3" v-show="other_details.add_carpet_plot_area == 1">
+            <div class="input-group">
+                <div class="form-group col-md-7">
+                    <div class="fname" :class="other_details.carpet_plot_area !== '' ? 'focused' : ''">
+                        <label for="carpet_plot_area">Carpet Plot Area</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="carpet_plot_area"
+                                v-model="other_details.carpet_plot_area">
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group-append col-md-5">
+                    <div class="form-group">
+                        <select class="form-select" id="carpet_plot_area_unit">
                             <template v-for="(unit) in props.land_units">
                                 <option :value="unit.id">{{ unit.unit_name }}</option>
                             </template>
@@ -154,51 +136,69 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-4" v-show="other_details.add_constructed_carpet_area == 1">
+            <div class="input-group">
+                <div class="form-group col-md-7">
+                    <div class="fname" :class="other_details.constructed_carpet_area !== '' ? 'focused' : ''">
+                        <label for="constructed_carpet_area">Constructed Carpet Area</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="constructed_carpet_area"
+                                v-model="other_details.constructed_carpet_area">
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group-append col-md-5">
+                    <div class="form-group">
+                        <select class="form-select" id="constructed_carpet_area_unit">
+                            <template v-for="(unit) in props.land_units">
+                                <option :value="unit.id">{{ unit.unit_name }}</option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4" v-show="other_details.add_constructed_builtup_area == 1">
+            <div class="input-group">
+                <div class="form-group col-md-7">
+                    <div class="fname" :class="other_details.constructed_builtup_area !== '' ? 'focused' : ''">
+                        <label for="constructed_builtup_area">Constructed Builtup Area</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="constructed_builtup_area"
+                                v-model="other_details.constructed_builtup_area">
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group-append col-md-5">
+                    <div class="form-group">
+                        <select class="form-select" id="constructed_builtup_area_unit">
+                            <template v-for="(unit) in props.land_units">
+                                <option :value="unit.id">{{ unit.unit_name }}</option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row gy-2 mt-3">
         <div class="col-12 col-md-2">
-            <div class="fname" :class="other_details.units_in_project !== '' ? 'focused' : ''">
-                <label for="units_in_project">Units in project</label>
+            <div class="fname" :class="other_details.number_of_balcony !== '' ? 'focused' : ''">
+                <label for="number_of_balcony">No. of Balcony</label>
                 <div class="fvalue">
-                    <input class="form-control" type="text" value="" id="units_in_project"
-                        v-model="other_details.units_in_project">
+                    <input class="form-control" type="text" value="" id="number_of_balcony"
+                        v-model="other_details.number_of_balcony">
                 </div>
             </div>
         </div>
         <div class="col-12 col-md-2">
-            <div class="fname" :class="other_details.number_of_floor !== '' ? 'focused' : ''">
-                <label for="number_of_floor">Number of floor</label>
+            <div class="fname" :class="other_details.number_of_units !== '' ? 'focused' : ''">
+                <label for="number_of_units">No. of units</label>
                 <div class="fvalue">
-                    <input class="form-control" type="text" value="" id="number_of_floor"
-                        v-model="other_details.number_of_floor">
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-2">
-            <div class="fname" :class="other_details.units_in_towers !== '' ? 'focused' : ''">
-                <label for="units_in_towers">Units in towers</label>
-                <div class="fvalue">
-                    <input class="form-control" type="text" value="" id="units_in_towers"
-                        v-model="other_details.units_in_towers">
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-2">
-            <div class="fname" :class="other_details.units_on_floor !== '' ? 'focused' : ''">
-                <label for="units_on_floor">Units on floor</label>
-                <div class="fvalue">
-                    <input class="form-control" type="text" value="" id="units_on_floor"
-                        v-model="other_details.units_on_floor">
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-2">
-            <div class="fname" :class="other_details.number_of_elevators !== '' ? 'focused' : ''">
-                <label for="number_of_elevators">Number of elevators</label>
-                <div class="fvalue">
-                    <input class="form-control" type="text" value="" id="number_of_elevators"
-                        v-model="other_details.number_of_elevators">
+                    <input class="form-control" type="text" value="" id="number_of_units"
+                        v-model="other_details.number_of_units">
                 </div>
             </div>
         </div>
@@ -211,16 +211,19 @@
                 </div>
             </div>
         </div>
+        <div class="col-12 col-md-2">
+            <div class="fname" :class="other_details.number_of_open_side !== '' ? 'focused' : ''">
+                <label for="number_of_open_side">No. of open side</label>
+                <div class="fvalue">
+                    <input class="form-control" type="text" value="" id="number_of_open_side"
+                        v-model="other_details.number_of_open_side">
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="row mt-3">
-        <div class="row div_checkboxes1">
-            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                <input class="form-check-input" id="service_elevator" type="checkbox"
-                    v-model="other_details.service_elevator">
-                <label class="form-check-label" for="service_elevator">Service Elevator</label>
-            </div>
-        
+        <div class="row div_checkboxes1">        
             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
                 <input class="form-check-input" id="servent_room" type="checkbox"
                     v-model="other_details.servent_room">
@@ -230,6 +233,12 @@
             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
                 <input class="form-check-input" id="is_hot" type="checkbox" v-model="other_details.is_hot">
                 <label class="form-check-label" for="is_hot">Hot</label>
+            </div>
+
+            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                <input class="form-check-input" id="weekend" type="checkbox"
+                    v-model="other_details.weekend">
+                <label class="form-check-label" for="weekend">Weekend</label>
             </div>
         </div>
     </div>
@@ -359,16 +368,16 @@ import { reactive, onMounted } from 'vue';
 
 onMounted(() => {
 
-    $('#saleable_area_unit').select2().on('change', function () {
-        other_details.saleable_area_unit = $(this).val();
+    $('#saleable_plot_area_unit').select2().on('change', function () {
+        other_details.saleable_plot_area_unit = $(this).val();
     });
 
-    $('#builtup_height_unit').select2().on('change', function () {
-        other_details.builtup_height_unit = $(this).val();
+    $('#saleable_constructed_area_unit').select2().on('change', function () {
+        other_details.saleable_constructed_area_unit = $(this).val();
     });
 
-    $('#carpet_area_unit').select2().on('change', function () {
-        other_details.carpet_area_unit = $(this).val();
+    $('#carpet_plot_area_unit').select2().on('change', function () {
+        other_details.carpet_plot_area_unit = $(this).val();
     });
 
     $('#terrace_saleable_area_unit').select2().on('change', function () {
@@ -377,6 +386,14 @@ onMounted(() => {
 
     $('#terrace_carpet_area_unit').select2().on('change', function () {
         other_details.terrace_carpet_area_unit = $(this).val();
+    });
+
+    $('#constructed_carpet_area_unit').select2().on('change', function () {
+        other_details.constructed_carpet_area_unit = $(this).val();
+    });
+
+    $('#constructed_builtup_area_unit').select2().on('change', function () {
+        other_details.constructed_builtup_area_unit = $(this).val();
     });
 
     $('#priority').select2().on('change', function () {
@@ -398,15 +415,23 @@ const props = defineProps([
 const age_of_property = ['0-1 Years', '1-5 Years', '5-10 Years', '10+ Years'];
 
 const other_details = reactive({
-    'saleable_area': '',
-    'saleable_area_unit': '',
+    'saleable_plot_area': '',
+    'saleable_plot_area_unit': '',
 
-    'builtup_height': '',
-    'builtup_height_unit': '',
+    'saleable_constructed_area': '',
+    'saleable_constructed_area_unit': '',
 
-    'add_carpet_area': '',
-    'carpet_area': '',
-    'carpet_area_unit': '',
+    'add_carpet_plot_area': '',
+    'carpet_plot_area': '',
+    'carpet_plot_area_unit': '',
+
+    'add_constructed_carpet_area': '',
+    'constructed_carpet_area': '',
+    'constructed_carpet_area_unit': '',
+
+    'add_constructed_builtup_area': '',
+    'constructed_builtup_area': '',
+    'constructed_builtup_area_unit': '',
 
     'is_terrace': '',
     'terrace_saleable_area': '',
@@ -416,16 +441,14 @@ const other_details = reactive({
     'terrace_carpet_area': '',
     'terrace_carpet_area_unit': '',
 
-    'units_in_project': '',
-    'number_of_floor': '',
-    'units_in_towers': '',
-    'units_on_floor': '',
-    'number_of_elevators': '',
+    'number_of_balcony': '',
+    'number_of_units': '',
     'number_of_bathrooms' : '',
+    'number_of_open_side': '',
 
     'servent_room': '',
-    'service_elevator': '',
     'is_hot': '',
+    'weekend': '',
 
     'four_wheeler_parking': '',
     'two_wheeler_parking': '',

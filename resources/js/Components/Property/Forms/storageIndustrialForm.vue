@@ -12,7 +12,7 @@
             <div class="input-group">
                 <div class="form-group col-md-7 m-b-20">
                     <div class="fname" :class="other_details.saleable_plot_area !== '' ? 'focused' : ''">
-                        <label for="saleable_plot_area">Salable Plot Area</label>
+                        <label for="saleable_plot_area">Saleble Plot Area</label>
                         <div class="fvalue">
                             <input class="form-control" type="text" value="" id="saleable_plot_area"
                                 v-model="other_details.saleable_plot_area">

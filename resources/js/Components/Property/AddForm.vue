@@ -18,7 +18,6 @@
                     </div>
                 </div>
             </div>
-            Property Category : {{ data.property_category }}
         </div>
         <div class="col-12 col-md-9 col-lg-10 border-start ps-4">
 
@@ -247,6 +246,15 @@
                 v-if="[5].includes(data.property_category)"
             ></flat-form>
 
+            <vila-banglow-form
+                ref="flat_form"
+                :land_units="props.land_units"
+                :property_source="props.property_source"
+                :property_category="data.property_category"
+                :amenities="props.amenities"
+                v-if="[6].includes(data.property_category)"
+            ></vila-banglow-form>
+
             <!-- second part end -->
 
             <!-- 3rd part start -->
@@ -255,7 +263,7 @@
                 <b>Unit Details</b>
                 <template v-for="(unit, index) in unit_details">
                     <div class="row mt-2">
-                        <div class="col-12 col-md-2">
+                        <div class="col-12 col-md-2" v-show="data.property_category != 6">
                             <div class="fname" :class="unit.wing !== '' ? 'focused' : ''">
                                 <label :for="`unit_wing_${index}`">Wing</label>
                                 <div class="fvalue">
@@ -562,11 +570,13 @@ import officeRetailForm from './Forms/officeRetailForm.vue';
 import storageIndustrialForm from './Forms/storageIndustrialForm.vue';
 import landForm from './Forms/LandForm.vue';
 import flatForm from './Forms/flatForm.vue';
+import vilaBanglowForm from './Forms/VilaBanglow.vue';
 
 let office_retail_form = ref(null);
 let storage_industrial_form = ref(null);
 let land_form = ref(null);
 let flat_form = ref(null);
+let villa_banglow_form = ref(null);
 
 onMounted(() => {
     $('#project_id').select2().on('change', function () {
@@ -645,8 +655,8 @@ const props = defineProps([
 const data = reactive({
     'property_for': 1,
     'property_construction_type': 2,
-    'property_category': 5,
-    'property_sub_category': 13,
+    'property_category': 6,
+    'property_sub_category': 20,
     'selected_project': '',
     'selected_city': '',
     'selected_locality': '',
@@ -813,6 +823,15 @@ function submitForm() {
         post_data.other_details = {
             ...post_data.other_details,
             ...flat_data
+        };
+    }
+
+    if(data.property_category == 6){
+        let villa_banglow_data = villa_banglow_form.value.getData();
+
+        post_data.other_details = {
+            ...post_data.other_details,
+            ...villa_banglow_data
         };
     }
 
