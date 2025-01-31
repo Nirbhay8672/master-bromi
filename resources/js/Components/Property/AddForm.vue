@@ -255,6 +255,15 @@
                 v-if="[6].includes(data.property_category)"
             ></vila-banglow-form>
 
+            <penthouse-form
+                ref="flat_form"
+                :land_units="props.land_units"
+                :property_source="props.property_source"
+                :property_category="data.property_category"
+                :amenities="props.amenities"
+                v-if="[7].includes(data.property_category)"
+            ></penthouse-form>
+
             <!-- second part end -->
 
             <!-- 3rd part start -->
@@ -571,12 +580,14 @@ import storageIndustrialForm from './Forms/storageIndustrialForm.vue';
 import landForm from './Forms/LandForm.vue';
 import flatForm from './Forms/flatForm.vue';
 import vilaBanglowForm from './Forms/VilaBanglow.vue';
+import penthouseForm from './Forms/PenthouseForm.vue';
 
 let office_retail_form = ref(null);
 let storage_industrial_form = ref(null);
 let land_form = ref(null);
 let flat_form = ref(null);
 let villa_banglow_form = ref(null);
+let penthouse_form = ref(null);
 
 onMounted(() => {
     $('#project_id').select2().on('change', function () {
@@ -655,8 +666,8 @@ const props = defineProps([
 const data = reactive({
     'property_for': 1,
     'property_construction_type': 2,
-    'property_category': 6,
-    'property_sub_category': 20,
+    'property_category': 7,
+    'property_sub_category': 27,
     'selected_project': '',
     'selected_city': '',
     'selected_locality': '',
@@ -832,6 +843,15 @@ function submitForm() {
         post_data.other_details = {
             ...post_data.other_details,
             ...villa_banglow_data
+        };
+    }
+
+    if(data.property_category == 7){
+        let penthouse_form_data = penthouse_form.value.getData();
+
+        post_data.other_details = {
+            ...post_data.other_details,
+            ...penthouse_form_data
         };
     }
 
