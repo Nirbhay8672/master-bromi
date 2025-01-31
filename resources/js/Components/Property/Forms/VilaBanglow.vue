@@ -45,21 +45,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-check checkbox checkbox-solid-success">
-                <input class="form-check-input" id="is_terrace" type="checkbox" v-model="other_details.is_terrace">
-                <label class="form-check-label" for="is_terrace">Terrace</label>
-            </div>
-        </div>
     </div>
 
     <div class="row gy-2">
         <div class="col">
             <label for="add_carpet_plot_area" class="add-input-link">{{ other_details.add_carpet_plot_area != 1 ? '+ Add' : '- Remove'}} Carpet Plot Area</label>
             <input type="checkbox" value="1" id="add_carpet_plot_area" class="d-none" v-model="other_details.add_carpet_plot_area">
-
-            <label for="add_terrace_carpet_area" class="add-input-link ms-3" v-if="other_details.is_terrace == 1">{{ other_details.add_terrace_carpet_area != 1 ? '+ Add' : '- Remove' }} Terrace Carpet Area</label>
-            <input type="checkbox" value="1" id="add_terrace_carpet_area" class="d-none" v-model="other_details.add_terrace_carpet_area">
 
             <label for="add_constructed_carpet_area" class="add-input-link ms-3">{{ other_details.add_constructed_carpet_area != 1 ? '+ Add' : '- Remove' }} Constructed Carpet Area</label>
             <input type="checkbox" value="1" id="add_constructed_carpet_area" class="d-none" v-model="other_details.add_constructed_carpet_area">
@@ -92,50 +83,6 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4" v-show="other_details.is_terrace == 1">
-            <div class="input-group">
-                <div class="form-group col-md-7">
-                    <div class="fname" :class="other_details.terrace_saleable_area !== '' ? 'focused' : ''">
-                        <label for="terrace_saleable_area">Terrace Saleable Area</label>
-                        <div class="fvalue">
-                            <input class="form-control" type="text" value="" id="terrace_saleable_area"
-                                v-model="other_details.terrace_saleable_area">
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group-append col-md-5">
-                    <div class="form-group">
-                        <select class="form-select" id="terrace_saleable_area_unit">
-                            <template v-for="(unit) in props.land_units">
-                                <option :value="unit.id">{{ unit.unit_name }}</option>
-                            </template>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4" v-show="other_details.add_terrace_carpet_area == 1 && other_details.is_terrace == 1">
-            <div class="input-group">
-                <div class="form-group col-md-7">
-                    <div class="fname" :class="other_details.terrace_carpet_area !== '' ? 'focused' : ''">
-                        <label for="terrace_carpet_area">Terrace Carpet Area</label>
-                        <div class="fvalue">
-                            <input class="form-control" type="text" value="" id="terrace_carpet_area"
-                                v-model="other_details.terrace_carpet_area">
-                        </div>
-                    </div>
-                </div>
-                <div class="input-group-append col-md-5">
-                    <div class="form-group">
-                        <select class="form-select" id="terrace_carpet_area_unit">
-                            <template v-for="(unit) in props.land_units">
-                                <option :value="unit.id">{{ unit.unit_name }}</option>
-                            </template>
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="col-md-4" v-show="other_details.add_constructed_carpet_area == 1">
             <div class="input-group">
                 <div class="form-group col-md-7">
@@ -158,7 +105,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-md-4" v-show="other_details.add_constructed_builtup_area == 1">
             <div class="input-group">
                 <div class="form-group col-md-7">
@@ -380,14 +326,6 @@ onMounted(() => {
         other_details.carpet_plot_area_unit = $(this).val();
     });
 
-    $('#terrace_saleable_area_unit').select2().on('change', function () {
-        other_details.terrace_saleable_area_unit = $(this).val();
-    });
-
-    $('#terrace_carpet_area_unit').select2().on('change', function () {
-        other_details.terrace_carpet_area_unit = $(this).val();
-    });
-
     $('#constructed_carpet_area_unit').select2().on('change', function () {
         other_details.constructed_carpet_area_unit = $(this).val();
     });
@@ -432,14 +370,6 @@ const other_details = reactive({
     'add_constructed_builtup_area': '',
     'constructed_builtup_area': '',
     'constructed_builtup_area_unit': '',
-
-    'is_terrace': '',
-    'terrace_saleable_area': '',
-    'terrace_saleable_area_unit': '',
-
-    'add_terrace_carpet_area': '',
-    'terrace_carpet_area': '',
-    'terrace_carpet_area_unit': '',
 
     'number_of_balcony': '',
     'number_of_units': '',
