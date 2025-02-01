@@ -704,10 +704,10 @@ const props = defineProps([
 ]);
 
 const data = reactive({
-    'property_for': 2,
-    'property_construction_type': 2,
-    'property_category': 8,
-    'property_sub_category': '',
+    'property_for': 1,
+    'property_construction_type': 1,
+    'property_category': 1,
+    'property_sub_category': 1,
     'selected_project': '',
     'selected_city': '',
     'selected_locality': '',
