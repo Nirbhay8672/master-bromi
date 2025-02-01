@@ -161,7 +161,7 @@ class MasterPropertyController extends Controller
 
     public function transformRequest(Request $request)
     {
-
+        
         $washrooms = [
             'Private Washrooms' => 1,
             'Public Washrooms' => 2,
@@ -380,7 +380,110 @@ class MasterPropertyController extends Controller
             ];
         }
 
-        if(in_array($request->basic_detail['property_category'], [1,2,3])){
+        if(in_array($request->basic_detail['property_category'], [6])){
+            $transformed_request_array = [
+                'basic_detail' => [
+                    'project_id' => $request->basic_detail['selected_project'],
+                    'property_for' => $request->basic_detail['property_for'],
+                    'property_contruction_type_id' => $request->basic_detail['property_construction_type'],
+                    'category_id' => $request->basic_detail['property_category'],
+                    'sub_category_id' => $request->basic_detail['property_sub_category'],
+                    'city_id' => $request->basic_detail['selected_city'],
+                    'area_id' => $request->basic_detail['selected_locality'],
+                    'address' => $request->basic_detail['address'],
+                    'location_link' => $request->basic_detail['location_link'],
+                    'no_of_balcony' => $request->other_details['number_of_balcony'],
+                    'no_of_units' => $request->other_details['number_of_units'],
+                    'no_of_bathroom' => $request->other_details['number_of_bathrooms'],
+                    'no_of_open_side' => $request->other_details['number_of_open_side'],
+                    'weekend' => $request->other_details['weekend'] ?? false,
+                    'hot_property' => $request->other_details['is_hot'] ?? false,   
+                    'servent_room' => $request->other_details['servent_room'] ?? false,
+                    'fourwheller_parking' => $request->other_details['four_wheeler_parking'],
+                    'twowheller_parking' => $request->other_details['two_wheeler_parking'],
+                    'priority_type' => $priorityType[$request->other_details['priority']] ?? null,
+                    'source' => $request->other_details['source'],
+                    'availability_status' => $request->other_details['availability_status'] ? $availabilityStatus[$request->other_details['availability_status']] : null,
+                    'property_age' => $propertyAge[$request->other_details['age_of_property']] ?? null,
+                    'available_from' => $request->other_details['available_from'],
+                    'remark' => $request->other_details['remark'],
+                    'is_have_amenities' => $request->other_details['is_have_amenities'] ?? false,
+                    'amenities' => $request->other_details['amenities'],
+                    'user_id' => auth()->user()->id,
+                    'parent_id' => auth()->user()->parent_id,
+                ],
+                'size_area' => [
+                    'salable_plot_area_value' => $request->other_details['saleable_plot_area'],
+                    'salable_plot_area_measurement_id' => $request->other_details['saleable_plot_area_unit'],
+                    'salable_constructed_area_value' => $request->other_details['saleable_constructed_area'],
+                    'salable_constructed_area_measurement_id' => $request->other_details['saleable_constructed_area_unit'],
+                    'carpet_plot_area_value' => $request->other_details['carpet_plot_area'],
+                    'carpet_plot_area_measurement_id' => $request->other_details['carpet_plot_area_unit'],
+                    'constructed_carpet_area_value' => $request->other_details['constructed_carpet_area'],
+                    'constructed_carpet_area_measurement_id' => $request->other_details['constructed_carpet_area_unit'],
+                    'constructed_builtup_area_value' => $request->other_details['constructed_builtup_area'],
+                    'constructed_builtup_area_measurement_id' => $request->other_details['constructed_builtup_area_unit'],
+                ], 
+                'unit_details' => [],
+                'contact_details' => [],
+            ];
+        }
+
+        if(in_array($request->basic_detail['property_category'], [7])){
+            $transformed_request_array = [
+                'basic_detail' => [
+                    'project_id' => $request->basic_detail['selected_project'],
+                    'property_for' => $request->basic_detail['property_for'],
+                    'property_contruction_type_id' => $request->basic_detail['property_construction_type'],
+                    'category_id' => $request->basic_detail['property_category'],
+                    'sub_category_id' => $request->basic_detail['property_sub_category'],
+                    'city_id' => $request->basic_detail['selected_city'],
+                    'area_id' => $request->basic_detail['selected_locality'],
+                    'address' => $request->basic_detail['address'],
+                    'location_link' => $request->basic_detail['location_link'],
+                    
+                    'units_in_project' => $request->other_details['units_in_project'],
+                    'no_of_floors' => $request->other_details['number_of_floor'],
+                    'units_in_tower' => $request->other_details['units_in_towers'],
+                    'units_in_floor' => $request->other_details['units_on_floor'],
+                    'no_of_elevators' => $request->other_details['number_of_elevators'],
+                    'no_of_balcony' => $request->other_details['number_of_balcony'],
+                    'no_of_bathroom' => $request->other_details['number_of_bathrooms'],
+
+                    'weekend' => $request->other_details['weekend'] ?? false,
+                    'hot_property' => $request->other_details['is_hot'] ?? false,   
+                    'servent_room' => $request->other_details['servent_room'] ?? false,
+                    'fourwheller_parking' => $request->other_details['four_wheeler_parking'],
+                    'twowheller_parking' => $request->other_details['two_wheeler_parking'],
+                    'priority_type' => $priorityType[$request->other_details['priority']] ?? null,
+                    'source' => $request->other_details['source'],
+                    'availability_status' => $request->other_details['availability_status'] ? $availabilityStatus[$request->other_details['availability_status']] : null,
+                    'property_age' => $propertyAge[$request->other_details['age_of_property']] ?? null,
+                    'available_from' => $request->other_details['available_from'],
+                    'remark' => $request->other_details['remark'],
+                    'is_have_amenities' => $request->other_details['is_have_amenities'] ?? false,
+                    'amenities' => $request->other_details['amenities'],
+                    'user_id' => auth()->user()->id,
+                    'parent_id' => auth()->user()->parent_id,
+                ],
+                'size_area' => [
+                    'built_area_value' => $request->other_details['built_area'],
+                    'built_area_measurement_id' => $request->other_details['built_area_unit'],
+                    'carpet_area_value' => $request->other_details['saleable_area'],
+                    'carpet_area_measurement_id' => $request->other_details['saleable_area_unit'],
+                    'salable_area_value' => $request->other_details['carpet_area'],
+                    'salable_area_measurement_id' => $request->other_details['carpet_area_unit'],
+                    'terrace_carpet_area_value' => $request->other_details['terrace_saleable_area'],
+                    'terrace_carpet_area_measurement_id' => $request->other_details['terrace_saleable_area_unit'],
+                    'terrace_salable_area_value' => $request->other_details['terrace_carpet_area'],
+                    'terrace_salable_area_measurement_id' => $request->other_details['terrace_carpet_area_unit'],  
+                ], 
+                'unit_details' => [],
+                'contact_details' => [],
+            ];
+        }
+
+        if(in_array($request->basic_detail['property_category'], [1,2,3,6,7])){
             foreach ($request->unit_details ?? [] as $key => $value) {
                 $transformed_request_array['unit_details'][] = [
                     'wing' => $value['wing'],

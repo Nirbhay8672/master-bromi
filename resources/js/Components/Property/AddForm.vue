@@ -247,7 +247,7 @@
             ></flat-form>
 
             <vila-banglow-form
-                ref="flat_form"
+                ref="villa_banglow_form"
                 :land_units="props.land_units"
                 :property_source="props.property_source"
                 :property_category="data.property_category"
@@ -256,7 +256,7 @@
             ></vila-banglow-form>
 
             <penthouse-form
-                ref="flat_form"
+                ref="penthouse_form"
                 :land_units="props.land_units"
                 :property_source="props.property_source"
                 :property_category="data.property_category"
@@ -799,6 +799,7 @@ function submitForm() {
         'unit_details' : unit_details,
         'other_contact_details' : other_contact_details,
     };
+
 
     if([1,2].includes(data.property_category)) {
 
