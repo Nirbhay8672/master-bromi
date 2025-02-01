@@ -62,10 +62,10 @@ class MasterPropertyController extends Controller
                 return $row->category_id != 4 ? $row->project->project_name : ($row->village?->name ?? '');
             })
             ->editColumn('information', function ($row) {
-                return $row->propertyFor->name . " > " . $row->propertyConstructionType->name . " > " . $row->propertyCategory->name . " > " . $row->propertySubCategory->name;
+                return $row->propertyFor->name . " > " . $row->propertyConstructionType->name . " > " . $row->propertyCategory?->name .($row->propertySubCategory ? " > " . $row->propertySubCategory->name : '');
             })
             ->editColumn('city_name', function ($row) {
-                return $row->category_id == 4 ? ($row->district?->name ?? '') :  $row->city->name;
+                return $row->category_id == 4 ? ($row->district?->name ?? '') :  $row->city?->name;
             })
             ->editColumn('select_checkbox', function ($row) {
                 $checkbox = '<div class="form-check checkbox checkbox-primary mb-0">
@@ -354,9 +354,9 @@ class MasterPropertyController extends Controller
                 'size_area' => [
                     'road_width_of_front_side' => $request->other_details["road_width_of_front_side"],
                     'road_width_of_front_side_measurement_id' => $request->other_details['road_width_of_front_side_unit'],
-                    'length_of_plot' => $request->other_details["length_of_plot"],
+                    'length_of_plot_value' => $request->other_details["length_of_plot"],
                     'length_of_plot_measurement_id' => $request->other_details["length_of_plot_unit"],
-                    'width_of_plot' => $request->other_details["width_of_plot"],
+                    'width_of_plot_value' => $request->other_details["width_of_plot"],
                     'width_of_plot_measurement_id' => $request->other_details["width_of_plot_unit"],
                 ], 
                 'contact_details' => [],
@@ -502,10 +502,10 @@ class MasterPropertyController extends Controller
                 'size_area' => [
                     'built_area_value' => $request->other_details['built_area'],
                     'built_area_measurement_id' => $request->other_details['built_area_unit'],
-                    'carpet_area_value' => $request->other_details['saleable_area'],
-                    'carpet_area_measurement_id' => $request->other_details['saleable_area_unit'],
-                    'salable_area_value' => $request->other_details['carpet_area'],
-                    'salable_area_measurement_id' => $request->other_details['carpet_area_unit'],
+                    'carpet_area_value' => $request->other_details['carpet_area'] ,
+                    'carpet_area_measurement_id' => $request->other_details['carpet_area_unit'],
+                    'salable_area_value' => $request->other_details['saleable_area'],
+                    'salable_area_measurement_id' => $request->other_details['saleable_area_unit'] ,
                     'terrace_carpet_area_value' => $request->other_details['terrace_saleable_area'],
                     'terrace_carpet_area_measurement_id' => $request->other_details['terrace_saleable_area_unit'],
                     'terrace_salable_area_value' => $request->other_details['terrace_carpet_area'],
@@ -516,13 +516,51 @@ class MasterPropertyController extends Controller
             ];
         }
 
+        if(in_array($request->basic_detail['property_category'], [8])){
+            $transformed_request_array = [
+                'basic_detail' => [
+                    'project_id' => $request->basic_detail['selected_project'],
+                    'property_for' => $request->basic_detail['property_for'],
+                    'property_contruction_type_id' => $request->basic_detail['property_construction_type'],
+                    'category_id' => $request->basic_detail['property_category'],
+                    'sub_category_id' => $request->basic_detail['property_sub_category'],
+                    'city_id' => $request->basic_detail['selected_city'],
+                    'taluka_id' => $request->basic_detail['selected_taluka'],
+                    'area_id' => $request->basic_detail['selected_locality'],
+                    'zone_id' => $request->basic_detail['selected_zone'],
+                    'address' => $request->basic_detail['address'],
+                    'location_link' => $request->basic_detail['location_link'],
+                    'no_of_units' => $request->other_details['number_of_units'],
+                    "no_of_floors_allowed" => $request->other_details['number_of_floors_allowed'],
+                    'no_of_open_side' => $request->other_details['number_of_open_side'],
+                    'priority_type' => $priorityType[$request->other_details['priority']] ?? null,
+                    'source' => $request->other_details["source"],
+                    'remark' => $request->other_details["remark"],
+                    'hot_property' => $request->other_details["is_hot"] ?? 0,
+                    'user_id' => auth()->user()->id,
+                    'parent_id' => auth()->user()->parent_id,
+                ],
+                'size_area' => [
+                    'salable_area_value' => $request->other_details['saleable_area'],
+                    'salable_area_measurement_id' => $request->other_details['saleable_area_unit'],
+                    'length_of_plot_value' => $request->other_details["length_of_plot"],
+                    'length_of_plot_measurement_id' => $request->other_details["length_of_plot_unit"],
+                    'width_of_plot_value' => $request->other_details["width_of_plot"],
+                    'width_of_plot_measurement_id' => $request->other_details["width_of_plot_unit"],
+                    'carpet_plot_area_value' => $request->other_details['carpet_plot_area'],
+                    'carpet_plot_area_measurement_id' => $request->other_details['carpet_plot_area_unit'],
+                ], 
+                'contact_details' => [],
+            ];
+        }
+
         if(in_array($request->basic_detail['property_category'], [1,2,3,6,7])){
             foreach ($request->unit_details ?? [] as $key => $value) {
                 $transformed_request_array['unit_details'][] = [
-                    'wing' => $value['wing'],
+                    'wing' => $value['wing'] ?? null,
                     'unit_no' => $value['unit_number'] ?? 0, 
                     'availability_status' => $unitavailabilityStatus[$value['available']] ?? 0,
-                    'price_rent' => $value['price_rent'],
+                    'price_rent' => $value['price_rent'] ?? null,
                     'furniture_status' => $furnishedStatus[$value['furnished_status']] ?? null,   
                 ];
             }
