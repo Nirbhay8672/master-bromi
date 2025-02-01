@@ -77,10 +77,10 @@
 
     <div class="row gy-2">
         <div class="col">
-            <label for="add_carpet_area" class="add-input-link">{{ other_details.add_carpet_area != 1 ? '+ Add' : '- Remove'}} Carpet Area</label>
+            <label for="add_carpet_area" class="add-input-link fw-bold">{{ other_details.add_carpet_area != 1 ? '+ Add' : '- Remove'}} Carpet Area</label>
             <input type="checkbox" value="1" id="add_carpet_area" class="d-none"
                 v-model="other_details.add_carpet_area">
-            <label for="add_terrace_carpet_area" class="add-input-link ms-3" v-if="other_details.is_terrace == 1">{{
+            <label for="add_terrace_carpet_area" class="add-input-link ms-3 fw-bold" v-if="other_details.is_terrace == 1">{{
                 other_details.add_terrace_carpet_area != 1 ? '+ Add' : '- Remove' }} Terrace Carpet Area</label>
             <input type="checkbox" value="1" id="add_terrace_carpet_area" class="d-none"
                 v-model="other_details.add_terrace_carpet_area">

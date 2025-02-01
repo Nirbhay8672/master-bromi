@@ -49,13 +49,13 @@
 
     <div class="row gy-2">
         <div class="col">
-            <label for="add_carpet_plot_area" class="add-input-link">{{ other_details.add_carpet_plot_area != 1 ? '+ Add' : '- Remove'}} Carpet Plot Area</label>
+            <label for="add_carpet_plot_area" class="add-input-link fw-bold">{{ other_details.add_carpet_plot_area != 1 ? '+ Add' : '- Remove'}} Carpet Plot Area</label>
             <input type="checkbox" value="1" id="add_carpet_plot_area" class="d-none" v-model="other_details.add_carpet_plot_area">
 
-            <label for="add_constructed_carpet_area" class="add-input-link ms-3">{{ other_details.add_constructed_carpet_area != 1 ? '+ Add' : '- Remove' }} Constructed Carpet Area</label>
+            <label for="add_constructed_carpet_area" class="add-input-link ms-3 fw-bold">{{ other_details.add_constructed_carpet_area != 1 ? '+ Add' : '- Remove' }} Constructed Carpet Area</label>
             <input type="checkbox" value="1" id="add_constructed_carpet_area" class="d-none" v-model="other_details.add_constructed_carpet_area">
 
-            <label for="add_constructed_builtup_area" class="add-input-link ms-3">{{ other_details.add_constructed_builtup_area != 1 ? '+ Add' : '- Remove' }} Constructed Builtup Area</label>
+            <label for="add_constructed_builtup_area" class="add-input-link ms-3 fw-bold">{{ other_details.add_constructed_builtup_area != 1 ? '+ Add' : '- Remove' }} Constructed Builtup Area</label>
             <input type="checkbox" value="1" id="add_constructed_builtup_area" class="d-none" v-model="other_details.add_constructed_builtup_area">
         </div>
     </div>

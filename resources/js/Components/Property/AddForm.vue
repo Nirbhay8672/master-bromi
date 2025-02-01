@@ -113,8 +113,9 @@
                     </template>
                 </div>
             </div>
+
             <div class="row mt-5" v-show="data.property_category !== 4">
-                <div class="col-md-2 m-b-4 mb-4">
+                <div class="col-md-3 m-b-4 mb-4">
                     <select class="form-select" id="project_id">
                         <option value="">Project</option>
                         <template v-for="(project) in props.projects">
@@ -122,7 +123,7 @@
                         </template>
                     </select>
                 </div>
-                <div class="col-md-2 m-b-4 mb-4">
+                <div class="col-md-3 m-b-4 mb-4">
                     <select class="form-select" id="city_id">
                         <option value="">City</option>
                         <template v-for="(city, city_index) in props.cities">
@@ -130,7 +131,7 @@
                         </template>
                     </select>
                 </div>
-                <div class="col-md-2 m-b-4 mb-4">
+                <div class="col-md-3 m-b-4 mb-4">
                     <select class="form-select" id="locality_id">
                         <option value="">Locality</option>
                         <template v-for="(city) in props.cities">
@@ -145,7 +146,7 @@
             </div>
 
             <div class="row mt-5" v-show="data.property_category == 4">
-                <div class="col-md-2 m-b-4 mb-4">
+                <div class="col-md-3 m-b-4 mb-4">
                     <select class="form-select" id="district_id">
                         <option value="">District</option>
                         <template v-for="(district) in props.districts">
@@ -153,7 +154,7 @@
                         </template>
                     </select>
                 </div>
-                <div class="col-md-2 m-b-4 mb-4">
+                <div class="col-md-3 m-b-4 mb-4">
                     <select class="form-select" id="taluka_id">
                         <option value="">Taluka</option>
                         <template v-for="(district) in props.districts">
@@ -165,7 +166,7 @@
                         </template>
                     </select>
                 </div>
-                <div class="col-md-2 m-b-4 mb-4">
+                <div class="col-md-3 m-b-4 mb-4">
                     <select class="form-select" id="village_id">
                         <option value="">Village</option>
                         <template v-for="(district) in props.districts">
@@ -181,7 +182,10 @@
                         </template>
                     </select>
                 </div>
-                <div class="col-md-2 m-b-4 mb-4">
+            </div>
+
+            <div class="row mt-2" v-show="data.property_category == 4 || data.property_category == 8">
+                <div class="col-md-3 m-b-4 mb-4">
                     <select class="form-select" id="zone_id">
                         <option value="">Zones</option>
                         <template v-for="(zone) in props.property_zones">
@@ -264,6 +268,15 @@
                 v-if="[7].includes(data.property_category)"
             ></penthouse-form>
 
+            <plot-form
+                ref="plot_form"
+                :land_units="props.land_units"
+                :property_source="props.property_source"
+                :property_category="data.property_category"
+                :amenities="props.amenities"
+                v-if="[8].includes(data.property_category)"
+            ></plot-form>
+
             <!-- second part end -->
 
             <!-- 3rd part start -->
@@ -272,7 +285,7 @@
                 <b>Unit Details</b>
                 <template v-for="(unit, index) in unit_details">
                     <div class="row mt-2">
-                        <div class="col-12 col-md-2" v-show="data.property_category != 6">
+                        <div class="col-12 col-md-2" v-show="![6,8].includes(data.property_category)">
                             <div class="fname" :class="unit.wing !== '' ? 'focused' : ''">
                                 <label :for="`unit_wing_${index}`">Wing</label>
                                 <div class="fvalue">
@@ -306,7 +319,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 m-b-4 mb-4">
+                        <div class="col-md-2 m-b-4 mb-4" v-show="![8].includes(data.property_category)">
                             <select class="form-select" :id="`furnished_status_${index}`">
                                 <option value="">Furnished Status</option>
                                 <option value="Furnished">Furnished</option>
@@ -581,6 +594,7 @@ import landForm from './Forms/LandForm.vue';
 import flatForm from './Forms/flatForm.vue';
 import vilaBanglowForm from './Forms/VilaBanglow.vue';
 import penthouseForm from './Forms/PenthouseForm.vue';
+import PlotForm from './Forms/PlotForm.vue';
 
 let office_retail_form = ref(null);
 let storage_industrial_form = ref(null);
@@ -588,6 +602,7 @@ let land_form = ref(null);
 let flat_form = ref(null);
 let villa_banglow_form = ref(null);
 let penthouse_form = ref(null);
+let plot_form = ref(null);
 
 onMounted(() => {
     $('#project_id').select2().on('change', function () {
@@ -664,10 +679,10 @@ const props = defineProps([
 ]);
 
 const data = reactive({
-    'property_for': 1,
+    'property_for': 2,
     'property_construction_type': 2,
-    'property_category': 7,
-    'property_sub_category': 27,
+    'property_category': 8,
+    'property_sub_category': '',
     'selected_project': '',
     'selected_city': '',
     'selected_locality': '',
@@ -853,6 +868,15 @@ function submitForm() {
         post_data.other_details = {
             ...post_data.other_details,
             ...penthouse_form_data
+        };
+    }
+
+    if(data.property_category == 8){
+        let plot_form_data = plot_form.value.getData();
+
+        post_data.other_details = {
+            ...post_data.other_details,
+            ...plot_form_data
         };
     }
 
