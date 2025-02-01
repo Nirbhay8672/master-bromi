@@ -282,7 +282,7 @@ class MasterPropertyController extends Controller
         if (in_array($request->basic_detail['property_category'], [3])) {
             $transformed_request_array = [
                 'basic_detail' => [
-                    'project_id' => => $project_id,
+                    'project_id' => $project_id,
                     'property_for' => $request->basic_detail['property_for'],
                     'property_contruction_type_id' => $request->basic_detail['property_construction_type'],
                     'category_id' => $request->basic_detail['property_category'],
@@ -321,7 +321,7 @@ class MasterPropertyController extends Controller
         if(in_array($request->basic_detail['property_category'], [4])){
             $transformed_request_array = [
                 'basic_detail' => [
-                    'project_id' => => $project_id,
+                    'project_id' => $project_id,
                     'property_for' => $request->basic_detail['property_for'],
                     'property_contruction_type_id' => $request->basic_detail['property_construction_type'],
                     'category_id' => $request->basic_detail['property_category'],
@@ -366,7 +366,7 @@ class MasterPropertyController extends Controller
         if(in_array($request->basic_detail['property_category'], [5])){
             $transformed_request_array = [
                 'basic_detail' => [
-                    'project_id' => => $project_id,
+                    'project_id' => $project_id,
                     'property_for' => $request->basic_detail['property_for'],
                     'property_contruction_type_id' => $request->basic_detail['property_construction_type'],
                     'category_id' => $request->basic_detail['property_category'],
@@ -416,7 +416,7 @@ class MasterPropertyController extends Controller
         if(in_array($request->basic_detail['property_category'], [6])){
             $transformed_request_array = [
                 'basic_detail' => [
-                    'project_id' => => $project_id,
+                    'project_id' => $project_id,
                     'property_for' => $request->basic_detail['property_for'],
                     'property_contruction_type_id' => $request->basic_detail['property_construction_type'],
                     'category_id' => $request->basic_detail['property_category'],
@@ -465,7 +465,7 @@ class MasterPropertyController extends Controller
         if(in_array($request->basic_detail['property_category'], [7])){
             $transformed_request_array = [
                 'basic_detail' => [
-                    'project_id' => => $project_id,
+                    'project_id' => $project_id,
                     'property_for' => $request->basic_detail['property_for'],
                     'property_contruction_type_id' => $request->basic_detail['property_construction_type'],
                     'category_id' => $request->basic_detail['property_category'],
@@ -519,7 +519,7 @@ class MasterPropertyController extends Controller
         if(in_array($request->basic_detail['property_category'], [8])){
             $transformed_request_array = [
                 'basic_detail' => [
-                    'project_id' => => $project_id,
+                    'project_id' => $project_id,
                     'property_for' => $request->basic_detail['property_for'],
                     'property_contruction_type_id' => $request->basic_detail['property_construction_type'],
                     'category_id' => $request->basic_detail['property_category'],
