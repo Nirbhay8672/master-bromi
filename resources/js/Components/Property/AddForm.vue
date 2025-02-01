@@ -20,7 +20,6 @@
             </div>
         </div>
         <div class="col-12 col-md-9 col-lg-10 border-start ps-4">
-
             <!-- first part start -->
             <div class="row">
                 <div class="row mb-2">
@@ -612,6 +611,32 @@ onMounted(() => {
             data.address = project.address;
             data.location_link = project.location_link;
         }
+    }).select2('open');
+
+    var allowedselect2s = ['project_id'];
+
+    $(document).on('keydown', '.select2-search__field', function(e) {
+        setTimeout(() => {
+            var par = $(this).closest('.select2-dropdown')
+            var tar = $(par).find('.select2-results')
+            var kar = $(tar).find('.select2-results__options')
+            var opt = $(kar).find('li')
+            if (opt.length == 1 && $(opt[0]).text() == 'No results found' && $(this).val() != '') {
+                var project_id = $(kar).attr('id')
+                project_id = project_id.replace("select2-", "");
+                project_id = project_id.replace("-results", "");
+                if (allowedselect2s.includes(project_id)) {
+                    $("#" + project_id + " option[last_added='" + true + "']").each(function(i, e) {
+                        $('#' + project_id + ' option[value="' + $(this).val() + '"]').detach();
+                    });
+                    if ($("#" + project_id + " option[value='" + $(this).val() + "']").length == 0) {
+                        let vvvv = $.parseHTML('<option last_added="true" value="' + $(this).val() +
+                            '" selected="">' + $(this).val() + '</option>');
+                        $("#" + project_id).append(vvvv).trigger('change');
+                    }
+                }
+            }
+        }, 50);
     });
 
     $('#city_id').select2().on('change', function () {

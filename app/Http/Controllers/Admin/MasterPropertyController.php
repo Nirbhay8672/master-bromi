@@ -198,10 +198,43 @@ class MasterPropertyController extends Controller
             'Can Furnished' => 4,
         ];
 
+        // project condition start
+        $requested_project = $request->basic_detail['selected_project'];
+
+        $project = Projects::where(function ($query) use ($requested_project) {
+            $query->where('id', $requested_project)
+                    ->orWhere('project_name', $requested_project);
+        })
+        ->where('user_id', Auth::user()->id)
+        ->first();
+
+        $project_id = null;
+
+        if($project == null) {
+            $new_project = new Projects();
+
+            $city = City::find($request->basic_detail['selected_city']);
+            
+            $new_project->fill([
+                'project_name' => $requested_project,
+                'address' => $request->basic_detail['selected_project'],
+                'user_id' => Auth::user()->id,
+                'state_id' => $city ? $city->state_id : null,
+                'city_id' => $request->basic_detail['selected_city'] ?? null,
+                'area_id' => $request->basic_detail['selected_locality'] ?? null,
+                'location_link' => $request->basic_detail['location_link'],
+                'is_indirectly_store' => 1,
+            ])->save();
+
+            $project_id = $new_project->id;
+        } else {
+            $project_id = $project->id;
+        }
+
         if (in_array($request->basic_detail['property_category'], [1,2])) {
             $transformed_request_array = [
                 'basic_detail' => [
-                    'project_id' => $request->basic_detail['selected_project'],
+                    'project_id' => $project_id,
                     'property_for' => $request->basic_detail['property_for'],
                     'property_contruction_type_id' => $request->basic_detail['property_construction_type'],
                     'category_id' => $request->basic_detail['property_category'],
