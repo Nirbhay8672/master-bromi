@@ -239,11 +239,13 @@ import { reactive, onMounted } from 'vue';
 
 onMounted(() => {
     $('#saleable_plot_area_unit').select2().on('change', function () {
-        other_details.saleable_plot_area_unit = $(this).val();
+        other_details.saleable_plot_area_unit  = $(this).val();
+        setSameMainUnits($(this).val());
     });
 
     $('#carpet_plot_area_unit').select2().on('change', function () {
         other_details.carpet_plot_area_unit = $(this).val();
+        setSameMainUnits($(this).val());
     });
 
     $('#road_width_of_front_side_unit').select2().on('change', function () {
@@ -256,6 +258,14 @@ onMounted(() => {
 
     $('#source').select2().on('change', function () {
         other_details.source = $(this).val();
+    });
+
+    $('.select2-hidden-accessible').each(function() {
+        var select2Instance = $(this).data('select2');
+        if (select2Instance) {
+            var options = $(this).children('option');           
+            select2Instance.trigger('select', { data: { id: options.eq(0).val(), text: options.eq(0).text() } });
+        }
     });
 });
 
@@ -343,6 +353,27 @@ function addOtherField() {
 
 function removeOtherDetail(index) {
     other_details.other_storage_industrial_detail.splice(index, 1);
+}
+
+let isUpdatingMainUnit = false;
+
+function setSameMainUnits(value) {
+
+    if (isUpdatingMainUnit) return;
+    isUpdatingMainUnit = true;
+    
+    let input_array = [
+        'saleable_plot_area_unit',
+        'carpet_plot_area_unit',
+    ];
+
+    input_array.forEach(select_input => {
+        $(`#${select_input}`).val(value).trigger('change');
+    });
+
+    setTimeout(() => {
+        isUpdatingMainUnit = false;
+    }, 0);
 }
 
 function getData() {

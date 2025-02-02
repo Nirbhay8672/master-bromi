@@ -354,26 +354,32 @@ onMounted(() => {
 
     $('#salable_area_unit').select2().on('change', function () {
         other_details.saleable_area_unit = $(this).val();
+        setSameMainUnits($(this).val());
     });
 
     $('#ceiling_height_unit').select2().on('change', function () {
         other_details.ceiling_height_unit = $(this).val();
+        setOtherUnits($(this).val());
     });
 
     $('#opening_width_unit').select2().on('change', function () {
         other_details.opening_width_unit = $(this).val();
+        setOtherUnits($(this).val());
     });
 
     $('#carpet_area_unit').select2().on('change', function () {
         other_details.carpet_area_unit = $(this).val();
+        setSameMainUnits($(this).val());
     });
 
     $('#terrace_saleable_area_unit').select2().on('change', function () {
         other_details.terrace_saleable_area_unit = $(this).val();
+        setSameMainUnits($(this).val());
     });
 
     $('#terrace_carpet_area_unit').select2().on('change', function () {
         other_details.terrace_carpet_area_unit = $(this).val();
+        setSameMainUnits($(this).val());
     });
 
     $('#priority').select2().on('change', function () {
@@ -382,6 +388,14 @@ onMounted(() => {
 
     $('#source').select2().on('change', function () {
         other_details.source = $(this).val();
+    });
+
+    $('.select2-hidden-accessible').each(function() {
+        var select2Instance = $(this).data('select2');
+        if (select2Instance) {
+            var options = $(this).children('option');           
+            select2Instance.trigger('select', { data: { id: options.eq(0).val(), text: options.eq(0).text() } });
+        }
     });
 });
 
@@ -403,15 +417,15 @@ const other_details = reactive({
     'ceiling_height': '',
     'ceiling_height_unit': '',
 
-    'add_carpet_area': '',
+    'add_carpet_area': 1,
     'carpet_area': '',
     'carpet_area_unit': '',
 
-    'is_terrace': '',
+    'is_terrace': 1,
     'terrace_saleable_area': '',
     'terrace_saleable_area_unit': '',
 
-    'add_terrace_carpet_area': '',
+    'add_terrace_carpet_area': 1,
     'terrace_carpet_area': '',
     'terrace_carpet_area_unit': '',
 
@@ -439,6 +453,50 @@ const other_details = reactive({
     'two_road_corner': '',
     'remark': '',
 });
+
+let isUpdatingMainUnit = false;
+
+function setSameMainUnits(value) {
+
+    if (isUpdatingMainUnit) return;
+    isUpdatingMainUnit = true;
+
+    let input_array = [
+        'salable_area_unit',
+        'carpet_area_unit',
+        'terrace_carpet_area_unit',
+        'terrace_saleable_area_unit',
+    ];
+
+    input_array.forEach(select_input => {
+        $(`#${select_input}`).val(value).trigger('change');
+    });
+
+    setTimeout(() => {
+        isUpdatingMainUnit = false;
+    }, 0);
+}
+
+let isUpdatingOtherUnit = false;
+
+function setOtherUnits(value) {
+
+    if (isUpdatingOtherUnit) return;
+    isUpdatingOtherUnit = true;
+
+    let input_array = [
+        'ceiling_height_unit',
+        'opening_width_unit',
+    ];
+
+    input_array.forEach(select_input => {
+        $(`#${select_input}`).val(value).trigger('change');
+    });
+
+    setTimeout(() => {
+        isUpdatingOtherUnit = false;
+    }, 0);
+}
 
 function getData() {
     return other_details;

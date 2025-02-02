@@ -671,10 +671,12 @@ onMounted(() => {
 
     $('#survey_plot_size_unit').select2().on('change', function () {
         other_details.survey_plot_size_unit = $(this).val();
+        setMainUnits($(this).val());
     });
 
     $('#tp_plot_size_unit').select2().on('change', function () {
         other_details.tp_plot_size_unit = $(this).val();
+        setMainUnits($(this).val());
     });
 
     $('#owner_contact_code').select2().on('change', function () {
@@ -831,6 +833,27 @@ function resetValue(clicked_value) {
     data.property_sub_category = null;
 }
 
+let isUpdatingMainUnit = false;
+
+function setMainUnits(value) {
+
+    if (isUpdatingMainUnit) return;
+    isUpdatingMainUnit = true;
+
+    let input_array = [
+        'survey_plot_size_unit',
+        'tp_plot_size_unit',
+    ];
+
+    input_array.forEach(select_input => {
+        $(`#${select_input}`).val(value).trigger('change');
+    });
+
+    setTimeout(() => {
+        isUpdatingMainUnit = false;
+    }, 0);
+}
+
 function submitForm() {
 
     let post_data = {
@@ -839,7 +862,6 @@ function submitForm() {
         'unit_details' : unit_details,
         'other_contact_details' : other_contact_details,
     };
-
 
     if([1,2].includes(data.property_category)) {
 

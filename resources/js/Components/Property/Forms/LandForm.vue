@@ -184,14 +184,17 @@ import { reactive, onMounted , nextTick } from 'vue';
 onMounted(() => {
     $('#length_of_plot_unit').select2().on('change', function () {
         other_details.length_of_plot_unit = $(this).val();
+        setOtherUnits($(this).val());
     });
 
     $('#width_of_plot_unit').select2().on('change', function () {
         other_details.width_of_plot_unit = $(this).val();
+        setOtherUnits($(this).val());
     });
 
     $('#road_width_of_front_side_unit').select2().on('change', function () {
         other_details.road_width_of_front_side_unit = $(this).val();
+        setOtherUnits($(this).val());
     });
     
     $('#construction_allowed_for').select2().on('change', function () {
@@ -206,8 +209,15 @@ onMounted(() => {
         other_details.source = $(this).val();
     });
 
-    
     documentSelect2(); // for documents
+
+    $('.select2-hidden-accessible').each(function() {
+        var select2Instance = $(this).data('select2');
+        if (select2Instance) {
+            var options = $(this).children('option');           
+            select2Instance.trigger('select', { data: { id: options.eq(0).val(), text: options.eq(0).text() } });
+        }
+    });
 });
 
 const props = defineProps([
@@ -265,6 +275,28 @@ function addDoc() {
 
 function removeDoc(index) {
     construction_docs.splice(index , 1);
+}
+
+let isUpdatingOtherUnit = false;
+
+function setOtherUnits(value) {
+
+    if (isUpdatingOtherUnit) return;
+    isUpdatingOtherUnit = true;
+
+    let input_array = [
+        'length_of_plot_unit',
+        'width_of_plot_unit',
+        'road_width_of_front_side_unit',
+    ];
+
+    input_array.forEach(select_input => {
+        $(`#${select_input}`).val(value).trigger('change');
+    });
+
+    setTimeout(() => {
+        isUpdatingOtherUnit = false;
+    }, 0);
 }
 
 function getData() {

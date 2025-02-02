@@ -361,6 +361,7 @@ onMounted(() => {
 
     $('#saleable_area_unit').select2().on('change', function () {
         other_details.saleable_area_unit = $(this).val();
+        setSameMainUnits($(this).val());
     });
 
     $('#builtup_height_unit').select2().on('change', function () {
@@ -369,14 +370,17 @@ onMounted(() => {
 
     $('#carpet_area_unit').select2().on('change', function () {
         other_details.carpet_area_unit = $(this).val();
+        setSameMainUnits($(this).val());
     });
 
     $('#terrace_saleable_area_unit').select2().on('change', function () {
         other_details.terrace_saleable_area_unit = $(this).val();
+        setSameMainUnits($(this).val());
     });
 
     $('#terrace_carpet_area_unit').select2().on('change', function () {
         other_details.terrace_carpet_area_unit = $(this).val();
+        setSameMainUnits($(this).val());
     });
 
     $('#priority').select2().on('change', function () {
@@ -444,6 +448,29 @@ const other_details = reactive({
 
 function getData() {
     return other_details;
+}
+
+let isUpdatingMainUnit = false;
+
+function setSameMainUnits(value) {
+
+    if (isUpdatingMainUnit) return;
+    isUpdatingMainUnit = true;
+
+    let input_array = [
+        'saleable_area_unit',
+        'carpet_area_unit',
+        'terrace_saleable_area_unit',
+        'terrace_carpet_area_unit',
+    ];
+
+    input_array.forEach(select_input => {
+        $(`#${select_input}`).val(value).trigger('change');
+    });
+
+    setTimeout(() => {
+        isUpdatingMainUnit = false;
+    }, 0);
 }
 
 defineExpose({

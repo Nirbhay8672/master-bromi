@@ -177,18 +177,22 @@ import { reactive, onMounted } from 'vue';
 onMounted(() => {
     $('#saleable_area_unit').select2().on('change', function () {
         other_details.saleable_area_unit = $(this).val();
+        setSameMainUnits($(this).val());
     });
 
     $('#length_of_plot_unit').select2().on('change', function () {
         other_details.length_of_plot_unit = $(this).val();
+        setOtherUnits($(this).val());
     });
 
     $('#width_of_plot_unit').select2().on('change', function () {
         other_details.width_of_plot_unit = $(this).val();
+        setOtherUnits($(this).val());
     });
 
     $('#carpet_plot_area_unit').select2().on('change', function () {
         other_details.carpet_plot_area_unit = $(this).val();
+        setSameMainUnits($(this).val());
     });
     
     $('#priority').select2().on('change', function () {
@@ -230,6 +234,48 @@ const other_details = reactive({
     'source': '',
     'remark': '',
 });
+
+let isUpdatingMainUnit = false;
+
+function setSameMainUnits(value) {
+
+    if (isUpdatingMainUnit) return;
+    isUpdatingMainUnit = true;
+
+    let input_array = [
+        'saleable_area_unit',
+        'carpet_plot_area_unit',
+    ];
+
+    input_array.forEach(select_input => {
+        $(`#${select_input}`).val(value).trigger('change');
+    });
+
+    setTimeout(() => {
+        isUpdatingMainUnit = false;
+    }, 0);
+}
+
+let isUpdatingOtherUnit = false;
+
+function setOtherUnits(value) {
+
+    if (isUpdatingOtherUnit) return;
+    isUpdatingOtherUnit = true;
+
+    let input_array = [
+        'length_of_plot_unit',
+        'width_of_plot_unit',
+    ];
+
+    input_array.forEach(select_input => {
+        $(`#${select_input}`).val(value).trigger('change');
+    });
+
+    setTimeout(() => {
+        isUpdatingOtherUnit = false;
+    }, 0);
+}
 
 function getData() {
     return other_details;
