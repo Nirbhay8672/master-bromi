@@ -577,6 +577,6 @@ class MasterPropertyController extends Controller
 
         $request->replace($transformed_request_array);
 
-        return $request;
+        return $request; 
     }
 }
