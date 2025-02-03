@@ -399,8 +399,8 @@ class MasterPropertyController extends Controller
                 'size_area' => [
                     'carpet_area_value' => $request->other_details['saleable_area'],
                     'carpet_area_measurement_id' => $request->other_details['saleable_area_unit'],
-                    'builtup_height_value' => $request->other_details['builtup_height'],
-                    'builtup_height_measurement_id' => $request->other_details['builtup_height_unit'],
+                    'builtup_height_value' => $request->other_details['builtup_area'],
+                    'builtup_height_measurement_id' => $request->other_details['builtup_area_unit'],
                     'salable_area_value' => $request->other_details['carpet_area'],
                     'salable_area_measurement_id' => $request->other_details['carpet_area_unit'],
                     'terrace_carpet_area_value' => $request->other_details['terrace_saleable_area'],

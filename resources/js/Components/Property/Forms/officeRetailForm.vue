@@ -16,7 +16,7 @@
                 <div class="form-group">
                     <select class="form-select" id="salable_area_unit">
                         <template v-for="(unit) in props.land_units">
-                            <option :value="unit.id">{{ unit.unit_name }}</option>
+                            <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
                         </template>
                     </select>
                 </div>
@@ -103,7 +103,7 @@
                     <div class="form-group">
                         <select class="form-select" id="carpet_area_unit">
                             <template v-for="(unit) in props.land_units">
-                                <option :value="unit.id">{{ unit.unit_name }}</option>
+                                <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
                             </template>
                         </select>
                     </div>
@@ -125,7 +125,7 @@
                     <div class="form-group">
                         <select class="form-select" id="terrace_saleable_area_unit">
                             <template v-for="(unit) in props.land_units">
-                                <option :value="unit.id">{{ unit.unit_name }}</option>
+                                <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
                             </template>
                         </select>
                     </div>
@@ -147,7 +147,7 @@
                     <div class="form-group">
                         <select class="form-select" id="terrace_carpet_area_unit">
                             <template v-for="(unit) in props.land_units">
-                                <option :value="unit.id">{{ unit.unit_name }}</option>
+                                <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
                             </template>
                         </select>
                     </div>
@@ -417,15 +417,15 @@ const other_details = reactive({
     'ceiling_height': '',
     'ceiling_height_unit': '',
 
-    'add_carpet_area': 1,
+    'add_carpet_area': '',
     'carpet_area': '',
     'carpet_area_unit': '',
 
-    'is_terrace': 1,
+    'is_terrace': '',
     'terrace_saleable_area': '',
     'terrace_saleable_area_unit': '',
 
-    'add_terrace_carpet_area': 1,
+    'add_terrace_carpet_area': '',
     'terrace_carpet_area': '',
     'terrace_carpet_area_unit': '',
 

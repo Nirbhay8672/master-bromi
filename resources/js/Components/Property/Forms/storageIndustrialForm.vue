@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <select class="form-select" id="saleable_plot_area_unit">
                             <template v-for="(unit) in props.land_units">
-                                <option :value="unit.id">{{ unit.unit_name }}</option>
+                                <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
                             </template>
                         </select>
                     </div>
@@ -45,7 +45,7 @@
                     <div class="form-group">
                         <select class="form-select" id="carpet_plot_area_unit">
                             <template v-for="(unit) in props.land_units">
-                                <option :value="unit.id">{{ unit.unit_name }}</option>
+                                <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
                             </template>
                         </select>
                     </div>

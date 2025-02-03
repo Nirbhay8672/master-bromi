@@ -366,7 +366,7 @@
                             <div class="form-group">
                                 <select class="form-select" id="survey_plot_size_unit">
                                     <template v-for="(unit) in props.land_units">
-                                        <option :value="unit.id">{{ unit.unit_name }}</option>
+                                        <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
                                     </template>
                                 </select>
                             </div>
@@ -422,7 +422,7 @@
                             <div class="form-group">
                                 <select class="form-select" id="tp_plot_size_unit">
                                     <template v-for="(unit) in props.land_units">
-                                        <option :value="unit.id">{{ unit.unit_name }}</option>
+                                        <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
                                     </template>
                                 </select>
                             </div>

@@ -16,7 +16,7 @@
                 <div class="form-group">
                     <select class="form-select" id="saleable_area_unit">
                         <template v-for="(unit) in props.land_units">
-                            <option :value="unit.id">{{ unit.unit_name }}</option>
+                            <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
                         </template>
                     </select>
                 </div>
@@ -26,17 +26,17 @@
     <div class="col-md-3">
         <div class="input-group">
             <div class="form-group col-md-7 m-b-20">
-                <div class="fname" :class="other_details.builtup_height !== '' ? 'focused' : ''">
-                    <label for="builtup_height">Builtup Area</label>
+                <div class="fname" :class="other_details.builtup_area !== '' ? 'focused' : ''">
+                    <label for="builtup_area">Builtup Area</label>
                     <div class="fvalue">
-                        <input class="form-control" type="text" value="" id="builtup_height"
-                            v-model="other_details.builtup_height">
+                        <input class="form-control" type="text" value="" id="builtup_area"
+                            v-model="other_details.builtup_area">
                     </div>
                 </div>
             </div>
             <div class="input-group-append col-md-5">
                 <div class="form-group">
-                    <select class="form-select" id="builtup_height_unit">
+                    <select class="form-select" id="builtup_area_unit">
                         <template v-for="(unit) in props.land_units">
                             <option :value="unit.id" v-if="[24,25].includes(unit.id)">{{ unit.unit_name }}</option>
                         </template>
@@ -103,7 +103,7 @@
                     <div class="form-group">
                         <select class="form-select" id="carpet_area_unit">
                             <template v-for="(unit) in props.land_units">
-                                <option :value="unit.id">{{ unit.unit_name }}</option>
+                                <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
                             </template>
                         </select>
                     </div>
@@ -125,7 +125,7 @@
                     <div class="form-group">
                         <select class="form-select" id="terrace_saleable_area_unit">
                             <template v-for="(unit) in props.land_units">
-                                <option :value="unit.id">{{ unit.unit_name }}</option>
+                                <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
                             </template>
                         </select>
                     </div>
@@ -147,7 +147,7 @@
                     <div class="form-group">
                         <select class="form-select" id="terrace_carpet_area_unit">
                             <template v-for="(unit) in props.land_units">
-                                <option :value="unit.id">{{ unit.unit_name }}</option>
+                                <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
                             </template>
                         </select>
                     </div>
@@ -364,8 +364,8 @@ onMounted(() => {
         setSameMainUnits($(this).val());
     });
 
-    $('#builtup_height_unit').select2().on('change', function () {
-        other_details.builtup_height_unit = $(this).val();
+    $('#builtup_area_unit').select2().on('change', function () {
+        other_details.builtup_area_unit = $(this).val();
     });
 
     $('#carpet_area_unit').select2().on('change', function () {
@@ -405,8 +405,8 @@ const other_details = reactive({
     'saleable_area': '',
     'saleable_area_unit': '',
 
-    'builtup_height': '',
-    'builtup_height_unit': '',
+    'builtup_area': '',
+    'builtup_area_unit': '',
 
     'add_carpet_area': '',
     'carpet_area': '',
