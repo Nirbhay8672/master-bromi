@@ -59,7 +59,7 @@ class MasterPropertyController extends Controller
         // return datatable
         return DataTables::of($query->get())
             ->editColumn('project_name', function ($row) {
-                return $row->category_id != 4 ? $row->project->project_name : ($row->village?->name ?? '');
+                return $row->category_id != 4 ? $row->project?->project_name : ($row->village?->name ?? '');
             })
             ->editColumn('information', function ($row) {
                 return $row->propertyFor->name . " > " . $row->propertyConstructionType->name . " > " . $row->propertyCategory?->name .($row->propertySubCategory ? " > " . $row->propertySubCategory->name : '');
@@ -306,11 +306,11 @@ class MasterPropertyController extends Controller
                     'parent_id' => auth()->user()->parent_id,
                 ],
                 'size_area' => [
-                    'saleable_plot_area' => $request->other_details['saleable_plot_area'],
-                    'saleable_plot_area_measurement_id' => $request->other_details['saleable_plot_area_unit'],
-                    'carpet_plot_area' => $request->other_details['carpet_plot_area'],
+                    'salable_plot_area_value' => $request->other_details['saleable_plot_area'],
+                    'salable_plot_area_measurement_id' => $request->other_details['saleable_plot_area_unit'],
+                    'carpet_plot_area_value' => $request->other_details['carpet_plot_area'],
                     'carpet_plot_area_measurement_id' => $request->other_details['carpet_plot_area_unit'],
-                    'road_width_of_front_side' => $request->other_details['road_width_of_front_side'],
+                    'road_width_of_front_side_value' => $request->other_details['road_width_of_front_side'],
                     'road_width_of_front_side_measurement_id' => $request->other_details['road_width_of_front_side_unit'],
                 ], 
                 'unit_details' => [],
@@ -352,7 +352,7 @@ class MasterPropertyController extends Controller
                     'parent_id' => auth()->user()->parent_id,
                 ],
                 'size_area' => [
-                    'road_width_of_front_side' => $request->other_details["road_width_of_front_side"],
+                    'road_width_of_front_side_value' => $request->other_details["road_width_of_front_side"],
                     'road_width_of_front_side_measurement_id' => $request->other_details['road_width_of_front_side_unit'],
                     'length_of_plot_value' => $request->other_details["length_of_plot"],
                     'length_of_plot_measurement_id' => $request->other_details["length_of_plot_unit"],
