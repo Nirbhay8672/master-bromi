@@ -69,7 +69,9 @@
     </div>
     <div class="col-md-3">
         <div class="form-check checkbox checkbox-solid-success">
-            <input class="form-check-input" id="is_terrace" type="checkbox" v-model="other_details.is_terrace">
+            <input class="form-check-input" id="is_terrace" type="checkbox" v-model="other_details.is_terrace" @click="resetValue([
+                'terrace_saleable_area','terrace_saleable_area_unit','terrace_carpet_area','terrace_carpet_area_unit'
+            ])">
             <label class="form-check-label" for="is_terrace">Terrace</label>
         </div>
     </div>
@@ -79,11 +81,11 @@
         <div class="col">
             <label for="add_carpet_area" class="add-input-link fw-bold">{{ other_details.add_carpet_area != 1 ? '+ Add' : '- Remove'}} Carpet Area</label>
             <input type="checkbox" value="1" id="add_carpet_area" class="d-none"
-                v-model="other_details.add_carpet_area">
+                v-model="other_details.add_carpet_area" @change="resetValue(['carpet_area', 'carpet_area_unit'])">
             <label for="add_terrace_carpet_area" class="add-input-link ms-3 fw-bold" v-if="other_details.is_terrace == 1">{{
                 other_details.add_terrace_carpet_area != 1 ? '+ Add' : '- Remove' }} Terrace Carpet Area</label>
             <input type="checkbox" value="1" id="add_terrace_carpet_area" class="d-none"
-                v-model="other_details.add_terrace_carpet_area">
+                v-model="other_details.add_terrace_carpet_area" @change="resetValue(['terrace_carpet_area', 'terrace_carpet_area_unit'])">
         </div>
     </div>
 
@@ -277,13 +279,13 @@
             <div class="btn-group bromi-checkbox-btn me-1" role="group"
                 aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" value="Available" name="availability_status" id="available"
-                    v-model="other_details.availability_status">
+                    v-model="other_details.availability_status" @change="resetValue(['age_of_property', 'available_from'])">
                 <label class="btn btn-outline-primary btn-pill btn-sm py-1" for="available">Available</label>
             </div>
             <div class="btn-group bromi-checkbox-btn me-1" role="group"
                 aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" value="Under Construction" name="availability_status"
-                    id="under_con" v-model="other_details.availability_status">
+                    id="under_con" v-model="other_details.availability_status" @change="resetValue(['age_of_property', 'available_from'])">
                 <label class="btn btn-outline-primary btn-pill btn-sm py-1" for="under_con">Under
                     Construction</label>
             </div>
@@ -317,8 +319,8 @@
     <div class="row mt-3">
         <div class="row div_checkboxes1">
             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                <input class="form-check-input" id="is_have_amenities" type="checkbox"
-                    v-model="other_details.is_have_amenities">
+                <input class="form-check-input" id="is_have_amenities" value="true" type="checkbox"
+                    v-model="other_details.is_have_amenities" @change="other_details.amenities = []">
                 <label class="form-check-label" for="is_have_amenities">Amenities</label>
             </div>
         </div>
@@ -448,6 +450,12 @@ const other_details = reactive({
 
 function getData() {
     return other_details;
+}
+
+function resetValue(array) {
+    array.forEach(element => {
+        other_details[element] = '';
+    });
 }
 
 let isUpdatingMainUnit = false;

@@ -102,7 +102,7 @@
                                                     name="property_sub_category" :id="`sub-category-${sub_cat.id}}`"
                                                     autocomplete="off" v-model="data.property_sub_category">
                                                 <label class="btn btn-outline-primary btn-pill btn-sm py-1"
-                                                    :for="`sub-category-${sub_cat.id}}`">{{ sub_cat.name }}</label>
+                                                    :for="`sub-category-${sub_cat.id}}`">{{ sub_cat.name }} - {{ sub_cat.id }}</label>
                                             </div>
                                         </template>
                                     </template>
@@ -611,7 +611,7 @@ onMounted(() => {
             data.address = project.address;
             data.location_link = project.location_link;
         }
-    }).select2('open');
+    });
 
     var allowedselect2s = ['project_id'];
 
@@ -706,10 +706,10 @@ const props = defineProps([
 ]);
 
 const data = reactive({
-    'property_for': 1,
-    'property_construction_type': 1,
-    'property_category': 1,
-    'property_sub_category': 1,
+    'property_for': 2,
+    'property_construction_type': 2,
+    'property_category': 6,
+    'property_sub_category': 20,
     'selected_project': '',
     'selected_city': '',
     'selected_locality': '',

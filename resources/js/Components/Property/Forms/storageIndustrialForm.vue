@@ -5,7 +5,7 @@
             <div class="col">
                 <label for="add_carpet_plot_area" class="add-input-link fw-bold">{{ other_details.add_carpet_plot_area != 1 ? '+ Add' : '- Remove'}} Carpet Plot Area</label>
                 <input type="checkbox" value="1" id="add_carpet_plot_area" class="d-none"
-                    v-model="other_details.add_carpet_plot_area">
+                    v-model="other_details.add_carpet_plot_area" @change="resetValue(['carpet_plot_area', 'carpet_plot_area_unit'])">
             </div>
         </div>
         <div class="col-md-3">
@@ -143,13 +143,13 @@
             <div class="btn-group bromi-checkbox-btn me-1" role="group"
                 aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" value="Available" name="availability_status" id="available"
-                    v-model="other_details.availability_status">
+                    v-model="other_details.availability_status" @change="resetValue(['age_of_property', 'available_from'])">
                 <label class="btn btn-outline-primary btn-pill btn-sm py-1" for="available">Available</label>
             </div>
             <div class="btn-group bromi-checkbox-btn me-1" role="group"
                 aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" value="Under Construction" name="availability_status"
-                    id="under_con" v-model="other_details.availability_status">
+                    id="under_con" v-model="other_details.availability_status" @change="resetValue(['age_of_property', 'available_from'])">
                 <label class="btn btn-outline-primary btn-pill btn-sm py-1" for="under_con">Under
                     Construction</label>
             </div>
@@ -353,6 +353,12 @@ function addOtherField() {
 
 function removeOtherDetail(index) {
     other_details.other_storage_industrial_detail.splice(index, 1);
+}
+
+function resetValue(array) {
+    array.forEach(element => {
+        other_details[element] = '';
+    });
 }
 
 let isUpdatingMainUnit = false;
