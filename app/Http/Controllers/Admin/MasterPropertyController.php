@@ -17,6 +17,7 @@ use App\Models\MasterProperty\PropertySource;
 use App\Models\MasterProperty\PropertyUnitDetail;
 use App\Models\MasterProperty\PropertyZone;
 use App\Models\Projects;
+use App\Models\PropertyConstructionDocument;
 use App\Models\Taluka;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -129,7 +130,9 @@ class MasterPropertyController extends Controller
     
     public function store(Request $request)
     {
-        
+        /**
+         * @var \Illuminate\Http\Request $transformedRequest
+         */
         $transformedRequest = $this->transformRequest($request);
 
         try {
@@ -149,17 +152,42 @@ class MasterPropertyController extends Controller
                 $propertyContactDetail =  new PropertyContactDetail();
                 $propertyContactDetail->fill(['property_id' => $masterProperty->id,...$contact_detail])->save();
             }
-            
+            if($transformedRequest->has('images')) {
+                foreach ($transformedRequest->images as $image) {
+                    $masterProperty->addMedia($image)->toMediaCollection('images');
+                }
+            }
+
+            if($transformedRequest->has('documents')) {
+                foreach ($transformedRequest->documents as $document) {
+                    $masterProperty->addMedia($document)->toMediaCollection('document');
+                }
+            }
+
+            if($transformedRequest->has('construction_docs') && count($transformedRequest->construction_docs) > 0) {
+                foreach ($transformedRequest->construction_docs as $constructionDocs) {
+                    if($constructionDocs['category']){
+                        $propertyContactDocument = PropertyConstructionDocument::firstOrCreate([
+                            'property_id' => $masterProperty->id,
+                            'document_type' => $constructionDocs['category'],
+                        ]);
+
+                        $propertyContactDocument->addMedia($constructionDocs['file'])->toMediaCollection('construction-documents');
+                    }
+                }
+            }
+
             DB::commit();
             return response()->json(['message' => 'Property added successfully']);
             // return redirect()->route('admin.master_properties.index')->with(['success' => 'Property added successfully']);
         } catch (\Throwable $th) {
             DB::rollBack();
+            dd($th);
             throw $th;
         }
     }
 
-    public function transformRequest(Request $request)
+    public function transformRequest(Request $request) :Request
     {
         
         $washrooms = [
@@ -391,7 +419,8 @@ class MasterPropertyController extends Controller
                     'property_age' => $propertyAge[$request->other_details['age_of_property']] ?? null,
                     'available_from' => $request->other_details['available_from'],
                     'remark' => $request->other_details['remark'],
-                    'is_have_amenities' => $request->other_details['is_have_amenities'] ?? false,
+                    'is_have_amenities' => $request->other_details['is_have_amenities'] ? ($request->other_details['is_have_amenities'] == 'true' ? true : false) : false,
+
                     'amenities' => $request->other_details['amenities'],
                     'user_id' => auth()->user()->id,
                     'parent_id' => auth()->user()->parent_id,
@@ -440,7 +469,7 @@ class MasterPropertyController extends Controller
                     'property_age' => $propertyAge[$request->other_details['age_of_property']] ?? null,
                     'available_from' => $request->other_details['available_from'],
                     'remark' => $request->other_details['remark'],
-                    'is_have_amenities' => $request->other_details['is_have_amenities'] ?? false,
+                    'is_have_amenities' => $request->other_details['is_have_amenities'] ? ($request->other_details['is_have_amenities'] == 'true' ? true : false) : false,
                     'amenities' => $request->other_details['amenities'],
                     'user_id' => auth()->user()->id,
                     'parent_id' => auth()->user()->parent_id,
@@ -494,7 +523,8 @@ class MasterPropertyController extends Controller
                     'property_age' => $propertyAge[$request->other_details['age_of_property']] ?? null,
                     'available_from' => $request->other_details['available_from'],
                     'remark' => $request->other_details['remark'],
-                    'is_have_amenities' => $request->other_details['is_have_amenities'] ?? false,
+                    'is_have_amenities' => $request->other_details['is_have_amenities'] ? ($request->other_details['is_have_amenities'] == 'true' ? true : false) : false,
+
                     'amenities' => $request->other_details['amenities'],
                     'user_id' => auth()->user()->id,
                     'parent_id' => auth()->user()->parent_id,
@@ -575,8 +605,15 @@ class MasterPropertyController extends Controller
             ];
         }
 
-        $request->replace($transformed_request_array);
+        $transformedRequest = new Request($transformed_request_array);
 
-        return $request; 
+        $transformedRequest->merge(['images' => $request->file('images') ?? []]);
+        $transformedRequest->merge(['documents' => $request->file('documents') ?? []]);
+
+        if(in_array($request->basic_detail['property_category'], [4])){
+            $transformedRequest->merge(['construction_docs' => $request->other_details['construction_docs'] ?? []]);
+        }
+
+        return $transformedRequest; 
     }
 }

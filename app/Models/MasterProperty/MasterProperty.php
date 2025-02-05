@@ -5,14 +5,19 @@ namespace App\Models\MasterProperty;
 use App\Models\City;
 use App\Models\District;
 use App\Models\Projects;
+use App\Models\PropertyConstructionDocument;
 use App\Models\Village;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use PhpParser\Builder\Property;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class MasterProperty extends Model
+class MasterProperty extends Model implements HasMedia
 {
+	use InteractsWithMedia;
+	
 	protected $table = 'property_master';
 	protected $guarded = [];
 
@@ -74,5 +79,10 @@ class MasterProperty extends Model
 	public function district(): BelongsTo
 	{
 		return $this->belongsTo(District::class);
+	}
+
+	public function propertyConstructionDocuments(): HasMany
+	{
+		return $this->hasMany(PropertyConstructionDocument::class);
 	}
 }

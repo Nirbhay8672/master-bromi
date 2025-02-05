@@ -567,11 +567,11 @@
             <div class="row gy-2 mt-3">
                 <div class="col-12 col-md-4">
                     <b>Images : </b>
-                    <input type="file" class="form-control mt-2" style="border:2px solid;border-radius: 5px;">
+                    <input type="file" multiple accept="image/*" class="form-control mt-2" style="border:2px solid;border-radius: 5px;" @change="(e) => handleFileUpload('image', e)">
                 </div>
                 <div class="col-12 col-md-4">
-                    <b>Documments :</b>
-                    <input type="file" class="form-control mt-2" style="border:2px solid;border-radius: 5px;">
+                    <b>Documents :</b>
+                    <input type="file" multiple class="form-control mt-2" style="border:2px solid;border-radius: 5px;" @change="(e) => handleFileUpload('document', e)">
                 </div>
             </div>
 
@@ -602,6 +602,13 @@ let flat_form = ref(null);
 let villa_banglow_form = ref(null);
 let penthouse_form = ref(null);
 let plot_form = ref(null);
+
+let files = ref({
+    images: null,
+    documents: null
+});
+
+let formData = new FormData();
 
 onMounted(() => {
     $('#project_id').select2().on('change', function () {
@@ -854,6 +861,21 @@ function setMainUnits(value) {
     }, 0);
 }
 
+function appendFormData (data, parentKey = ""){
+  Object.keys(data).forEach((key) => {
+    const fullKey = parentKey ? `${parentKey}[${key}]` : key;
+    const value = data[key];
+
+    if (value instanceof File) {
+      formData.append(fullKey, value);
+    } else if (typeof value === "object" && value !== null) {
+      appendFormData(value, fullKey); // Recursively append nested objects
+    } else {
+      formData.append(fullKey, value ?? ""); // Ensure null values are sent as empty strings
+    }
+  });
+};
+
 function submitForm() {
 
     let post_data = {
@@ -862,6 +884,7 @@ function submitForm() {
         'unit_details' : unit_details,
         'other_contact_details' : other_contact_details,
     };
+
 
     if([1,2].includes(data.property_category)) {
 
@@ -927,13 +950,33 @@ function submitForm() {
         };
     }
 
-    axios.post('/admin/master-properties/store-property', post_data)
+    appendFormData(post_data);
+    appendFormData(files.value);
+
+    axios.post('/admin/master-properties/store-property', formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    })
     .then(response => {
         window.location.href = "/admin/master-properties/index";
     })
     .catch(error => {
         console.error(error);
     });
+    
+}
+
+
+
+function handleFileUpload(type, event) {
+    if(event.target.files.length == 0) return;
+
+    if(type == 'image'){
+        files.value.images = event.target.files;
+    }
+
+    if(type == 'document'){
+        files.value.documents= event.target.files;
+    }
 }
 
 </script>

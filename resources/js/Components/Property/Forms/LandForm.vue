@@ -121,7 +121,7 @@
                 </select>
             </div>
             <div class="col-12 col-md-4">
-                <input type="file" :id="`document_file_${index}`" name="" class="form-control" style="border: 2px solid;border-radius: 5px;">
+                <input type="file" :id="`document_file_${index}`" @change="(e) => handleFileUpload(e, index)" name="" class="form-control" style="border: 2px solid;border-radius: 5px;">
             </div>
             <div class="col-md-1 m-b-4 mb-4" v-if="index == 0">
                 <button class="btn btn-primary" type="button" @click="addDoc()">+</button>
@@ -300,7 +300,11 @@ function setOtherUnits(value) {
 }
 
 function getData() {
-    return other_details;
+    return {...other_details,construction_docs:{...construction_docs}};
+}
+
+function handleFileUpload(event, index){
+    construction_docs[index].file = event.target.files[0];
 }
 
 defineExpose({
