@@ -62,7 +62,14 @@
             columns: [{
                     data: 'select_checkbox',
                     name: 'select_checkbox',
-                    orderable: false
+                    orderable: false,
+                    render: function(data, type, row) {
+
+                        return `<div class="form-check checkbox checkbox-primary mb-0">
+                            <input class="form-check-input table_checkbox" data-id="${row.id}" name="select_row[]" id="checkbox-primary-${row.id}" type="checkbox">
+                            <label class="form-check-label" for="checkbox-primary-${row.id}"></label>
+                        </div>`;
+                    }
                 },
                 {
                     data: 'project_name',
@@ -87,7 +94,13 @@
                 {
                     data: 'Actions',
                     name: 'Actions',
-                    orderable: false
+                    orderable: false,
+                    render:function (data, type, row) {
+                        
+                        let edit_url = "{{ route('admin.master_properties.updateForm', ['masterProperty' => '__ID__']) }}".replace('__ID__', row.id);
+
+                        return `<a href="${edit_url}"><i class="fa fa-pencil fs-5"></i></a>`;
+                    }
                 },
             ],
             "order": [

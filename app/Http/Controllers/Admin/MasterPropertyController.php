@@ -8,7 +8,6 @@ use App\Models\City;
 use App\Models\District;
 use App\Models\MasterProperty\MasterProperty;
 use App\Models\MasterProperty\PropertyAreaSize;
-use App\Models\MasterProperty\PropertyCategory;
 use App\Models\MasterProperty\PropertyConstructionType;
 use App\Models\MasterProperty\PropertyContactDetail;
 use App\Models\MasterProperty\PropertyForType;
@@ -18,7 +17,6 @@ use App\Models\MasterProperty\PropertyUnitDetail;
 use App\Models\MasterProperty\PropertyZone;
 use App\Models\Projects;
 use App\Models\PropertyConstructionDocument;
-use App\Models\Taluka;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -68,20 +66,6 @@ class MasterPropertyController extends Controller
             ->editColumn('city_name', function ($row) {
                 return $row->category_id == 4 ? ($row->district?->name ?? '') :  $row->city?->name;
             })
-            ->editColumn('select_checkbox', function ($row) {
-                $checkbox = '<div class="form-check checkbox checkbox-primary mb-0">
-                    <input class="form-check-input table_checkbox" data-id="' . $row->id . '" name="select_row[]" id="checkbox-primary-' . $row->id . '" type="checkbox">
-                    <label class="form-check-label" for="checkbox-primary-' . $row->id . '"></label>
-                </div>';
-
-                return $checkbox;
-            })
-            ->editColumn('Actions', function ($row) {
-                $buttons = '<span class="text-danger">Next step</span>';
-
-                return $buttons;
-            })
-            ->rawColumns(['Actions','select_checkbox'])
             ->make(true);
     }
 
@@ -615,5 +599,49 @@ class MasterPropertyController extends Controller
         }
 
         return $transformedRequest; 
+    }
+
+    public function updateForm(MasterProperty $masterProperty)
+    {
+        $user = Auth::user();
+        $is_admin = $user->parent_id ? false : true;
+        $user_ids = [];
+
+        if($is_admin) {
+            $sub_users_ids = User::where('parent_id', $user->id)->pluck('id')->toArray();
+            array_push($sub_users_ids, $user->id);
+            $user_ids = $sub_users_ids;
+        } else {
+            $sub_users_ids = User::where('parent_id', $user->parent_id)->pluck('id')->toArray();
+            array_push($sub_users_ids, $user->id);
+            $user_ids = $sub_users_ids;
+        }
+
+        $property_for_type = PropertyForType::all();
+        $property_construction_type = PropertyConstructionType::with(['category.subCategory'])->get();
+
+        $cities = City::with(['localities'])->whereIn('user_id', $user_ids)->get();
+        $projects = Projects::whereIn('user_id', $user_ids)->get();
+        $land_units = PropertyLandUnit::all();
+        $property_source = PropertySource::all();
+        $country_codes = DB::table('countries')->get();
+
+        $districts = District::with(['talukas.villages'])->whereIn('user_id' , $user_ids)->get();
+        $property_zone = PropertyZone::all();
+        $amenities = Amenity::all(); 
+
+        return view('admin.master_properties.edit_form')->with([
+            'property_for_type' => $property_for_type,
+            'property_construction_type' => $property_construction_type,
+            'cities' => $cities,
+            'projects' => $projects,
+            'land_units' => $land_units,
+            'property_source' => $property_source,
+            'country_codes' => $country_codes,
+            'districts' => $districts,
+            'property_zones' => $property_zone,
+            'amenities' => $amenities,
+            'property_master' => $masterProperty,
+        ]);
     }
 }
