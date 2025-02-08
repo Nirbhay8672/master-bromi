@@ -85,93 +85,19 @@
                 </div>
             </div>
 
-            <template v-if="form.category_id == 1">   
-                <PropertyDetailOfficeForm
-                    ref="propertyDetailOfficeFormRef"
-                    :category="selectedOption.category"
-                    :projects="projects"
-                    :cities="cities"
-                    :land_units="land_units"
-                />
-                <UnitContactDetailOfficeForm
-                    ref="unitContactDetailOfficeFormRef"
-                    :category="selectedOption.category"
-                    :country-codes="country_codes"
-                />
-            </template>
-
-            <template v-if="form.category_id == 2">   
-                <PropertyDetailRetailForm
-                    ref="propertyDetailOfficeFormRef"
-                    :category="selectedOption.category"
-                    :projects="projects"
-                    :cities="cities"
-                    :land_units="land_units"
-                />
-                <UnitContactDetailRetailForm
-                    ref="unitContactDetailOfficeFormRef"
-                    :category="selectedOption.category"
-                    :country-codes="country_codes"
-                />
-            </template>
-
-            <template v-if="form.category_id == 3">
-                <PropertyDetailStorageIndustrialForm
-                    ref="propertyDetailOfficeFormRef"
-                    :category="selectedOption.category"
-                    :projects="projects"
-                    :cities="cities"
-                    :land_units="land_units"
-                />
-                <UnitContactDetailStorageIndustrialForm
-                    ref="unitContactDetailOfficeFormRef"
-                    :category="selectedOption.category"
-                    :country-codes="country_codes" 
-                />
-            </template>
-
-            <template v-if="form.category_id == 4">
-                <PropertyDetailLandForm
-                    ref="propertyDetailOfficeFormRef"
-                    :category="selectedOption.category"
-                    :districts="districts"
-                    :zones="property_zones"
-                    :land_units="land_units"
-                />
-                <UnitContactDetailLandForm
-                    ref="unitContactDetailOfficeFormRef"
-                    :category="selectedOption.category"
-                    :country-codes="country_codes"
-                />
-            </template>
-
-            <template v-if="form.category_id == 5">
-                <PropertyDetailFlatForm
-                    ref="propertyDetailOfficeFormRef"
-                    :category="selectedOption.category"
-                    :projects="projects"
-                    :cities="cities"
-                    :land_units="land_units"
-                    :amenities="amenities"
-                />
-                <UnitContactDetailFlatForm
-                    ref="unitContactDetailOfficeFormRef"
-                    :category="selectedOption.category"
-                    :country-codes="country_codes"
-                />
-            </template>
-
-            <template v-if="form.category_id == 6">
-                <PropertyDetailVilaForm
-                    ref="propertyDetailOfficeFormRef"
-                    :category="selectedOption.category"
-                    :projects="projects"
-                    :cities="cities"
-                    :land_units="land_units"
-                    :amenities="amenities"
-                />
-            </template>
-
+            <PropertyDetailOfficeForm
+                ref="propertyDetailOfficeFormRef"
+                :category="selectedOption.category"
+                :projects="projects"
+                :cities="cities"
+                :land_units="land_units"
+            />
+            <UnitContactDetailOfficeForm
+                ref="unitContactDetailOfficeFormRef"
+                :category="selectedOption.category"
+                :country-codes="country_codes"
+            />
+            
             <div class="row mt-4">
                 <div class="col-12 col-3">
                     <button class="btn btn-primary" @click="submit()">Submit</button>
@@ -182,24 +108,10 @@
 </template>
 
 <script setup>
+
 import { reactive, onMounted, ref } from 'vue';
-
-import PropertyDetailOfficeForm from './NewForms/Rent/Commercial/PropertyDetail/OfficeForm.vue';
-import UnitContactDetailOfficeForm from './NewForms/Rent/Commercial/UnitContactDetail/OfficeForm.vue';
-
-import PropertyDetailRetailForm from './NewForms/Rent/Commercial/PropertyDetail/RetailForm.vue';
-import UnitContactDetailRetailForm from './NewForms/Rent/Commercial/UnitContactDetail/RetailForm.vue';
-
-import PropertyDetailStorageIndustrialForm from './NewForms/Rent/Commercial/PropertyDetail/StorageIndustrialForm.vue';
-import UnitContactDetailStorageIndustrialForm from './NewForms/Rent/Commercial/UnitContactDetail/StorageIndustrialForm.vue';
-
-import PropertyDetailLandForm from './NewForms/Rent/Commercial/PropertyDetail/LandForm.vue';
-import UnitContactDetailLandForm from './NewForms/Rent/Commercial/UnitContactDetail/LandForm.vue';
-
-import PropertyDetailFlatForm from './NewForms/Rent/Residential/PropertyDetail/FlatForm.vue';
-import UnitContactDetailFlatForm from './NewForms/Rent/Residential/UnitContactDetail/FlatForm.vue';
-
-import PropertyDetailVilaForm from './NewForms/Rent/Residential/PropertyDetail/VilaForm.vue';
+import PropertyDetailOfficeForm from './NewForms/Commercial/PropertyDetail/OfficeForm.vue';
+import UnitContactDetailOfficeForm from './NewForms/Commercial/UnitContactDetail/OfficeForm.vue';
 
 const props = defineProps([
     'property_for_type',
@@ -221,13 +133,9 @@ const propertyDetailOfficeFormRef = ref(null);
 const unitContactDetailOfficeFormRef = ref(null);
 
 const form = reactive({
-    id:null,
-    // property_for_type_id: props.property_for_type[0]?.id ?? null,
-    property_for_type_id: 1,
-    // property_construction_type_id: props.property_construction_type[0]?.id ?? null,
-    property_construction_type_id: 2,
-    // category_id: null,
-    category_id: 6,
+    property_for_type_id: props.property_for_type[0]?.id ?? null,
+    property_construction_type_id: props.property_construction_type[0]?.id ?? null,
+    category_id: null,
     sub_category_id: null,
 });
 
