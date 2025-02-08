@@ -102,7 +102,7 @@
                                                     name="property_sub_category" :id="`sub-category-${sub_cat.id}}`"
                                                     autocomplete="off" v-model="data.property_sub_category">
                                                 <label class="btn btn-outline-primary btn-pill btn-sm py-1"
-                                                    :for="`sub-category-${sub_cat.id}}`">{{ sub_cat.name }} - {{ sub_cat.id }}</label>
+                                                    :for="`sub-category-${sub_cat.id}}`">{{ sub_cat.name }}</label>
                                             </div>
                                         </template>
                                     </template>
@@ -309,7 +309,7 @@
                                 <option value="Sold Out">Sold Out</option>
                             </select>
                         </div>
-                        <div class="col-12 col-md-2">
+                        <div class="col-12 col-md-2" v-if="[1, 3].includes(data.property_for)">
                             <div class="fname" :class="unit.price_rent !== '' ? 'focused' : ''">
                                 <label :for="`unit_price_rent_${index}`">Price Rent</label>
                                 <div class="fvalue">
@@ -318,13 +318,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 m-b-4 mb-4" v-show="![8].includes(data.property_category)">
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for)">
+                            <div class="fname" :class="unit.price !== '' ? 'focused' : ''">
+                                <label :for="`unit_price_${index}`">Price</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_price_${index}`"
+                                        v-model="unit.price">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 m-b-4 mb-4" v-show="![3,8].includes(data.property_category)">
                             <select class="form-select" :id="`furnished_status_${index}`">
                                 <option value="">Furnished Status</option>
-                                <option value="Furnished">Furnished</option>
-                                <option value="Semi Furnished">Semi Furnished</option>
-                                <option value="Unfurnished">Unfurnished</option>
-                                <option value="Can Furnished">Can Furnished</option>
+                                <option value="1">Furnished</option>
+                                <option value="2">Semi Furnished</option>
+                                <option value="3">Unfurnished</option>
+                                <option value="4">Can Furnished</option>
                             </select>
                         </div>
                         <div class="col-md-1 m-b-4 mb-4" v-if="index == 0">
@@ -334,7 +343,158 @@
                             <button class="btn btn-danger" type="button" @click="removeUnit(index)">-</button>
                         </div>
                     </div>
+
+                    <template v-if="[1,2,4].includes( parseInt(unit.furnished_status)) && data.property_category == 1">
+                        <div class="row mt-2">
+                            <div class="col-12 col-md-2">
+                                <div class="fname" :class="unit.no_of_seats !== '' ? 'focused' : ''">
+                                    <label :for="`unit_no_of_seats_${index}`">No. of seats</label>
+                                    <div class="fvalue">
+                                        <input class="form-control" type="text" value="" :id="`unit_no_of_seats_${index}`"
+                                            v-model="unit.no_of_seats">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <div class="fname" :class="unit.no_of_cabins !== '' ? 'focused' : ''">
+                                    <label :for="`unit_no_of_cabins_${index}`">No. of cabins</label>
+                                    <div class="fvalue">
+                                        <input class="form-control" type="text" value="" :id="`unit_no_of_cabins_${index}`"
+                                            v-model="unit.no_of_cabins">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <div class="fname" :class="unit.no_of_conference_room !== '' ? 'focused' : ''">
+                                    <label :for="`unit_no_of_conference_room_${index}`">No. of conference room</label>
+                                    <div class="fvalue">
+                                        <input class="form-control" type="text" value="" :id="`unit_no_of_conference_room_${index}`"
+                                            v-model="unit.no_of_conference_room">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="row div_checkboxes1 gy-3">
+                                    <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                        <input class="form-check-input" id="pantry" value="pantry" type="checkbox" v-model="unit.facilities">
+                                        <label class="form-check-label" for="pantry">Pantry</label>
+                                    </div>
+                                    <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                        <input class="form-check-input" id="reception" value="reception" type="checkbox" v-model="unit.facilities">
+                                        <label class="form-check-label" for="reception">Reception</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template v-if="[1,2,4].includes( parseInt(unit.furnished_status)) && data.property_category == 2">
+                        <div class="row mt-2">
+                            <div class="col-12 col-md-4">
+                                <div class="fname" :class="unit.remark !== '' ? 'focused' : ''">
+                                    <label :for="`unit_remark_${index}`">Remarks</label>
+                                    <div class="fvalue">
+                                        <input class="form-control" type="text" value="" :id="`unit_remark_${index}`"
+                                            v-model="unit.remark">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template v-if="[1,2,4].includes( parseInt(unit.furnished_status)) && [5,6,7].includes( parseInt(data.property_category))">
+                        <div class="row gy-2">
+                            <div class="col-12 col-md-4 col-lg-4">
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.light > 0 ? unit.furniture_total.light-- : ''" :disabled="unit.furniture_total.light == 0">−</button>
+                                    <input type="text" :id="`light_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.light" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary" @click="unit.furniture_total.light++">+</button>
+                                </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.ac > 0 ? unit.furniture_total.ac-- : ''" :disabled="unit.furniture_total.ac == 0">−</button>
+                                    <input type="text" :id="`ac_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.ac" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary" @click="unit.furniture_total.ac++">+</button>
+                                </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.beds > 0 ? unit.furniture_total.beds-- : ''" :disabled="unit.furniture_total.beds == 0">−</button>
+                                    <input type="text" :id="`beds_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.beds" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary" @click="unit.furniture_total.beds++">+</button>
+                                </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.geyser > 0 ? unit.furniture_total.geyser-- : ''" :disabled="unit.furniture_total.geyser == 0">−</button>
+                                    <input type="text" :id="`geyser_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.geyser" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary" @click="unit.furniture_total.geyser++">+</button>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 col-lg-4">
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.fans > 0 ? unit.furniture_total.fans-- : ''" :disabled="unit.furniture_total.fans == 0">−</button>
+                                    <input type="text" :id="`fans_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.fans" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary" @click="unit.furniture_total.fans++">+</button>
+                                </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.tv > 0 ? unit.furniture_total.tv-- : ''" :disabled="unit.furniture_total.tv == 0">−</button>
+                                    <input type="text" :id="`tv_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.tv" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary" @click="unit.furniture_total.tv++">+</button>
+                                </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.wardobe > 0 ? unit.furniture_total.wardobe-- : ''" :disabled="unit.furniture_total.wardobe == 0">−</button>
+                                    <input type="text" :id="`wardobe_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.wardobe" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary" @click="unit.furniture_total.wardobe++">+</button>
+                                </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.sofa > 0 ? unit.furniture_total.sofa-- : ''" :disabled="unit.furniture_total.sofa == 0">−</button>
+                                    <input type="text" :id="`sofa_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.sofa" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary" @click="unit.furniture_total.sofa++">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row gy-2">
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" id="washing_machine" value="washing_machine" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" for="washing_machine">Washing Machine</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" id="stove" value="stove" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" for="stove">Stove</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" id="fridge" value="fridge" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" for="fridge">Fridge</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" id="water_purifier" value="water_purifier" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" for="water_purifier">Water Purifier</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" id="microwave" value="microwave" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" for="microwave">Microwave</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" id="modular_kitchen" value="modular_kitchen" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" for="modular_kitchen">Modular Kitchen</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" id="chimney" value="chimney" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" for="chimney">Chimney</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" id="dinning_table" value="dinning_table" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" for="dinning_table">Dinning Table</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" id="curtains" value="curtains" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" for="curtains">Curtains</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" id="exhaust_fan" value="exhaust_fan" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" for="exhaust_fan">Exhaust Fan</label>
+                            </div>
+                        </div>
+                    </template>
                 </template>
+                <hr class="ms-3 mr-3">
             </div>
 
             <div class="row mt-3" v-show="data.property_category == 4">
@@ -466,7 +626,7 @@
                     <div class="input-group">
                         <div class="input-group-append col-md-4 m-b-20">
                             <div class="form-group country_code">
-                                <select class="form-select" id="owner_contact_code">
+                                <select class="form-select country_co" id="owner_contact_code">
                                     <template v-for="(country) in props.country_codes">
                                         <option :value="country.id">{{ country.country_iso }}({{ country.country_code }})
                                         </option>
@@ -713,10 +873,10 @@ const props = defineProps([
 ]);
 
 const data = reactive({
-    'property_for': 2,
+    'property_for': 1,
     'property_construction_type': 2,
-    'property_category': 6,
-    'property_sub_category': 20,
+    'property_category': 5,
+    'property_sub_category': 15,
     'selected_project': '',
     'selected_city': '',
     'selected_locality': '',
@@ -757,7 +917,23 @@ const unit_details = reactive([
             'unit_number': '',
             'available': '',
             'price_rent': '',
+            'price': '',
             'furnished_status': '',
+            'no_of_seats': '',
+            'no_of_cabins': '',
+            'no_of_conference_room': '',
+            'remark' : '',
+            'facilities': [],
+            'furniture_total': {
+                'light' : 0,
+                'ac' : 0,
+                'beds' : 0,
+                'geyser' : 0,
+                'fans' : 0,
+                'tv': 0,
+                'wardobe' : 0,
+                'sofa' : 0,
+            }
         }
     ],
 );
@@ -770,6 +946,11 @@ function unitDetailsSelect2() {
 
         $(`#furnished_status_${index}`).select2().on('change', function () {
             unit_details[index].furnished_status = $(this).val();
+            unit_details[index]['no_of_seats'] = '';
+            unit_details[index]['no_of_cabins'] = '';
+            unit_details[index]['no_of_conference_room'] = '';
+            unit_details[index]['remark'] = '';
+            unit_details[index]['facilities'] = [];
         });
     });
 }
@@ -781,7 +962,23 @@ function addUnit() {
         'unit_number': '',
         'available': '',
         'price_rent': '',
+        'price': '',
         'furnished_status': '',
+        'no_of_seats': '',
+        'no_of_cabins': '',
+        'no_of_conference_room': '',
+        'remark' : '',
+        'facilities': [],
+        'furniture_total': {
+            'light' : 0,
+            'ac' : 0,
+            'beds' : 0,
+            'geyser' : 0,
+            'fans' : 0,
+            'tv': 0,
+            'wardobe' : 0,
+            'sofa' : 0,
+        }
     });
 
     nextTick(() => {
@@ -961,11 +1158,8 @@ function submitForm() {
     })
     .catch(error => {
         console.error(error);
-    });
-    
+    });    
 }
-
-
 
 function handleFileUpload(type, event) {
     if(event.target.files.length == 0) return;
