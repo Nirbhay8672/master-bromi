@@ -92,7 +92,10 @@ class MasterPropertyController extends Controller
         $projects = Projects::whereIn('user_id', $user_ids)->get();
         $land_units = PropertyLandUnit::all();
         $property_source = PropertySource::all();
-        $country_codes = DB::table('countries')->get();
+        $country_codes = DB::table('countries')->select([
+            'id',
+            DB::raw("CONCAT(country_iso , '(', country_code, ')') as code")
+        ])->get();
 
         $districts = District::with(['talukas.villages'])->whereIn('user_id' , $user_ids)->get();
         $property_zone = PropertyZone::all();
@@ -575,6 +578,8 @@ class MasterPropertyController extends Controller
                     'unit_no' => $value['unit_number'] ?? 0, 
                     'availability_status' => $unitavailabilityStatus[$value['available']] ?? 0,
                     'price_rent' => $value['price_rent'] ?? null,
+                    'plot_price' => $value['plot_price'] ?? null,
+                    'construction_price' => $value['construction_price'] ?? null,
                     'furniture_status' => $furnishedStatus[$value['furnished_status']] ?? null,   
                 ];
             }

@@ -1,80 +1,80 @@
 <template>
     <div class="row gy-2">
-    <b>Area Size</b>
-    <div class="col-md-3">
-        <div class="input-group">
-            <div class="form-group col-md-7 m-b-20">
-                <div class="fname" :class="other_details.saleable_area !== '' ? 'focused' : ''">
-                    <label for="saleable_area">Saleble Area</label>
-                    <div class="fvalue">
-                        <input class="form-control" type="text" value="" id="saleable_area"
-                            v-model="other_details.saleable_area">
+        <b>Area Size</b>
+        <div class="col-md-3">
+            <div class="input-group">
+                <div class="form-group col-md-7 m-b-20">
+                    <div class="fname" :class="other_details.saleable_area !== '' ? 'focused' : ''">
+                        <label for="saleable_area">Saleble Area</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="saleable_area"
+                                v-model="other_details.saleable_area">
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group-append col-md-5">
+                    <div class="form-group">
+                        <select class="form-select" id="salable_area_unit">
+                            <template v-for="(unit) in props.land_units">
+                                <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
+                            </template>
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="input-group-append col-md-5">
-                <div class="form-group">
-                    <select class="form-select" id="salable_area_unit">
-                        <template v-for="(unit) in props.land_units">
-                            <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
-                        </template>
-                    </select>
-                </div>
-            </div>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="input-group">
-            <div class="form-group col-md-7 m-b-20">
-                <div class="fname" :class="other_details.ceiling_height !== '' ? 'focused' : ''">
-                    <label for="ceiling_height">Ceiling Height</label>
-                    <div class="fvalue">
-                        <input class="form-control" type="text" value="" id="ceiling_height"
-                            v-model="other_details.ceiling_height">
+        <div class="col-md-3">
+            <div class="input-group">
+                <div class="form-group col-md-7 m-b-20">
+                    <div class="fname" :class="other_details.ceiling_height !== '' ? 'focused' : ''">
+                        <label for="ceiling_height">Ceiling Height</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="ceiling_height"
+                                v-model="other_details.ceiling_height">
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group-append col-md-5">
+                    <div class="form-group">
+                        <select class="form-select" id="ceiling_height_unit">
+                            <template v-for="(unit) in props.land_units">
+                                <option :value="unit.id" v-if="[24,25].includes(unit.id)">{{ unit.unit_name }}</option>
+                            </template>
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="input-group-append col-md-5">
-                <div class="form-group">
-                    <select class="form-select" id="ceiling_height_unit">
-                        <template v-for="(unit) in props.land_units">
-                            <option :value="unit.id" v-if="[24,25].includes(unit.id)">{{ unit.unit_name }}</option>
-                        </template>
-                    </select>
-                </div>
-            </div>
         </div>
-    </div>
-    <div class="col-md-3" v-show="props.property_category == 2">
-        <div class="input-group">
-            <div class="form-group col-md-7 m-b-20">
-                <div class="fname" :class="other_details.opening_width !== '' ? 'focused' : ''">
-                    <label for="opening_width">Opening Width</label>
-                    <div class="fvalue">
-                        <input class="form-control" type="text" value="" id="opening_width"
-                            v-model="other_details.opening_width">
+        <div class="col-md-3" v-show="props.property_category == 2">
+            <div class="input-group">
+                <div class="form-group col-md-7 m-b-20">
+                    <div class="fname" :class="other_details.opening_width !== '' ? 'focused' : ''">
+                        <label for="opening_width">Opening Width</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="opening_width"
+                                v-model="other_details.opening_width">
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group-append col-md-5">
+                    <div class="form-group">
+                        <select class="form-select" id="opening_width_unit">
+                            <template v-for="(unit) in props.land_units">
+                                <option :value="unit.id" v-if="[24,25].includes(unit.id)">{{ unit.unit_name }}</option>
+                            </template>
+                        </select>
                     </div>
                 </div>
             </div>
-            <div class="input-group-append col-md-5">
-                <div class="form-group">
-                    <select class="form-select" id="opening_width_unit">
-                        <template v-for="(unit) in props.land_units">
-                            <option :value="unit.id" v-if="[24,25].includes(unit.id)">{{ unit.unit_name }}</option>
-                        </template>
-                    </select>
-                </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-check checkbox checkbox-solid-success">
+                <input class="form-check-input" id="is_terrace" type="checkbox" v-model="other_details.is_terrace" @change="resetValue([
+                    'terrace_saleable_area', 'terrace_saleable_area_unit' , 'terrace_carpet_area', 'terrace_carpet_area_unit'
+                ])">
+                <label class="form-check-label" for="is_terrace">Terrace</label>
             </div>
         </div>
-    </div>
-    <div class="col-md-3">
-        <div class="form-check checkbox checkbox-solid-success">
-            <input class="form-check-input" id="is_terrace" type="checkbox" v-model="other_details.is_terrace" @change="resetValue([
-                'terrace_saleable_area', 'terrace_saleable_area_unit' , 'terrace_carpet_area', 'terrace_carpet_area_unit'
-            ])">
-            <label class="form-check-label" for="is_terrace">Terrace</label>
-        </div>
-    </div>
     </div>
 
     <div class="row gy-2">
