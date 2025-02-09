@@ -26,9 +26,9 @@ class MasterProperty extends Model implements HasMedia
 		'amenities' => 'array',
     ];
 
-	public function areaSize(): HasMany
+	public function extraSize(): HasMany
 	{
-		return $this->hasMany(PropertyAreaSize::class);
+		return $this->hasMany(PropertyAreaSize::class , 'property_id' , 'id');
 	}
 
 	public function project(): BelongsTo
@@ -63,7 +63,7 @@ class MasterProperty extends Model implements HasMedia
 
 	public function unitDetails(): HasMany
 	{
-		return $this->hasMany(PropertyUnitDetail::class);
+		return $this->hasMany(PropertyUnitDetail::class , 'property_id' , 'id');
 	}
 
 	public  function contactDetails(): HasMany

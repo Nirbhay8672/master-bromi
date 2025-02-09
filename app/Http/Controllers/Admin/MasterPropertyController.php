@@ -27,7 +27,7 @@ class MasterPropertyController extends Controller
 {
     public function index(Request $request)
     {
-        return view('admin.master_properties.index');
+        return view('admin.master_properties.index')->with(['land_units' => PropertyLandUnit::all()]);
     }
 
     public function dataTable(Request $request)
@@ -35,14 +35,15 @@ class MasterPropertyController extends Controller
         $query = MasterProperty::query();
 
         $query->with([
-            'project',
+            'project.Area',
             'city',
-            'propertyFor',
             'propertyConstructionType',
             'propertyCategory',
             'propertySubCategory',
             'district',
             'village',
+            'extraSize',
+            'unitDetails',
         ]);
         
         $user = Auth::user();

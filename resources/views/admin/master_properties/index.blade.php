@@ -32,9 +32,9 @@
                                             </div>
                                         </th>
                                         <th>Project Name</th>
-                                        <th>Information</th>
-                                        <th>City Name</th>
-                                        <th>Address</th>
+                                        <th>Property Info</th>
+                                        <th>Units</th>
+                                        <th>Price</th>
                                         <th>Remark</th>
                                         <th>Action</th>
                                     </tr>
@@ -73,19 +73,131 @@
                 },
                 {
                     data: 'project_name',
-                    name: 'Project Name'
+                    name: 'Project Name',
+                    render: function(data, type , row) {
+
+                        let html = '';
+
+                        html += `<td style="vertical-align:top"><font size="3"><a href="" style="font-weight: bold;">${row.category_id != 4 ? row.project.project_name : ( row.village?.name ?? '') }</a>`;
+
+                        if (row.hot_property == '1') {
+                            html += `<img style="height:22px;margin-left:10px;" src="/assets/images/hotProperty.png" alt="adasd">`;
+                        }
+
+                        html += '</font>';
+
+                        if(row.project.area) {
+                            html += `<br>Locality : ${ row.project.area ? row.project.area.name : '-'}`;
+                        }
+
+                        if(row.location_link) {
+                            html += `<br> <a href="${row.location_link}" target="_blank">
+                                <i class="fa fa-map-marker fa-1x cursor-pointer color-code-popover" data-bs-trigger="hover focus">  check on map </i>
+                            </a>`;
+                        }
+
+                        return html;
+                    }
                 },
                 {
                     data: 'information',
-                    name: 'Information'
+                    name: 'Information',
+                    render: function(data, type , row) {
+
+                        let land_units = @json($land_units);
+
+                        let html = '';
+                        
+                        if(row.property_for == '1') {
+                            html += 'Rent | ';
+                        }
+                        if(row.property_for == '2') {
+                            html += 'Sell | ';
+                        }
+                        if(row.property_for == '3') {
+                            html += 'Rent & Sell | ';
+                        }
+
+                        html += row.property_sub_category ? row.property_sub_category.name : '';
+
+                        if(row.extra_size[0]['salable_area_value']) {
+                            let saleable_unit  = land_units.filter(unit => unit.id == row.extra_size[0]['salable_area_measurement_id']);
+
+                            html += `<br> ${row.extra_size[0]['salable_area_value']} `;
+
+                            if(saleable_unit.length > 0) {
+                                html += saleable_unit[0].unit_name;
+                            } 
+                        } else {
+                            let saleable_unit  = land_units.filter(unit => unit.id == row.extra_size[0]['salable_plot_area_measurement_id']);
+
+                            html += `<br> P : ${row.extra_size[0]['salable_plot_area_value']} C : ${row.extra_size[0]['salable_constructed_area_value']}`;
+
+                            if(saleable_unit.length > 0) {
+                                html += saleable_unit[0].unit_name;
+                            } 
+                        }
+
+                        if (row.priority_type == 1) {
+                            html += '<img style="height:24px;margin-top:25px;float: right;bottom: 38px;right:17px;position:relative;" src="/assets/prop_images/Red-Star.png" alt="">';
+                        } else if (row.priority_type == 2) {
+                            html += '<img style="height:24px;margin-top:25px;float: right;bottom: 38px;right:17px;position:relative;" src="/assets/prop_images/Blue-Star.png" alt="">';
+                        } else if (row.priority_type == 3) {
+                            html += '<img style="height:24px;margin-top:25px;float: right;bottom: 38px;right:17px;position:relative;" src="/assets/prop_images/Yellow-Star.png" alt="">';
+                        }
+
+                        let furniture_type = {
+                            1 : 'Furnished',
+                            2 : 'Semi Furnished',
+                            3 : 'Unfurnished',
+                            4 : 'Can Furnished',
+                        };
+
+                        if(![3,8].includes(row.property_category)) {
+                            if(row.unit_details.length > 0) {
+                                html += `<br> ${furniture_type[row.unit_details[0]['furniture_status']]}`;
+                            }
+                        }
+
+                        return html;
+                    }
                 },
                 {
                     data: 'city_name',
-                    name: 'City Name'
+                    name: 'City Name',
+                    render: function(data, type , row) {
+                        let html = '';
+                        if(![3,8].includes(row.property_category)) {
+                            if(row.unit_details.length > 0) {
+                                html += `<span>${row.unit_details[0]['wing'] ? row.unit_details[0]['wing'] : ''} ${row.unit_details[0]['wing']}`;
+                            }
+                        }
+                        return html;
+                    }
                 },
                 {
                     data: 'address',
-                    name: 'Address'
+                    name: 'Address',
+                    render: function(data, type , row) {
+                        let html = '';
+                        if(![3,8].includes(row.property_category)) {
+                            if(row.unit_details.length > 0) {
+
+                                row.unit_details.forEach(element => {
+                                    if (row.priority_type == 1) {
+                                        html += `₹ ${element.price_rent}`;
+                                    } else if (row.priority_type == 2) {
+                                        html += `₹ ${element.price}`;
+                                    } else if (row.priority_type == 3) {
+                                        html += `R : ₹ ${element.price_rent} <br> S : ₹ ${element.price ?? '-'}`;
+                                    }
+                                });
+
+                                html += "<br>";
+                            }
+                        }
+                        return html;
+                    }
                 },
                 {
                     data: 'remark',
@@ -99,7 +211,16 @@
                         
                         let edit_url = "{{ route('admin.master_properties.updateForm', ['masterProperty' => '__ID__']) }}".replace('__ID__', row.id);
 
-                        return `<a href="${edit_url}"><i class="fa fa-pencil fs-5"></i></a>`;
+                        let html = "";
+
+                        html += `<a href="${edit_url}"><i class="fa fa-pencil fs-5"></i></a>`;
+                        html += '<i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa-trash pointer fa text-danger" type="button"></i>';
+                        html += '<i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa-whatsapp pointer fa text-success" type="button"></i>';
+                        html += '<i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa-plane pointer fa text-info" type="button"></i>';
+                        html += '<i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa fa-clipboard pointer fa text-secondary" type="button"></i>';
+                        html += '<i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa fa-phone-square pointer fa text-dark" type="button"></i>';
+
+                        return html;
                     }
                 },
             ],
