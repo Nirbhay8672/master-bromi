@@ -15,6 +15,11 @@ class PropertyUnitDetail extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'furniture_total' => 'array',
+        'facilities' => 'array',
+    ];
+
     public function property(): BelongsTo
     {
         return $this->belongsTo(MasterProperty::class);

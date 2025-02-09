@@ -69,7 +69,7 @@
     <div class="row mt-2">
         <div class="row div_checkboxes1">
             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                <input class="form-check-input" id="is_hot" type="checkbox" v-model="other_details.is_hot">
+                <input class="form-check-input" id="is_hot" value="1" type="checkbox" v-model="other_details.is_hot">
                 <label class="form-check-label" for="is_hot">Hot</label>
             </div>
         </div>

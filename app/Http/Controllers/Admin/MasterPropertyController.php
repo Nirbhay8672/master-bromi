@@ -125,7 +125,7 @@ class MasterPropertyController extends Controller
 
             PropertyAreaSize::create(['property_id' => $masterProperty->id,...$transformedRequest->size_area]);
 
-            if(in_array($transformedRequest->category_id, [1,2,3])){
+            if(in_array($transformedRequest->basic_detail['category_id'], [1,2,3,5,6,7])){
                 foreach ($transformedRequest->unit_details ?? [] as $unit_detail) {
                     $propertyUnitDetail = new PropertyUnitDetail();
                     $propertyUnitDetail->fill(['property_id' => $masterProperty->id,...$unit_detail])->save();
@@ -163,7 +163,6 @@ class MasterPropertyController extends Controller
 
             DB::commit();
             return response()->json(['message' => 'Property added successfully']);
-            // return redirect()->route('admin.master_properties.index')->with(['success' => 'Property added successfully']);
         } catch (\Throwable $th) {
             DB::rollBack();
             dd($th);
@@ -260,8 +259,8 @@ class MasterPropertyController extends Controller
                     'units_in_tower' => $request->other_details['units_in_towers'],
                     'units_in_floor' => $request->other_details['units_on_floor'],
                     'no_of_elevators' => $request->other_details['number_of_elevators'],
-                    'service_elevator' => $request->other_details['service_elevator'],
-                    'hot_property' => $request->other_details['is_hot'],
+                    'service_elevator' => $request->other_details['service_elevator'] ? 1 : 0,
+                    'hot_property' => $request->other_details['is_hot'] ? 1 : 0,
                     'washroom_type' => $washrooms[$request->other_details['washrooms']] ?? null,
                     'fourwheller_parking' => $request->other_details['four_wheeler_parking'],
                     'twowheller_parking' => $request->other_details['two_wheeler_parking'],
@@ -304,7 +303,7 @@ class MasterPropertyController extends Controller
                     'address' => $request->basic_detail['address'],
                     'location_link' => $request->basic_detail['location_link'],
                     'units_in_project' => $request->other_details['units_in_project'],
-                    'hot_property' => $request->other_details['is_hot'],
+                    'hot_property' => $request->other_details['is_hot'] ? 1 : 0,
                     'fourwheller_parking' => $request->other_details['four_wheeler_parking'],
                     'twowheller_parking' => $request->other_details['two_wheeler_parking'],
                     'priority_type' => $priorityType[$request->other_details['priority']] ?? null,
@@ -359,7 +358,7 @@ class MasterPropertyController extends Controller
                     'priority_type' => $priorityType[$request->other_details['priority']] ?? null,
                     'source' => $request->other_details["source"],
                     'remark' => $request->other_details["remark"],
-                    'hot_property' => $request->other_details["is_hot"] ?? 0,
+                    'hot_property' => $request->other_details["is_hot"] ? 1 : 0,
                     'user_id' => auth()->user()->id,
                     'parent_id' => auth()->user()->parent_id,
                 ],
@@ -392,9 +391,9 @@ class MasterPropertyController extends Controller
                     'units_in_tower' => $request->other_details['units_in_towers'],
                     'units_in_floor' => $request->other_details['units_on_floor'],
                     'no_of_elevators' => $request->other_details['number_of_elevators'],
-                    'service_elevator' => $request->other_details['service_elevator'] ?? false,
-                    'hot_property' => $request->other_details['is_hot'] ?? false,   
-                    'servent_room' => $request->other_details['servent_room'] ?? false,
+                    'service_elevator' => $request->other_details['service_elevator'] ? 1 : 0,
+                    'hot_property' => $request->other_details['is_hot'] ? 1 : 0,   
+                    'servent_room' => $request->other_details['servent_room'] ? 1 : 0,
                     'fourwheller_parking' => $request->other_details['four_wheeler_parking'],
                     'twowheller_parking' => $request->other_details['two_wheeler_parking'],
                     'priority_type' => $priorityType[$request->other_details['priority']] ?? null,
@@ -442,9 +441,9 @@ class MasterPropertyController extends Controller
                     'no_of_units' => $request->other_details['number_of_units'],
                     'no_of_bathroom' => $request->other_details['number_of_bathrooms'],
                     'no_of_open_side' => $request->other_details['number_of_open_side'],
-                    'weekend' => $request->other_details['weekend'] ?? false,
-                    'hot_property' => $request->other_details['is_hot'] ?? false,   
-                    'servent_room' => $request->other_details['servent_room'] ?? false,
+                    'weekend' => $request->other_details['weekend'] ? 1 : 0,
+                    'hot_property' => $request->other_details['is_hot'] ? 1 : 0,   
+                    'servent_room' => $request->other_details['servent_room'] ? 1 : 0,
                     'fourwheller_parking' => $request->other_details['four_wheeler_parking'],
                     'twowheller_parking' => $request->other_details['two_wheeler_parking'],
                     'priority_type' => $priorityType[$request->other_details['priority']] ?? null,
@@ -496,9 +495,10 @@ class MasterPropertyController extends Controller
                     'no_of_balcony' => $request->other_details['number_of_balcony'],
                     'no_of_bathroom' => $request->other_details['number_of_bathrooms'],
 
-                    'weekend' => $request->other_details['weekend'] ?? false,
-                    'hot_property' => $request->other_details['is_hot'] ?? false,   
-                    'servent_room' => $request->other_details['servent_room'] ?? false,
+                    'service_elevator' => $request->other_details['service_elevator'] ? 1 : 0,
+                    'servent_room' => $request->other_details['servent_room'] ? 1 : 0,
+                    'hot_property' => $request->other_details['is_hot'] ? 1 : 0,
+
                     'fourwheller_parking' => $request->other_details['four_wheeler_parking'],
                     'twowheller_parking' => $request->other_details['two_wheeler_parking'],
                     'priority_type' => $priorityType[$request->other_details['priority']] ?? null,
@@ -550,7 +550,7 @@ class MasterPropertyController extends Controller
                     'priority_type' => $priorityType[$request->other_details['priority']] ?? null,
                     'source' => $request->other_details["source"],
                     'remark' => $request->other_details["remark"],
-                    'hot_property' => $request->other_details["is_hot"] ?? 0,
+                    'hot_property' => $request->other_details["is_hot"] ? 1 : 0,
                     'user_id' => auth()->user()->id,
                     'parent_id' => auth()->user()->parent_id,
                 ],
@@ -568,14 +568,25 @@ class MasterPropertyController extends Controller
             ];
         }
 
-        if(in_array($request->basic_detail['property_category'], [1,2,3,6,7])){
+        if(in_array($request->basic_detail['property_category'], [1,2,3,5,6,7])){
             foreach ($request->unit_details ?? [] as $key => $value) {
                 $transformed_request_array['unit_details'][] = [
                     'wing' => $value['wing'] ?? null,
                     'unit_no' => $value['unit_number'] ?? 0, 
                     'availability_status' => $unitavailabilityStatus[$value['available']] ?? 0,
                     'price_rent' => $value['price_rent'] ?? null,
-                    'furniture_status' => $furnishedStatus[$value['furnished_status']] ?? null,   
+                    'furniture_status' => $value['furnished_status'] ?? null,
+                    'price' => $value['price'] ?? null,
+                    'plot_price' => $value['plot_price'] ?? null,
+                    'construction_price' => $value['construction_price'] ?? null,
+                    'terrace_price' => $value['terrace_price'] ?? null,
+                    'flat_price' => $value['flat_price'] ?? null,
+                    "no_of_seats" => $value['no_of_seats'] ?? null,
+                    "no_of_cabins" => $value['no_of_cabins'] ?? null,
+                    "no_of_conference_room" => $value['no_of_conference_room'] ?? null,
+                    'furniture_total' => $value['furniture_total'] ?? null,
+                    'facilities' => $value['facilities'] ?? null,
+                    'remark' => $value['remark'] ?? null,
                 ];
             }
         }

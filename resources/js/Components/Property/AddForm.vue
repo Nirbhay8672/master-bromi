@@ -327,6 +327,42 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 7">
+                            <div class="fname" :class="unit.terrace_price !== '' ? 'focused' : ''">
+                                <label :for="`unit_terrace_price_${index}`">Terrace Price</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_terrace_price_${index}`"
+                                        v-model="unit.terrace_price">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 7">
+                            <div class="fname" :class="unit.flat_price !== '' ? 'focused' : ''">
+                                <label :for="`unit_flat_price_${index}`">Flat Price</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_flat_price_${index}`"
+                                        v-model="unit.flat_price">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 6">
+                            <div class="fname" :class="unit.plot_price !== '' ? 'focused' : ''">
+                                <label :for="`unit_plot_price_${index}`">Plot Price</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_plot_price_${index}`"
+                                        v-model="unit.plot_price">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 6">
+                            <div class="fname" :class="unit.construction_price !== '' ? 'focused' : ''">
+                                <label :for="`unit_construction_price_${index}`">Construction Price</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_construction_price_${index}`"
+                                        v-model="unit.construction_price">
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-2 m-b-4 mb-4" v-show="![3,8].includes(data.property_category)">
                             <select class="form-select" :id="`furnished_status_${index}`">
                                 <option value="">Furnished Status</option>
@@ -408,22 +444,22 @@
                                 <div class="mb-3 d-flex align-items-center">
                                     <button class="btn btn-primary" @click="unit.furniture_total.light > 0 ? unit.furniture_total.light-- : ''" :disabled="unit.furniture_total.light == 0">−</button>
                                     <input type="text" :id="`light_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.light" value="0" style="max-width: 80px;" readonly>
-                                    <button class="btn btn-primary" @click="unit.furniture_total.light++">+</button>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.light++">+</button> Light
                                 </div>
                                 <div class="mb-3 d-flex align-items-center">
                                     <button class="btn btn-primary" @click="unit.furniture_total.ac > 0 ? unit.furniture_total.ac-- : ''" :disabled="unit.furniture_total.ac == 0">−</button>
                                     <input type="text" :id="`ac_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.ac" value="0" style="max-width: 80px;" readonly>
-                                    <button class="btn btn-primary" @click="unit.furniture_total.ac++">+</button>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.ac++">+</button> AC
                                 </div>
                                 <div class="mb-3 d-flex align-items-center">
                                     <button class="btn btn-primary" @click="unit.furniture_total.beds > 0 ? unit.furniture_total.beds-- : ''" :disabled="unit.furniture_total.beds == 0">−</button>
                                     <input type="text" :id="`beds_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.beds" value="0" style="max-width: 80px;" readonly>
-                                    <button class="btn btn-primary" @click="unit.furniture_total.beds++">+</button>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.beds++">+</button> Beds
                                 </div>
                                 <div class="mb-3 d-flex align-items-center">
                                     <button class="btn btn-primary" @click="unit.furniture_total.geyser > 0 ? unit.furniture_total.geyser-- : ''" :disabled="unit.furniture_total.geyser == 0">−</button>
                                     <input type="text" :id="`geyser_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.geyser" value="0" style="max-width: 80px;" readonly>
-                                    <button class="btn btn-primary" @click="unit.furniture_total.geyser++">+</button>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.geyser++">+</button> Geyser
                                 </div>
                             </div>
 
@@ -431,22 +467,22 @@
                                 <div class="mb-3 d-flex align-items-center">
                                     <button class="btn btn-primary" @click="unit.furniture_total.fans > 0 ? unit.furniture_total.fans-- : ''" :disabled="unit.furniture_total.fans == 0">−</button>
                                     <input type="text" :id="`fans_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.fans" value="0" style="max-width: 80px;" readonly>
-                                    <button class="btn btn-primary" @click="unit.furniture_total.fans++">+</button>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.fans++">+</button> Fans
                                 </div>
                                 <div class="mb-3 d-flex align-items-center">
                                     <button class="btn btn-primary" @click="unit.furniture_total.tv > 0 ? unit.furniture_total.tv-- : ''" :disabled="unit.furniture_total.tv == 0">−</button>
                                     <input type="text" :id="`tv_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.tv" value="0" style="max-width: 80px;" readonly>
-                                    <button class="btn btn-primary" @click="unit.furniture_total.tv++">+</button>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.tv++">+</button> TV
                                 </div>
                                 <div class="mb-3 d-flex align-items-center">
                                     <button class="btn btn-primary" @click="unit.furniture_total.wardobe > 0 ? unit.furniture_total.wardobe-- : ''" :disabled="unit.furniture_total.wardobe == 0">−</button>
                                     <input type="text" :id="`wardobe_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.wardobe" value="0" style="max-width: 80px;" readonly>
-                                    <button class="btn btn-primary" @click="unit.furniture_total.wardobe++">+</button>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.wardobe++">+</button> Wardobe
                                 </div>
                                 <div class="mb-3 d-flex align-items-center">
                                     <button class="btn btn-primary" @click="unit.furniture_total.sofa > 0 ? unit.furniture_total.sofa-- : ''" :disabled="unit.furniture_total.sofa == 0">−</button>
                                     <input type="text" :id="`sofa_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.sofa" value="0" style="max-width: 80px;" readonly>
-                                    <button class="btn btn-primary" @click="unit.furniture_total.sofa++">+</button>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.sofa++">+</button> Sofa
                                 </div>
                             </div>
                         </div>
@@ -918,6 +954,10 @@ const unit_details = reactive([
             'available': '',
             'price_rent': '',
             'price': '',
+            'terrace_price': '',
+            'flat_price': '',
+            'construction_price': '',
+            'plot_price': '',
             'furnished_status': '',
             'no_of_seats': '',
             'no_of_cabins': '',
@@ -963,6 +1003,10 @@ function addUnit() {
         'available': '',
         'price_rent': '',
         'price': '',
+        'construction_price': '',
+        'plot_price': '',
+        'construction_price': '',
+        'plot_price': '',
         'furnished_status': '',
         'no_of_seats': '',
         'no_of_cabins': '',
@@ -1027,14 +1071,17 @@ function removeContact(index) {
 }
 
 function resetValue(clicked_value) {
+    
     // reset selected value on change input
-    if (clicked_value == 1) {
-        data.property_construction_type = null;
+    if(data.property_category == 8) {
+        if (clicked_value == 1) {
+            data.property_construction_type = null;
+        }
+        if (clicked_value == 1 || clicked_value == 2) {
+            data.property_category = null;
+        }
+        data.property_sub_category = null;
     }
-    if (clicked_value == 1 || clicked_value == 2) {
-        data.property_category = null;
-    }
-    data.property_sub_category = null;
 }
 
 let isUpdatingMainUnit = false;
@@ -1059,18 +1106,19 @@ function setMainUnits(value) {
 }
 
 function appendFormData (data, parentKey = ""){
-  Object.keys(data).forEach((key) => {
-    const fullKey = parentKey ? `${parentKey}[${key}]` : key;
-    const value = data[key];
+    Object.keys(data).forEach((key) => {
 
-    if (value instanceof File) {
-      formData.append(fullKey, value);
-    } else if (typeof value === "object" && value !== null) {
-      appendFormData(value, fullKey); // Recursively append nested objects
-    } else {
-      formData.append(fullKey, value ?? ""); // Ensure null values are sent as empty strings
-    }
-  });
+        const fullKey = parentKey ? `${parentKey}[${key}]` : key;
+        const value = data[key];
+
+        if (value instanceof File) {
+            formData.append(fullKey, value);
+        } else if (typeof value === "object" && value !== null) {
+            appendFormData(value, fullKey);
+        } else {
+            formData.append(fullKey, value ?? "");
+        }
+    });
 };
 
 function submitForm() {
@@ -1151,7 +1199,7 @@ function submitForm() {
     appendFormData(files.value);
 
     axios.post('/admin/master-properties/store-property', formData, {
-      headers: { "Content-Type": "multipart/form-data" },
+        headers: { "Content-Type": "multipart/form-data" },
     })
     .then(response => {
         window.location.href = "/admin/master-properties/index";

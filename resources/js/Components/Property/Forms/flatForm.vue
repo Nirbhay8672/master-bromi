@@ -69,7 +69,7 @@
     </div>
     <div class="col-md-3">
         <div class="form-check checkbox checkbox-solid-success">
-            <input class="form-check-input" id="is_terrace" type="checkbox" v-model="other_details.is_terrace" @click="resetValue([
+            <input class="form-check-input" id="is_terrace" value="1" type="checkbox" v-model="other_details.is_terrace" @click="resetValue([
                 'terrace_saleable_area','terrace_saleable_area_unit','terrace_carpet_area','terrace_carpet_area_unit'
             ])">
             <label class="form-check-label" for="is_terrace">Terrace</label>
@@ -218,19 +218,19 @@
     <div class="row mt-3">
         <div class="row div_checkboxes1">
             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                <input class="form-check-input" id="service_elevator" type="checkbox"
+                <input class="form-check-input" id="service_elevator" value="1" type="checkbox"
                     v-model="other_details.service_elevator">
                 <label class="form-check-label" for="service_elevator">Service Elevator</label>
             </div>
         
             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                <input class="form-check-input" id="servent_room" type="checkbox"
+                <input class="form-check-input" id="servent_room" value="1" type="checkbox"
                     v-model="other_details.servent_room">
                 <label class="form-check-label" for="servent_room">Servent Room</label>
             </div>
 
             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                <input class="form-check-input" id="is_hot" type="checkbox" v-model="other_details.is_hot">
+                <input class="form-check-input" id="is_hot" type="checkbox" value="1" v-model="other_details.is_hot">
                 <label class="form-check-label" for="is_hot">Hot</label>
             </div>
         </div>
@@ -319,7 +319,7 @@
     <div class="row mt-3">
         <div class="row div_checkboxes1">
             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                <input class="form-check-input" id="is_have_amenities" value="true" type="checkbox"
+                <input class="form-check-input" id="is_have_amenities" value="1" type="checkbox"
                     v-model="other_details.is_have_amenities" @change="other_details.amenities = []">
                 <label class="form-check-label" for="is_have_amenities">Amenities</label>
             </div>
@@ -335,6 +335,7 @@
                     class="form-check-input"
                     :id="`amenity-${amenity.id}`"
                     :key="`amenity-${amenity.id}`"
+                    :value="amenity.id"
                     type="checkbox"
                 >
                 <label class="form-check-label" :for="`amenity-${amenity.id}`">{{ amenity.name }}</label>
