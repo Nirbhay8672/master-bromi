@@ -31,7 +31,7 @@
                         <template v-for="(propery_for, index ) in props.property_for_type" :key="`property_for_${index}`">
                             <div class="btn-group me-4" role="group" aria-label="Basic radio toggle button group">
                                 <input type="radio" :value="propery_for.id" class="btn-check" name="property_for"
-                                    :id="`property_for_${index}`" autocomplete="off" v-model="data.property_for" disabled>
+                                    :id="`property_for_${index}`" autocomplete="off" v-model="data.property_for">
                                 <label class="btn btn-outline-info btn-pill btn-sm py-1" :for="`property_for_${index}`">{{
                                     propery_for.name }}</label>
                             </div>
@@ -210,21 +210,583 @@
                     </div>
                 </div>
             </div>
+            <!-- first part end -->
 
+            <!-- second part start -->
+            <office-retail-form
+                ref="office_retail_form"
+                :land_units="props.land_units"
+                :property_source="props.property_source"
+                :property_category="data.property_category"
+                v-if="[1,2].includes(data.property_category)"
+            ></office-retail-form>
+
+            <storage-industrial-form
+                ref="storage_industrial_form"
+                :land_units="props.land_units"
+                :property_source="props.property_source"
+                :property_category="data.property_category"
+                v-if="[3].includes(data.property_category)"
+            ></storage-industrial-form>
+
+            <land-form
+                ref="land_form"
+                :land_units="props.land_units"
+                :property_source="props.property_source"
+                :property_category="data.property_category"
+                v-if="[4].includes(data.property_category)"
+            ></land-form>
+
+            <flat-form
+                ref="flat_form"
+                :land_units="props.land_units"
+                :property_source="props.property_source"
+                :property_category="data.property_category"
+                :amenities="props.amenities"
+                v-if="[5].includes(data.property_category)"
+            ></flat-form>
+
+            <vila-banglow-form
+                ref="villa_banglow_form"
+                :land_units="props.land_units"
+                :property_source="props.property_source"
+                :property_category="data.property_category"
+                :amenities="props.amenities"
+                v-if="[6].includes(data.property_category)"
+            ></vila-banglow-form>
+
+            <penthouse-form
+                ref="penthouse_form"
+                :land_units="props.land_units"
+                :property_source="props.property_source"
+                :property_category="data.property_category"
+                :amenities="props.amenities"
+                v-if="[7].includes(data.property_category)"
+            ></penthouse-form>
+
+            <plot-form
+                ref="plot_form"
+                :land_units="props.land_units"
+                :property_source="props.property_source"
+                :property_category="data.property_category"
+                :amenities="props.amenities"
+                v-if="[8].includes(data.property_category)"
+            ></plot-form>
+
+            <!-- second part end -->
+
+            <!-- 3rd part start -->
+
+            <div class="row mt-5" v-show="data.property_category != 4">
+                <b>Unit Details</b>
+                <template v-for="(unit, index) in unit_details">
+                    <div class="row mt-2">
+                        <div class="col-12 col-md-2" v-show="![6,8].includes(data.property_category)">
+                            <div class="fname" :class="unit.wing !== '' ? 'focused' : ''">
+                                <label :for="`unit_wing_${index}`">Wing</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_wing_${index}`"
+                                        v-model="unit.wing">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <div class="fname" :class="unit.unit_number !== '' ? 'focused' : ''">
+                                <label :for="`unit_unit_number_${index}`">Unit No</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_unit_number_${index}`"
+                                        v-model="unit.unit_number">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 m-b-4 mb-4">
+                            <select class="form-select" :id="`unit_available_${index}`">
+                                <option value="">Available</option>
+                                <option value="Rent Out">Rent Out</option>
+                                <option value="Sold Out">Sold Out</option>
+                            </select>
+                        </div>
+                        <div class="col-12 col-md-2" v-if="[1, 3].includes(data.property_for)">
+                            <div class="fname" :class="unit.price_rent !== '' ? 'focused' : ''">
+                                <label :for="`unit_price_rent_${index}`">Price Rent</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_price_rent_${index}`"
+                                        v-model="unit.price_rent">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for)">
+                            <div class="fname" :class="unit.price !== '' ? 'focused' : ''">
+                                <label :for="`unit_price_${index}`">Price</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_price_${index}`"
+                                        v-model="unit.price">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 7">
+                            <div class="fname" :class="unit.terrace_price !== '' ? 'focused' : ''">
+                                <label :for="`unit_terrace_price_${index}`">Terrace Price</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_terrace_price_${index}`"
+                                        v-model="unit.terrace_price">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 7">
+                            <div class="fname" :class="unit.flat_price !== '' ? 'focused' : ''">
+                                <label :for="`unit_flat_price_${index}`">Flat Price</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_flat_price_${index}`"
+                                        v-model="unit.flat_price">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 6">
+                            <div class="fname" :class="unit.plot_price !== '' ? 'focused' : ''">
+                                <label :for="`unit_plot_price_${index}`">Plot Price</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_plot_price_${index}`"
+                                        v-model="unit.plot_price">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 6">
+                            <div class="fname" :class="unit.construction_price !== '' ? 'focused' : ''">
+                                <label :for="`unit_construction_price_${index}`">Construction Price</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" :id="`unit_construction_price_${index}`"
+                                        v-model="unit.construction_price">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 m-b-4 mb-4" v-show="![3,8].includes(data.property_category)">
+                            <select class="form-select" :id="`furnished_status_${index}`">
+                                <option value="">Furnished Status</option>
+                                <option value="1">Furnished</option>
+                                <option value="2">Semi Furnished</option>
+                                <option value="3">Unfurnished</option>
+                                <option value="4">Can Furnished</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1 m-b-4 mb-4" v-if="index == 0">
+                            <button class="btn btn-primary" type="button" @click="addUnit()">+</button>
+                        </div>
+                        <div class="col-md-1 m-b-4 mb-4" v-else>
+                            <button class="btn btn-danger" type="button" @click="removeUnit(index)">-</button>
+                        </div>
+                    </div>
+
+                    <template v-if="[1,2,4].includes( parseInt(unit.furnished_status)) && data.property_category == 1">
+                        <div class="row mt-2">
+                            <div class="col-12 col-md-2">
+                                <div class="fname" :class="unit.no_of_seats !== '' ? 'focused' : ''">
+                                    <label :for="`unit_no_of_seats_${index}`">No. of seats</label>
+                                    <div class="fvalue">
+                                        <input class="form-control" type="text" value="" :id="`unit_no_of_seats_${index}`"
+                                            v-model="unit.no_of_seats">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <div class="fname" :class="unit.no_of_cabins !== '' ? 'focused' : ''">
+                                    <label :for="`unit_no_of_cabins_${index}`">No. of cabins</label>
+                                    <div class="fvalue">
+                                        <input class="form-control" type="text" value="" :id="`unit_no_of_cabins_${index}`"
+                                            v-model="unit.no_of_cabins">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <div class="fname" :class="unit.no_of_conference_room !== '' ? 'focused' : ''">
+                                    <label :for="`unit_no_of_conference_room_${index}`">No. of conference room</label>
+                                    <div class="fvalue">
+                                        <input class="form-control" type="text" value="" :id="`unit_no_of_conference_room_${index}`"
+                                            v-model="unit.no_of_conference_room">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="row div_checkboxes1 gy-3">
+                                    <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                        <input class="form-check-input" :id="`pantry_${index}`" value="pantry" type="checkbox" v-model="unit.facilities">
+                                        <label class="form-check-label" :for="`pantry_${index}`">Pantry</label>
+                                    </div>
+                                    <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                        <input class="form-check-input" :id="`reception_${index}`" value="reception" type="checkbox" v-model="unit.facilities">
+                                        <label class="form-check-label" :for="`reception_${index}`">Reception</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template v-if="[1,2,4].includes( parseInt(unit.furnished_status)) && data.property_category == 2">
+                        <div class="row mt-2">
+                            <div class="col-12 col-md-4">
+                                <div class="fname" :class="unit.remark !== '' ? 'focused' : ''">
+                                    <label :for="`unit_remark_${index}`">Remarks</label>
+                                    <div class="fvalue">
+                                        <input class="form-control" type="text" value="" :id="`unit_remark_${index}`"
+                                            v-model="unit.remark">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template v-if="[1,2,4].includes( parseInt(unit.furnished_status)) && [5,6,7].includes( parseInt(data.property_category))">
+                        <div class="row gy-2">
+                            <div class="col-12 col-md-4 col-lg-4">
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.light > 0 ? unit.furniture_total.light-- : ''" :disabled="unit.furniture_total.light == 0">−</button>
+                                    <input type="text" :id="`light_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.light" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.light++">+</button> Light
+                                </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.ac > 0 ? unit.furniture_total.ac-- : ''" :disabled="unit.furniture_total.ac == 0">−</button>
+                                    <input type="text" :id="`ac_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.ac" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.ac++">+</button> AC
+                                </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.beds > 0 ? unit.furniture_total.beds-- : ''" :disabled="unit.furniture_total.beds == 0">−</button>
+                                    <input type="text" :id="`beds_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.beds" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.beds++">+</button> Beds
+                                </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.geyser > 0 ? unit.furniture_total.geyser-- : ''" :disabled="unit.furniture_total.geyser == 0">−</button>
+                                    <input type="text" :id="`geyser_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.geyser" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.geyser++">+</button> Geyser
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 col-lg-4">
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.fans > 0 ? unit.furniture_total.fans-- : ''" :disabled="unit.furniture_total.fans == 0">−</button>
+                                    <input type="text" :id="`fans_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.fans" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.fans++">+</button> Fans
+                                </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.tv > 0 ? unit.furniture_total.tv-- : ''" :disabled="unit.furniture_total.tv == 0">−</button>
+                                    <input type="text" :id="`tv_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.tv" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.tv++">+</button> TV
+                                </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.wardobe > 0 ? unit.furniture_total.wardobe-- : ''" :disabled="unit.furniture_total.wardobe == 0">−</button>
+                                    <input type="text" :id="`wardobe_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.wardobe" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.wardobe++">+</button> Wardobe
+                                </div>
+                                <div class="mb-3 d-flex align-items-center">
+                                    <button class="btn btn-primary" @click="unit.furniture_total.sofa > 0 ? unit.furniture_total.sofa-- : ''" :disabled="unit.furniture_total.sofa == 0">−</button>
+                                    <input type="text" :id="`sofa_${index}`" class="form-control text-center border-0" v-model="unit.furniture_total.sofa" value="0" style="max-width: 80px;" readonly>
+                                    <button class="btn btn-primary me-2" @click="unit.furniture_total.sofa++">+</button> Sofa
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row gy-2">
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" :id="`washing_machine_${index}`" value="washing_machine" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`washing_machine_${index}`">Washing Machine</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" :id="`stove_${index}`" value="stove" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`stove_${index}`">Stove</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" :id="`fridge_${index}`" value="fridge" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`fridge_${index}`">Fridge</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" :id="`water_purifier_${index}`" value="water_purifier" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`water_purifier_${index}`">Water Purifier</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" :id="`microwave_${index}`" value="microwave" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`microwave_${index}`">Microwave</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" :id="`modular_kitchen_${index}`" value="modular_kitchen" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`modular_kitchen_${index}`">Modular Kitchen</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" :id="`chimney_${index}`" value="chimney" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`chimney_${index}`">Chimney</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" :id="`dinning_table_${index}`" value="dinning_table" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`dinning_table_${index}`">Dinning Table</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" :id="`curtains_${index}`" value="curtains" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`curtains_${index}`">Curtains</label>
+                            </div>
+                            <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
+                                <input class="form-check-input" :id="`exhaust_fan_${index}`" value="exhaust_fan" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`exhaust_fan_${index}`">Exhaust Fan</label>
+                            </div>
+                        </div>
+                    </template>
+                </template>
+                <hr class="ms-3 mr-3">
+            </div>
+
+            <div class="row mt-3" v-show="data.property_category == 4">
+                <b>Survey Details</b>
+            </div>
+
+            <div class="row gy-2 mt-2" v-show="data.property_category == 4">
+                <div class="col-12 col-md-3">
+                    <div class="fname" :class="other_details.survey_number !== '' ? 'focused' : ''">
+                        <label for="survey_number">Survey Number</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="survey_number"
+                                v-model="other_details.survey_number">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <div class="form-group col-md-7 m-b-20">
+                            <div class="fname" :class="other_details.survey_plot_size !== '' ? 'focused' : ''">
+                                <label for="survey_plot_size">Plot size</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" id="survey_plot_size"
+                                        v-model="other_details.survey_plot_size">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group-append col-md-5">
+                            <div class="form-group">
+                                <select class="form-select" id="survey_plot_size_unit">
+                                    <template v-for="(unit) in props.land_units">
+                                        <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
+                                    </template>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="fname" :class="other_details.survey_price !== '' ? 'focused' : ''">
+                        <label for="survey_price">Price</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="survey_price"
+                                v-model="other_details.survey_price">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2" v-show="data.property_category == 4">
+                <b>Tp Details</b>
+            </div>
+
+            <div class="row gy-2 mt-2" v-show="data.property_category == 4">
+                <div class="col-12 col-md-3">
+                    <div class="fname" :class="other_details.tp_number !== '' ? 'focused' : ''">
+                        <label for="tp_number">TP Number</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="tp_number"
+                                v-model="other_details.tp_number">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="fname" :class="other_details.fp_number !== '' ? 'focused' : ''">
+                        <label for="fp_number">FP Number</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="fp_number"
+                                v-model="other_details.fp_number">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="input-group">
+                        <div class="form-group col-md-7 m-b-20">
+                            <div class="fname" :class="other_details.tp_plot_size !== '' ? 'focused' : ''">
+                                <label for="tp_plot_size">Plot size</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" id="tp_plot_size"
+                                        v-model="other_details.tp_plot_size">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-group-append col-md-5">
+                            <div class="form-group">
+                                <select class="form-select" id="tp_plot_size_unit">
+                                    <template v-for="(unit) in props.land_units">
+                                        <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
+                                    </template>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="fname" :class="other_details.tp_price !== '' ? 'focused' : ''">
+                        <label for="tp_price">Price</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="tp_price"
+                                v-model="other_details.tp_price">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <b>Owner Information</b>
+            </div>
+
+            <div class="row gy-2 mt-2">
+                <div class="col-md-2 m-b-4 mb-4">
+                    <select class="form-select" id="owner_type">
+                        <option value="">Owner</option>
+                        <option value="Builder">Builder</option>
+                        <option value="Individual">Individual</option>
+                        <option value="Investor">Investor</option>
+                    </select>
+                </div>
+                <div class="col-12 col-md-2">
+                    <div class="fname" :class="other_details.owner_name !== '' ? 'focused' : ''">
+                        <label for="owner_name">Name</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="owner_name"
+                                v-model="other_details.owner_name">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="input-group">
+                        <div class="input-group-append col-md-4 m-b-20">
+                            <div class="form-group country_code">
+                                <select class="form-select country_co" id="owner_contact_code">
+                                    <template v-for="(country) in props.country_codes">
+                                        <option :value="country.id">{{ country.country_iso }}({{ country.country_code }})
+                                        </option>
+                                    </template>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-8">
+                            <div class="fname" :class="other_details.owner_contact !== '' ? 'focused' : ''">
+                                <label for="owner_contact">Contact</label>
+                                <div class="fvalue">
+                                    <input class="form-control" type="text" value="" id="owner_contact"
+                                        v-model="other_details.owner_contact"
+                                        style="border-right:2px solid #1d2848 !important; border-top-right-radius: 5px;border-bottom-right-radius: 5px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3">
+                    <div class="fname" :class="other_details.owner_email !== '' ? 'focused' : ''">
+                        <label for="owner_email">Email</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="owner_email"
+                                v-model="other_details.owner_email">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <b>Other Contact Details</b>
+            </div>
+            <template v-for="(other_contact, index) in other_contact_details">
+                <div class="row mt-2">
+                    <div class="col-12 col-md-2">
+                        <div class="fname" :class="other_contact.name !== '' ? 'focused' : ''">
+                            <label :for="`other_contact_name_${index}`">Name</label>
+                            <div class="fvalue">
+                                <input class="form-control" type="text" value="" :id="`other_contact_name_${index}`"
+                                    v-model="other_contact.name">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="input-group">
+                            <div class="input-group-append col-md-4 m-b-20">
+                                <div class="form-group country_code">
+                                    <select class="form-select" :id="`contact_code_${index}`">
+                                        <template v-for="(country) in props.country_codes">
+                                            <option :value="country.id">{{ country.country_iso }}({{ country.country_code
+                                            }})
+                                            </option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-8">
+                                <div class="fname" :class="other_contact.contact !== '' ? 'focused' : ''">
+                                    <label :for="`other_contact_contact_${index}`">Contact</label>
+                                    <div class="fvalue">
+                                        <input class="form-control" type="text" value=""
+                                            :id="`other_contact_contact_${index}`" v-model="other_contact.contact"
+                                            style="border-right:2px solid #1d2848 !important; border-top-right-radius: 5px;border-bottom-right-radius: 5px">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-2">
+                        <div class="fname" :class="other_contact.position !== '' ? 'focused' : ''">
+                            <label :for="`other_contact_position_${index}`">Position</label>
+                            <div class="fvalue">
+                                <input class="form-control" type="text" value="" :id="`other_contact_position_${index}`"
+                                    v-model="other_contact.position">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1 m-b-4 mb-4" v-if="index == 0">
+                        <button class="btn btn-primary" type="button" @click="addContact()">+</button>
+                    </div>
+                    <div class="col-md-1 m-b-4 mb-4" v-else>
+                        <button class="btn btn-danger" type="button" @click="removeContact(index)">-</button>
+                    </div>
+                </div>
+            </template>
+
+            <div class="row gy-2 mt-2">
+                <div class="col-12 col-md-3">
+                    <select class="form-select" id="key_available_at">
+                        <option value="">Key Available At</option>
+                        <option value="Office">Office</option>
+                        <option value="Owner">Owner</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row gy-2 mt-3">
+                <div class="col-12 col-md-4">
+                    <b>Images : </b>
+                    <input type="file" multiple accept="image/*" class="form-control mt-2" style="border:2px solid;border-radius: 5px;" @change="(e) => handleFileUpload('image', e)">
+                </div>
+                <div class="col-12 col-md-4">
+                    <b>Documents :</b>
+                    <input type="file" multiple class="form-control mt-2" style="border:2px solid;border-radius: 5px;" @change="(e) => handleFileUpload('document', e)">
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12 col-3">
+                    <button class="btn btn-primary" @click="submitForm()">Submit</button>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
 
-import { reactive, onMounted, nextTick, ref } from 'vue';
-import officeRetailForm from './Forms/officeRetailForm.vue';
-import storageIndustrialForm from './Forms/storageIndustrialForm.vue';
-import landForm from './Forms/LandForm.vue';
-import flatForm from './Forms/flatForm.vue';
-import vilaBanglowForm from './Forms/VilaBanglow.vue';
-import penthouseForm from './Forms/PenthouseForm.vue';
-import PlotForm from './Forms/PlotForm.vue';
+import { reactive, onMounted, nextTick , ref } from 'vue';
+import officeRetailForm from './UpdateForms/officeRetailForm.vue';
+import storageIndustrialForm from './UpdateForms/storageIndustrialForm.vue';
+import landForm from './UpdateForms/LandForm.vue';
+import flatForm from './UpdateForms/flatForm.vue';
+import vilaBanglowForm from './UpdateForms/VilaBanglow.vue';
+import penthouseForm from './UpdateForms/PenthouseForm.vue';
+import PlotForm from './UpdateForms/PlotForm.vue';
 
 let office_retail_form = ref(null);
 let storage_industrial_form = ref(null);
@@ -242,9 +804,6 @@ let files = ref({
 let formData = new FormData();
 
 onMounted(() => {
-
-    console.log(props.property_master);
-
     $('#project_id').select2().on('change', function () {
         data.selected_project = $(this).val();
         if (data.selected_project > 0) {
@@ -256,7 +815,7 @@ onMounted(() => {
 
     var allowedselect2s = ['project_id'];
 
-    $(document).on('keydown', '.select2-search__field', function (e) {
+    $(document).on('keydown', '.select2-search__field', function(e) {
         setTimeout(() => {
             var par = $(this).closest('.select2-dropdown')
             var tar = $(par).find('.select2-results')
@@ -267,7 +826,7 @@ onMounted(() => {
                 project_id = project_id.replace("select2-", "");
                 project_id = project_id.replace("-results", "");
                 if (allowedselect2s.includes(project_id)) {
-                    $("#" + project_id + " option[last_added='" + true + "']").each(function (i, e) {
+                    $("#" + project_id + " option[last_added='" + true + "']").each(function(i, e) {
                         $('#' + project_id + ' option[value="' + $(this).val() + '"]').detach();
                     });
                     if ($("#" + project_id + " option[value='" + $(this).val() + "']").length == 0) {
@@ -365,7 +924,7 @@ const data = reactive({
     'selected_district': '',
     'selected_taluka': '',
     'selected_village': '',
-    'selected_zone': '',
+    'selected_zone' : '',
     'address': '',
     'location_link': '',
 });
@@ -377,11 +936,11 @@ const other_details = reactive({
     'survey_plot_size_unit': '',
     'survey_price': '',
 
-    'tp_number': '',
-    'fp_number': '',
-    'tp_plot_size': '',
-    'tp_plot_size_unit': '',
-    'tp_price': '',
+    'tp_number' : '',
+    'fp_number' : '',
+    'tp_plot_size' : '',
+    'tp_plot_size_unit' : '',
+    'tp_price' : '',
 
     'owner_type': '',
     'owner_name': '',
@@ -394,14 +953,34 @@ const other_details = reactive({
 });
 
 const unit_details = reactive([
-    {
-        'wing': '',
-        'unit_number': '',
-        'available': '',
-        'price_rent': '',
-        'furnished_status': '',
-    }
-],
+        {
+            'wing': '',
+            'unit_number': '',
+            'available': '',
+            'price_rent': '',
+            'price': '',
+            'terrace_price': '',
+            'flat_price': '',
+            'construction_price': '',
+            'plot_price': '',
+            'furnished_status': '',
+            'no_of_seats': '',
+            'no_of_cabins': '',
+            'no_of_conference_room': '',
+            'remark' : '',
+            'facilities': [],
+            'furniture_total': {
+                'light' : 0,
+                'ac' : 0,
+                'beds' : 0,
+                'geyser' : 0,
+                'fans' : 0,
+                'tv': 0,
+                'wardobe' : 0,
+                'sofa' : 0,
+            }
+        }
+    ],
 );
 
 function unitDetailsSelect2() {
@@ -412,6 +991,11 @@ function unitDetailsSelect2() {
 
         $(`#furnished_status_${index}`).select2().on('change', function () {
             unit_details[index].furnished_status = $(this).val();
+            unit_details[index]['no_of_seats'] = '';
+            unit_details[index]['no_of_cabins'] = '';
+            unit_details[index]['no_of_conference_room'] = '';
+            unit_details[index]['remark'] = '';
+            unit_details[index]['facilities'] = [];
         });
     });
 }
@@ -423,7 +1007,27 @@ function addUnit() {
         'unit_number': '',
         'available': '',
         'price_rent': '',
+        'price': '',
+        'construction_price': '',
+        'plot_price': '',
+        'construction_price': '',
+        'plot_price': '',
         'furnished_status': '',
+        'no_of_seats': '',
+        'no_of_cabins': '',
+        'no_of_conference_room': '',
+        'remark' : '',
+        'facilities': [],
+        'furniture_total': {
+            'light' : 0,
+            'ac' : 0,
+            'beds' : 0,
+            'geyser' : 0,
+            'fans' : 0,
+            'tv': 0,
+            'wardobe' : 0,
+            'sofa' : 0,
+        }
     });
 
     nextTick(() => {
@@ -432,17 +1036,17 @@ function addUnit() {
 }
 
 function removeUnit(index) {
-    unit_details.splice(index, 1);
+    unit_details.splice(index , 1);
 }
 
 const other_contact_details = reactive([
-    {
-        'name': '',
-        'contact_code': '',
-        'contact': '',
-        'position': '',
-    }
-],
+        {
+            'name': '',
+            'contact_code': '',
+            'contact': '',
+            'position': '',
+        }
+    ],
 );
 
 function otherContactSelect2() {
@@ -472,14 +1076,17 @@ function removeContact(index) {
 }
 
 function resetValue(clicked_value) {
+
     // reset selected value on change input
-    if (clicked_value == 1) {
-        data.property_construction_type = null;
+    if(data.property_category == 8) {
+        if (clicked_value == 1) {
+            data.property_construction_type = null;
+        }
+        if (clicked_value == 1 || clicked_value == 2) {
+            data.property_category = null;
+        }
+        data.property_sub_category = null;
     }
-    if (clicked_value == 1 || clicked_value == 2) {
-        data.property_category = null;
-    }
-    data.property_sub_category = null;
 }
 
 let isUpdatingMainUnit = false;
@@ -503,33 +1110,119 @@ function setMainUnits(value) {
     }, 0);
 }
 
-function appendFormData(data, parentKey = "") {
+function appendFormData (data, parentKey = ""){
     Object.keys(data).forEach((key) => {
+
         const fullKey = parentKey ? `${parentKey}[${key}]` : key;
         const value = data[key];
 
         if (value instanceof File) {
             formData.append(fullKey, value);
         } else if (typeof value === "object" && value !== null) {
-            appendFormData(value, fullKey); // Recursively append nested objects
+            appendFormData(value, fullKey);
         } else {
-            formData.append(fullKey, value ?? ""); // Ensure null values are sent as empty strings
+            formData.append(fullKey, value ?? "");
         }
     });
 };
 
 function submitForm() {
+
+    let post_data = {
+        'basic_detail' : data,
+        'other_details' : other_details,
+        'unit_details' : unit_details,
+        'other_contact_details' : other_contact_details,
+    };
+
+
+    if([1,2].includes(data.property_category)) {
+
+        let office_retail_data = office_retail_form.value.getData();
+
+        post_data.other_details = {
+            ...post_data.other_details,
+            ...office_retail_data
+        };
+    }
+
+    if(data.property_category == 3) {
+        let storage_industrial_data = storage_industrial_form.value.getData();
+
+        post_data.other_details = {
+            ...post_data.other_details,
+            ...storage_industrial_data
+        };
+    }
+
+    if(data.property_category == 4) {
+        let land_data = land_form.value.getData();
+
+        post_data.other_details = {
+            ...post_data.other_details,
+            ...land_data
+        };
+    }
+
+    if(data.property_category == 5){
+        let flat_data = flat_form.value.getData();
+
+        post_data.other_details = {
+            ...post_data.other_details,
+            ...flat_data
+        };
+    }
+
+    if(data.property_category == 6){
+        let villa_banglow_data = villa_banglow_form.value.getData();
+
+        post_data.other_details = {
+            ...post_data.other_details,
+            ...villa_banglow_data
+        };
+    }
+
+    if(data.property_category == 7){
+        let penthouse_form_data = penthouse_form.value.getData();
+
+        post_data.other_details = {
+            ...post_data.other_details,
+            ...penthouse_form_data
+        };
+    }
+
+    if(data.property_category == 8){
+        let plot_form_data = plot_form.value.getData();
+
+        post_data.other_details = {
+            ...post_data.other_details,
+            ...plot_form_data
+        };
+    }
+
+    appendFormData(post_data);
+    appendFormData(files.value);
+
+    axios.post('/admin/master-properties/store-property', formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+    })
+    .then(response => {
+        window.location.href = "/admin/master-properties/index";
+    })
+    .catch(error => {
+        console.error(error);
+    });    
 }
 
 function handleFileUpload(type, event) {
-    if (event.target.files.length == 0) return;
+    if(event.target.files.length == 0) return;
 
-    if (type == 'image') {
+    if(type == 'image'){
         files.value.images = event.target.files;
     }
 
-    if (type == 'document') {
-        files.value.documents = event.target.files;
+    if(type == 'document'){
+        files.value.documents= event.target.files;
     }
 }
 
