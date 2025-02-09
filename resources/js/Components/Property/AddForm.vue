@@ -412,12 +412,12 @@
                             <div class="col-12 col-md-6">
                                 <div class="row div_checkboxes1 gy-3">
                                     <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                                        <input class="form-check-input" id="pantry" value="pantry" type="checkbox" v-model="unit.facilities">
-                                        <label class="form-check-label" for="pantry">Pantry</label>
+                                        <input class="form-check-input" :id="`pantry_${index}`" value="pantry" type="checkbox" v-model="unit.facilities">
+                                        <label class="form-check-label" :for="`pantry_${index}`">Pantry</label>
                                     </div>
                                     <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                                        <input class="form-check-input" id="reception" value="reception" type="checkbox" v-model="unit.facilities">
-                                        <label class="form-check-label" for="reception">Reception</label>
+                                        <input class="form-check-input" :id="`reception_${index}`" value="reception" type="checkbox" v-model="unit.facilities">
+                                        <label class="form-check-label" :for="`reception_${index}`">Reception</label>
                                     </div>
                                 </div>
                             </div>
@@ -488,44 +488,44 @@
                         </div>
                         <div class="row gy-2">
                             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                                <input class="form-check-input" id="washing_machine" value="washing_machine" type="checkbox" v-model="unit.facilities">
-                                <label class="form-check-label" for="washing_machine">Washing Machine</label>
+                                <input class="form-check-input" :id="`washing_machine_${index}`" value="washing_machine" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`washing_machine_${index}`">Washing Machine</label>
                             </div>
                             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                                <input class="form-check-input" id="stove" value="stove" type="checkbox" v-model="unit.facilities">
-                                <label class="form-check-label" for="stove">Stove</label>
+                                <input class="form-check-input" :id="`stove_${index}`" value="stove" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`stove_${index}`">Stove</label>
                             </div>
                             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                                <input class="form-check-input" id="fridge" value="fridge" type="checkbox" v-model="unit.facilities">
-                                <label class="form-check-label" for="fridge">Fridge</label>
+                                <input class="form-check-input" :id="`fridge_${index}`" value="fridge" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`fridge_${index}`">Fridge</label>
                             </div>
                             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                                <input class="form-check-input" id="water_purifier" value="water_purifier" type="checkbox" v-model="unit.facilities">
-                                <label class="form-check-label" for="water_purifier">Water Purifier</label>
+                                <input class="form-check-input" :id="`water_purifier_${index}`" value="water_purifier" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`water_purifier_${index}`">Water Purifier</label>
                             </div>
                             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                                <input class="form-check-input" id="microwave" value="microwave" type="checkbox" v-model="unit.facilities">
-                                <label class="form-check-label" for="microwave">Microwave</label>
+                                <input class="form-check-input" :id="`microwave_${index}`" value="microwave" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`microwave_${index}`">Microwave</label>
                             </div>
                             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                                <input class="form-check-input" id="modular_kitchen" value="modular_kitchen" type="checkbox" v-model="unit.facilities">
-                                <label class="form-check-label" for="modular_kitchen">Modular Kitchen</label>
+                                <input class="form-check-input" :id="`modular_kitchen_${index}`" value="modular_kitchen" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`modular_kitchen_${index}`">Modular Kitchen</label>
                             </div>
                             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                                <input class="form-check-input" id="chimney" value="chimney" type="checkbox" v-model="unit.facilities">
-                                <label class="form-check-label" for="chimney">Chimney</label>
+                                <input class="form-check-input" :id="`chimney_${index}`" value="chimney" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`chimney_${index}`">Chimney</label>
                             </div>
                             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                                <input class="form-check-input" id="dinning_table" value="dinning_table" type="checkbox" v-model="unit.facilities">
-                                <label class="form-check-label" for="dinning_table">Dinning Table</label>
+                                <input class="form-check-input" :id="`dinning_table_${index}`" value="dinning_table" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`dinning_table_${index}`">Dinning Table</label>
                             </div>
                             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                                <input class="form-check-input" id="curtains" value="curtains" type="checkbox" v-model="unit.facilities">
-                                <label class="form-check-label" for="curtains">Curtains</label>
+                                <input class="form-check-input" :id="`curtains_${index}`" value="curtains" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`curtains_${index}`">Curtains</label>
                             </div>
                             <div class="form-check checkbox checkbox-solid-success mb-0 col-md-2">
-                                <input class="form-check-input" id="exhaust_fan" value="exhaust_fan" type="checkbox" v-model="unit.facilities">
-                                <label class="form-check-label" for="exhaust_fan">Exhaust Fan</label>
+                                <input class="form-check-input" :id="`exhaust_fan_${index}`" value="exhaust_fan" type="checkbox" v-model="unit.facilities">
+                                <label class="form-check-label" :for="`exhaust_fan_${index}`">Exhaust Fan</label>
                             </div>
                         </div>
                     </template>
@@ -1071,7 +1071,7 @@ function removeContact(index) {
 }
 
 function resetValue(clicked_value) {
-    
+
     // reset selected value on change input
     if(data.property_category == 8) {
         if (clicked_value == 1) {
