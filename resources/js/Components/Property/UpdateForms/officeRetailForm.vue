@@ -353,6 +353,7 @@
 import { reactive, onMounted } from 'vue';
 
 onMounted(() => {
+    
 
     $('#salable_area_unit').select2().on('change', function () {
         other_details.saleable_area_unit = $(this).val();
@@ -399,9 +400,93 @@ onMounted(() => {
             select2Instance.trigger('select', { data: { id: options.eq(0).val(), text: options.eq(0).text() } });
         }
     });
+
+    console.log(props.property_master);
+
+    if(props.property_master.area_sizes.length == 1) {
+        
+        console.log(props.property_master.area_sizes[0]);
+        
+        other_details.saleable_area =props.property_master.area_sizes[0].salable_area_value
+        other_details.saleable_area_unit =props.property_master.area_sizes[0].salable_area_measurement_id
+
+        other_details.opening_width =props.property_master.area_sizes[0].opening_width_value
+        other_details.opening_width_unit =props.property_master.area_sizes[0].opening_width_measurement_id
+
+        other_details.ceiling_height =props.property_master.area_sizes[0].ceiling_height_value
+        other_details.ceiling_height_unit =props.property_master.area_sizes[0].ceiling_height_measurement_id
+
+        other_details.add_carpet_area =props.property_master.area_sizes[0].carpet_area_value ? 1 : 0
+        other_details.carpet_area =props.property_master.area_sizes[0].carpet_area_value
+        other_details.carpet_area_unit =props.property_master.area_sizes[0].carpet_area_measurement_id
+
+        other_details.terrace_saleable_area =props.property_master.area_sizes[0].terrace_salable_area_value
+        other_details.terrace_saleable_area_unit =props.property_master.area_sizes[0].terrace_salable_area_measurement_id
+        
+        other_details.add_terrace_carpet_area =props.property_master.area_sizes[0].terrace_carpet_area_value ? 1 : 0
+        other_details.terrace_carpet_area =props.property_master.area_sizes[0].terrace_carpet_area_value
+        other_details.terrace_carpet_area_unit =props.property_master.area_sizes[0].terrace_carpet_area_measurement_id
+        
+        other_details.is_terrace = props.property_master.area_sizes[0].terrace_salable_area_value || other_details.add_terrace_carpet_area ? 1 : 0
+    }
+
+    if(props.property_master.washroom_type) {
+        switch (props.property_master.washroom_type) {
+            case 1:
+
+                other_details.washrooms = 'Private Washrooms';
+                break;
+            case 2:
+                other_details.washrooms = 'Public Washrooms';
+                break;  
+            case 3:
+                other_details.washrooms = 'Not Available';
+                break;
+            default:
+                break;
+        }
+    }
+    
+    if(props.property_master.priority_type) {
+        switch (props.property_master.priority_type) {
+            case 1:
+                other_details.priority = 'High';
+                $("#priority").val('High').trigger('change');
+                break;
+            case 2:
+                $("#priority").val('Medium').trigger('change');
+
+                break;
+            case 3:
+                $("#priority").val('Low').trigger('change');
+                break;
+            default:
+                break;
+        }
+    }
+
+    if(props.property_master.source){
+        other_details.source = props.property_master.source;
+        $("#source").val(props.property_master.source).trigger('change');
+    }
+
+    if(props.property_master.fourwheller_parking){
+        other_details.four_wheeler_parking = props.property_master.fourwheller_parking;
+    }
+    
+    if(props.property_master.twowheeler_parking){
+        other_details.four_wheeler_parking = props.property_master.twowheeler_parking;
+    }
+    
+    other_details.units_in_project = props.property_master?.units_in_project ?? ''
+    other_details.number_of_floor = props.property_master?.no_of_floor ?? ''
+    other_details.units_in_towers = props.property_master?.units_in_towers ?? ''
+    other_details.units_on_floor = props.property_master?.units_on_floor ?? ''
+    other_details.number_of_elevators = props.property_master?.no_of_elevators ?? ''
 });
 
 const props = defineProps([
+    'property_master',
     'land_units',
     'property_source',
     'property_category',
@@ -431,16 +516,16 @@ const other_details = reactive({
     'terrace_carpet_area': '',
     'terrace_carpet_area_unit': '',
 
-    'units_in_project': '',
-    'number_of_floor': '',
-    'units_in_towers': '',
-    'units_on_floor': '',
-    'number_of_elevators': '',
+    'units_in_project': props.property_master?.units_in_project ?? '',
+    'number_of_floor': props.property_master?.no_of_floor ?? '',
+    'units_in_towers': props.property_master?.units_in_towers ?? '',
+    'units_on_floor': props.property_master?.units_on_floor ?? '',
+    'number_of_elevators': props.property_master?.no_of_elevators ?? '',
 
-    'service_elevator': '',
-    'is_hot': '',
+    'service_elevator': props.property_master?.service_elevator ?? '',
+    'is_hot': props.property_master?.hot_property ?? 0,
 
-    'washrooms': '',
+    'washrooms': '', 
 
     'four_wheeler_parking': '',
     'two_wheeler_parking': '',
@@ -450,10 +535,10 @@ const other_details = reactive({
 
     'availability_status': '',
     'age_of_property': '',
-    'available_from': '',
+    'available_from': props.property_master?.available_from ?? '',    
 
-    'two_road_corner': '',
-    'remark': '',
+    'two_road_corner': props.property_master?.two_road_corner ?? '',
+    'remark': props.property_master?.remark ?? '',
 });
 
 function resetValue(array) {
@@ -513,5 +598,40 @@ function getData() {
 defineExpose({
     getData,
 });
+const washrooms = {
+    1: 'Private Washrooms',
+    2: 'Public Washrooms',
+    3: 'Not Available'
+};
+
+const priorityType = {
+    1: 'High',
+    2: 'Medium',
+    3: 'Low'
+};
+
+const availabilityStatus = {
+    0: 'Under Construction',
+    1: 'Available'
+};
+
+const propertyAge = {
+    1: '0-1 Years',
+    2: '1-5 Years',
+    3: '5-10 Years',
+    4: '10+ Years'
+};
+
+const unitAvailabilityStatus = {
+    1: 'Rent Out',
+    2: 'Sold Out'
+};
+
+const furnishedStatus = {
+    1: 'Furnished',
+    2: 'Semi Furnished',
+    3: 'Unfurnished',
+    4: 'Can Furnished'
+};
 
 </script>

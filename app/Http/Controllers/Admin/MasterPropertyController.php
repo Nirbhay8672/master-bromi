@@ -572,6 +572,7 @@ class MasterPropertyController extends Controller
         if(in_array($request->basic_detail['property_category'], [1,2,3,5,6,7])){
             foreach ($request->unit_details ?? [] as $key => $value) {
                 $transformed_request_array['unit_details'][] = [
+                    'id' => $value['id'] ?? null,
                     'wing' => $value['wing'] ?? null,
                     'unit_no' => $value['unit_number'] ?? 0, 
                     'availability_status' => $unitavailabilityStatus[$value['available']] ?? 0,
@@ -653,7 +654,93 @@ class MasterPropertyController extends Controller
             'districts' => $districts,
             'property_zones' => $property_zone,
             'amenities' => $amenities,
-            'property_master' => $masterProperty,
+            'property_master' => $masterProperty->load(['unitDetails','contactDetails','areaSizes','propertyConstructionDocuments']),
         ]);
     }
+
+    public function update(Request $request, MasterProperty $masterProperty)
+    {
+        /**
+         * @var \Illuminate\Http\Request $transformedRequest
+         */
+        $transformedRequest = $this->transformRequest($request);
+
+        // dd($transformedRequest->all());
+
+        try {
+            DB::beginTransaction();
+            
+            $masterProperty->update($transformedRequest->basic_detail);
+
+            $masterProperty->areaSizes()->update($transformedRequest->size_area);
+
+
+            $currentIds = [];
+            // Update or create PropertyUnitDetails -  More efficient way
+            if (in_array($transformedRequest->basic_detail['category_id'], [1, 2, 3, 5, 6, 7])) {
+                foreach ($transformedRequest->unit_details ?? [] as $unit_detail) {
+                    $propertyUnitDetail = PropertyUnitDetail::find($unit_detail['id']) ?? New PropertyUnitDetail();
+                    $propertyUnitDetail->fill(['property_id' => $masterProperty->id, ...$unit_detail])->save();
+                    $currentIds[] = $propertyUnitDetail->id;
+                }
+            }
+
+            // $test = PropertyUnitDetail::where('property_id', $masterProperty->id)->get();
+
+            // dd($test);
+
+            PropertyUnitDetail::where('property_id', $masterProperty->id)->whereNotIn('id', $currentIds)->delete(); // Clear existing
+
+            // Update or create PropertyContactDetails - More efficient way
+            PropertyContactDetail::where('property_id', $masterProperty->id)->delete(); // Clear existing
+            foreach ($transformedRequest->contact_details ?? [] as $contact_detail) {
+                PropertyContactDetail::create(['property_id' => $masterProperty->id, ...$contact_detail]);
+            }
+
+            // Media Handling - Images - Media Library v9 compatible
+            $masterProperty->clearMediaCollection('images');
+            if ($transformedRequest->hasFile('images')) { // Use hasFile for v9
+                foreach ($transformedRequest->file('images') as $image) {  // Use file() for v9
+                    $masterProperty->addMedia($image)->toMediaCollection('images');
+                }
+            }
+
+            // Media Handling - Documents - Media Library v9 compatible
+            $masterProperty->clearMediaCollection('document');
+            if ($transformedRequest->hasFile('documents')) { // Use hasFile for v9
+                foreach ($transformedRequest->file('documents') as $document) { // Use file() for v9
+                    $masterProperty->addMedia($document)->toMediaCollection('document');
+                }
+            }
+
+            // Construction Documents - Media Library v9 compatible
+            if ($transformedRequest->has('construction_docs') && count($transformedRequest->construction_docs) > 0) {
+                foreach ($transformedRequest->construction_docs as $constructionDocs) {
+                    if ($constructionDocs['category'] && isset($constructionDocs['file'])) { // Check if 'file' exists.
+                        $propertyContactDocument = PropertyConstructionDocument::where('property_id', $masterProperty->id)
+                            ->where('document_type', $constructionDocs['category'])
+                            ->firstOrNew();
+
+                        $propertyContactDocument->fill(['property_id' => $masterProperty->id, 'document_type' => $constructionDocs['category']]);
+                        $propertyContactDocument->save();
+
+                        $propertyContactDocument->clearMediaCollection('construction-documents'); // Clear before adding new
+
+                        if(isset($constructionDocs['file'])) {  // Check if file exists.
+                            $propertyContactDocument->addMedia($constructionDocs['file'])->toMediaCollection('construction-documents');
+                        }
+                    }
+                }
+            }
+
+
+            DB::commit();
+            return response()->json(['message' => 'Property updated successfully']);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            dd($th);
+            throw $th;
+        }
+    }
+
 }

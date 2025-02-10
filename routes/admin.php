@@ -398,5 +398,6 @@ Route::group(['middleware' => 'revalidate'], function () {
 		Route::get('form', [MasterPropertyController::class, 'addForm'])->name('addForm');
 		Route::post('store-property', [MasterPropertyController::class , 'store'])->name('storeProperty');
 		Route::get('edit/{masterProperty}', [MasterPropertyController::class , 'updateForm'])->name('updateForm');
+		Route::post('update-property/{masterProperty}', [MasterPropertyController::class , 'update'])->name('update');
 	});
 });

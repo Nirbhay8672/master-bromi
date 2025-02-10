@@ -30,6 +30,11 @@ class MasterProperty extends Model implements HasMedia
 	{
 		return $this->hasMany(PropertyAreaSize::class , 'property_id' , 'id');
 	}
+	
+	public function areaSizes(): HasMany
+	{
+		return $this->hasMany(PropertyAreaSize::class, 'property_id', 'id');
+	}
 
 	public function project(): BelongsTo
 	{
@@ -68,8 +73,8 @@ class MasterProperty extends Model implements HasMedia
 
 	public  function contactDetails(): HasMany
 	{
-		return $this->hasMany(PropertyContactDetail::class);
-	}
+		return $this->hasMany(PropertyContactDetail::class, 'property_id', 'id');
+		}
 
 	public 	function village(): BelongsTo
 	{
@@ -83,6 +88,6 @@ class MasterProperty extends Model implements HasMedia
 
 	public function propertyConstructionDocuments(): HasMany
 	{
-		return $this->hasMany(PropertyConstructionDocument::class);
+		return $this->hasMany(PropertyConstructionDocument::class, 'property_id', 'id');
 	}
 }

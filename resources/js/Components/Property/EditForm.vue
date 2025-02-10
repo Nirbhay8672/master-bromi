@@ -215,6 +215,7 @@
             <!-- second part start -->
             <office-retail-form
                 ref="office_retail_form"
+                :property_master="property_master"
                 :land_units="props.land_units"
                 :property_source="props.property_source"
                 :property_category="data.property_category"
@@ -778,8 +779,8 @@
 </template>
 
 <script setup>
-
-import { reactive, onMounted, nextTick , ref } from 'vue';
+import { reactive, onMounted, nextTick, ref } from 'vue';
+import axios from 'axios';
 import officeRetailForm from './UpdateForms/officeRetailForm.vue';
 import storageIndustrialForm from './UpdateForms/storageIndustrialForm.vue';
 import landForm from './UpdateForms/LandForm.vue';
@@ -803,7 +804,91 @@ let files = ref({
 
 let formData = new FormData();
 
+const props = defineProps([
+    'property_master',
+    'property_for_type',
+    'property_construction_type',
+    'projects',
+    'cities',
+    'authuser',
+    'land_units',
+    'property_source',
+    'country_codes',
+    'districts',
+    'property_zones',
+    'amenities',
+]);
+
+const data = reactive({
+    'property_for': props.property_master.property_for,
+    'property_construction_type': props.property_master.property_contruction_type_id,
+    'property_category': props.property_master.category_id,
+    'property_sub_category': props.property_master.sub_category_id,
+    'selected_project': props.property_master.project_id,
+    'selected_city': props.property_master.city_id,
+    'selected_locality': props.property_master.area_id,
+    'selected_district': props.property_master.district_id,
+    'selected_taluka': props.property_master.taluka_id,
+    'selected_village': props.property_master.village_id,
+    'selected_zone': props.property_master.zone_id,
+    'address': props.property_master.address,
+    'location_link': props.property_master.location_link,
+});
+
+const other_details = reactive({
+    'survey_number': props.property_master.survey_number,
+    'survey_plot_size': props.property_master.survey_plot_size,
+    'survey_plot_size_unit': props.property_master.survey_plot_size_unit,
+    'survey_price': props.property_master.survey_price,
+    'tp_number': props.property_master.tp_number,
+    'fp_number': props.property_master.fp_number,
+    'tp_plot_size': props.property_master.tp_plot_size,
+    'tp_plot_size_unit': props.property_master.tp_plot_size_unit,
+    'tp_price': props.property_master.tp_price,
+    'owner_type': props.property_master.owner_type,
+    'owner_name': props.property_master.owner_name,
+    'owner_contact_code': props.property_master.owner_contact_code,
+    'owner_contact': props.property_master.owner_contact,
+    'owner_email': props.property_master.owner_email,
+    'is_nri': props.property_master.is_nri,
+    'key_available_at': props.property_master.key_available_at,
+});
+
+const unit_details = reactive(props.property_master.unit_details?.map(unit => ({
+    'id': unit.id,
+    'wing': unit.wing,
+    'unit_number': unit.unit_no,
+    'available': null,
+    // 'available': unit.availability_status ? unitavailabilityStatus[unit.availability_status] : null,
+    'price_rent': unit.price_rent,
+    'price': unit.price,
+    'terrace_price': unit.terrace_price,
+    'flat_price': unit.flat_price,
+    'construction_price': unit.construction_price,
+    'plot_price': unit.plot_price,
+    'furnished_status': unit.furniture_status,
+    'no_of_seats': unit.no_of_seats,
+    'no_of_cabins': unit.no_of_cabins,
+    'no_of_conference_room': unit.no_of_conference_room,
+    'remark': unit.remark,
+    'facilities': unit.facilities,
+    'furniture_total': unit.furniture_total,
+})));
+
+const other_contact_details = reactive(props.property_master.other_contact_details?.map(contact => ({
+    'name': contact.name,
+    'contact_code': contact.contact_code,
+    'contact': contact.contact,
+    'position': contact.position,
+})));
+
 onMounted(() => {
+    prefillForm();
+    initializeSelect2();
+    prefillForm();
+});
+
+function initializeSelect2() {
     $('#project_id').select2().on('change', function () {
         data.selected_project = $(this).val();
         if (data.selected_project > 0) {
@@ -811,32 +896,6 @@ onMounted(() => {
             data.address = project.address;
             data.location_link = project.location_link;
         }
-    });
-
-    var allowedselect2s = ['project_id'];
-
-    $(document).on('keydown', '.select2-search__field', function(e) {
-        setTimeout(() => {
-            var par = $(this).closest('.select2-dropdown')
-            var tar = $(par).find('.select2-results')
-            var kar = $(tar).find('.select2-results__options')
-            var opt = $(kar).find('li')
-            if (opt.length == 1 && $(opt[0]).text() == 'No results found' && $(this).val() != '') {
-                var project_id = $(kar).attr('id')
-                project_id = project_id.replace("select2-", "");
-                project_id = project_id.replace("-results", "");
-                if (allowedselect2s.includes(project_id)) {
-                    $("#" + project_id + " option[last_added='" + true + "']").each(function(i, e) {
-                        $('#' + project_id + ' option[value="' + $(this).val() + '"]').detach();
-                    });
-                    if ($("#" + project_id + " option[value='" + $(this).val() + "']").length == 0) {
-                        let vvvv = $.parseHTML('<option last_added="true" value="' + $(this).val() +
-                            '" selected="">' + $(this).val() + '</option>');
-                        $("#" + project_id).append(vvvv).trigger('change');
-                    }
-                }
-            }
-        }, 50);
     });
 
     $('#city_id').select2().on('change', function () {
@@ -863,8 +922,6 @@ onMounted(() => {
         data.selected_zone = $(this).val();
     });
 
-    $('#city_id').val(props.cities[0]['id']).trigger('change');
-
     $('#owner_type').select2().on('change', function () {
         other_details.owner_type = $(this).val();
     });
@@ -887,104 +944,27 @@ onMounted(() => {
         other_details.key_available_at = $(this).val();
     });
 
-    unitDetailsSelect2(); // for unit details
-    otherContactSelect2(); // for other contact details
+    unitDetailsSelect2();
+    otherContactSelect2();
+}
 
+function prefillForm() {
     $("#project_id").val(props.property_master.project_id).trigger('change');
     $("#city_id").val(props.property_master.city_id).trigger('change');
-
-    nextTick(() => {
-        $("#locality_id").val(props.property_master.area_id).trigger('change');
-    });
-});
-
-const props = defineProps([
-    'property_master',
-    'property_for_type',
-    'property_construction_type',
-    'projects',
-    'cities',
-    'authuser',
-    'land_units',
-    'property_source',
-    'country_codes',
-    'districts',
-    'property_zones',
-    'amenities',
-]);
-
-const data = reactive({
-    'property_for': props.property_master.property_for,
-    'property_construction_type': props.property_master.property_contruction_type_id,
-    'property_category': props.property_master.category_id,
-    'property_sub_category': props.property_master.sub_category_id,
-    'selected_project': '',
-    'selected_city': '',
-    'selected_locality': '',
-    'selected_district': '',
-    'selected_taluka': '',
-    'selected_village': '',
-    'selected_zone' : '',
-    'address': '',
-    'location_link': '',
-});
-
-const other_details = reactive({
-
-    'survey_number': '',
-    'survey_plot_size': '',
-    'survey_plot_size_unit': '',
-    'survey_price': '',
-
-    'tp_number' : '',
-    'fp_number' : '',
-    'tp_plot_size' : '',
-    'tp_plot_size_unit' : '',
-    'tp_price' : '',
-
-    'owner_type': '',
-    'owner_name': '',
-    'owner_contact_code': '',
-    'owner_contact': '',
-    'owner_email': '',
-    'is_nri': '',
-
-    'key_available_at': '',
-});
-
-const unit_details = reactive([
-        {
-            'wing': '',
-            'unit_number': '',
-            'available': '',
-            'price_rent': '',
-            'price': '',
-            'terrace_price': '',
-            'flat_price': '',
-            'construction_price': '',
-            'plot_price': '',
-            'furnished_status': '',
-            'no_of_seats': '',
-            'no_of_cabins': '',
-            'no_of_conference_room': '',
-            'remark' : '',
-            'facilities': [],
-            'furniture_total': {
-                'light' : 0,
-                'ac' : 0,
-                'beds' : 0,
-                'geyser' : 0,
-                'fans' : 0,
-                'tv': 0,
-                'wardobe' : 0,
-                'sofa' : 0,
-            }
-        }
-    ],
-);
+    $("#locality_id").val(props.property_master.area_id).trigger('change');
+    $("#district_id").val(props.property_master.district_id).trigger('change');
+    $("#taluka_id").val(props.property_master.taluka_id).trigger('change');
+    $("#village_id").val(props.property_master.village_id).trigger('change');
+    $("#zone_id").val(props.property_master.zone_id).trigger('change');
+    $("#owner_type").val(props.property_master.owner_type).trigger('change');
+    $("#survey_plot_size_unit").val(props.property_master.survey_plot_size_unit).trigger('change');
+    $("#tp_plot_size_unit").val(props.property_master.tp_plot_size_unit).trigger('change');
+    $("#owner_contact_code").val(props.property_master.owner_contact_code).trigger('change');
+    $("#key_available_at").val(props.property_master.key_available_at).trigger('change');
+}
 
 function unitDetailsSelect2() {
-    unit_details.forEach((unit_detail, index) => {
+    unit_details?.forEach((unit_detail, index) => {
         $(`#unit_available_${index}`).select2().on('change', function () {
             unit_details[index].available = $(this).val();
         });
@@ -1001,8 +981,8 @@ function unitDetailsSelect2() {
 }
 
 function addUnit() {
-
     unit_details.push({
+        'id': '',
         'wing': '',
         'unit_number': '',
         'available': '',
@@ -1010,23 +990,21 @@ function addUnit() {
         'price': '',
         'construction_price': '',
         'plot_price': '',
-        'construction_price': '',
-        'plot_price': '',
         'furnished_status': '',
         'no_of_seats': '',
         'no_of_cabins': '',
         'no_of_conference_room': '',
-        'remark' : '',
+        'remark': '',
         'facilities': [],
         'furniture_total': {
-            'light' : 0,
-            'ac' : 0,
-            'beds' : 0,
-            'geyser' : 0,
-            'fans' : 0,
+            'light': 0,
+            'ac': 0,
+            'beds': 0,
+            'geyser': 0,
+            'fans': 0,
             'tv': 0,
-            'wardobe' : 0,
-            'sofa' : 0,
+            'wardobe': 0,
+            'sofa': 0,
         }
     });
 
@@ -1036,21 +1014,11 @@ function addUnit() {
 }
 
 function removeUnit(index) {
-    unit_details.splice(index , 1);
+    unit_details.splice(index, 1);
 }
 
-const other_contact_details = reactive([
-        {
-            'name': '',
-            'contact_code': '',
-            'contact': '',
-            'position': '',
-        }
-    ],
-);
-
 function otherContactSelect2() {
-    other_contact_details.forEach((unit_detail, index) => {
+    other_contact_details?.forEach((unit_detail, index) => {
         $(`#contact_code_${index}`).select2().on('change', function () {
             other_contact_details[index].contact_code = $(this).val();
         });
@@ -1058,7 +1026,6 @@ function otherContactSelect2() {
 }
 
 function addContact() {
-
     other_contact_details.push({
         'name': '',
         'contact_code': '',
@@ -1076,9 +1043,7 @@ function removeContact(index) {
 }
 
 function resetValue(clicked_value) {
-
-    // reset selected value on change input
-    if(data.property_category == 8) {
+    if (data.property_category == 8) {
         if (clicked_value == 1) {
             data.property_construction_type = null;
         }
@@ -1092,7 +1057,6 @@ function resetValue(clicked_value) {
 let isUpdatingMainUnit = false;
 
 function setMainUnits(value) {
-
     if (isUpdatingMainUnit) return;
     isUpdatingMainUnit = true;
 
@@ -1101,7 +1065,7 @@ function setMainUnits(value) {
         'tp_plot_size_unit',
     ];
 
-    input_array.forEach(select_input => {
+    input_array?.forEach(select_input => {
         $(`#${select_input}`).val(value).trigger('change');
     });
 
@@ -1110,9 +1074,8 @@ function setMainUnits(value) {
     }, 0);
 }
 
-function appendFormData (data, parentKey = ""){
+function appendFormData(data, parentKey = "") {
     Object.keys(data).forEach((key) => {
-
         const fullKey = parentKey ? `${parentKey}[${key}]` : key;
         const value = data[key];
 
@@ -1124,76 +1087,66 @@ function appendFormData (data, parentKey = ""){
             formData.append(fullKey, value ?? "");
         }
     });
-};
+}
 
 function submitForm() {
-
     let post_data = {
-        'basic_detail' : data,
-        'other_details' : other_details,
-        'unit_details' : unit_details,
-        'other_contact_details' : other_contact_details,
+        'basic_detail': data,
+        'other_details': other_details,
+        'unit_details': unit_details,
+        'other_contact_details': other_contact_details,
     };
 
-
-    if([1,2].includes(data.property_category)) {
-
+    if ([1, 2].includes(data.property_category)) {
         let office_retail_data = office_retail_form.value.getData();
-
         post_data.other_details = {
             ...post_data.other_details,
             ...office_retail_data
         };
     }
 
-    if(data.property_category == 3) {
+    if (data.property_category == 3) {
         let storage_industrial_data = storage_industrial_form.value.getData();
-
         post_data.other_details = {
             ...post_data.other_details,
             ...storage_industrial_data
         };
     }
 
-    if(data.property_category == 4) {
+    if (data.property_category == 4) {
         let land_data = land_form.value.getData();
-
         post_data.other_details = {
             ...post_data.other_details,
             ...land_data
         };
     }
 
-    if(data.property_category == 5){
+    if (data.property_category == 5) {
         let flat_data = flat_form.value.getData();
-
         post_data.other_details = {
             ...post_data.other_details,
             ...flat_data
         };
     }
 
-    if(data.property_category == 6){
+    if (data.property_category == 6) {
         let villa_banglow_data = villa_banglow_form.value.getData();
-
         post_data.other_details = {
             ...post_data.other_details,
             ...villa_banglow_data
         };
     }
 
-    if(data.property_category == 7){
+    if (data.property_category == 7) {
         let penthouse_form_data = penthouse_form.value.getData();
-
         post_data.other_details = {
             ...post_data.other_details,
             ...penthouse_form_data
         };
     }
 
-    if(data.property_category == 8){
+    if (data.property_category == 8) {
         let plot_form_data = plot_form.value.getData();
-
         post_data.other_details = {
             ...post_data.other_details,
             ...plot_form_data
@@ -1203,7 +1156,8 @@ function submitForm() {
     appendFormData(post_data);
     appendFormData(files.value);
 
-    axios.post('/admin/master-properties/store-property', formData, {
+
+    axios.post(`/admin/master-properties/update-property/${props.property_master.id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
     })
     .then(response => {
@@ -1211,19 +1165,29 @@ function submitForm() {
     })
     .catch(error => {
         console.error(error);
-    });    
+    });
 }
 
 function handleFileUpload(type, event) {
-    if(event.target.files.length == 0) return;
+    if (event.target.files.length == 0) return;
 
-    if(type == 'image'){
+    if (type == 'image') {
         files.value.images = event.target.files;
     }
 
-    if(type == 'document'){
-        files.value.documents= event.target.files;
+    if (type == 'document') {
+        files.value.documents = event.target.files;
     }
 }
 
+const unitavailabilityStatus = {
+    '1': 'Rent Out',
+    '2': 'Sold Out',
+}
+const furnishedStatus = {
+    '1':  'Furnished' ,
+    '2': 'Semi Furnished' ,
+    '3':  'Unfurnished' ,
+    '4': 'Can Furnished' ,
+}
 </script>
