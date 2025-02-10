@@ -875,17 +875,24 @@ const unit_details = reactive(props.property_master.unit_details?.map(unit => ({
     'furniture_total': unit.furniture_total,
 })));
 
-const other_contact_details = reactive(props.property_master.other_contact_details?.map(contact => ({
+const other_contact_details = reactive(props.property_master.contact_details?.map(contact => ({
     'name': contact.name,
-    'contact_code': contact.contact_code,
-    'contact': contact.contact,
+    'contact_code': contact.country_code,
+    'contact': contact.contact_no,
     'position': contact.position,
 })));
 
 onMounted(() => {
-    prefillForm();
     initializeSelect2();
     prefillForm();
+
+    if(props.property_master.unit_details.length == 0){
+        addUnit();
+    }
+
+    if(props.property_master.contact_details.length == 0){
+        addContact();
+    }
 });
 
 function initializeSelect2() {
@@ -961,10 +968,39 @@ function prefillForm() {
     $("#tp_plot_size_unit").val(props.property_master.tp_plot_size_unit).trigger('change');
     $("#owner_contact_code").val(props.property_master.owner_contact_code).trigger('change');
     $("#key_available_at").val(props.property_master.key_available_at).trigger('change');
+
+
+    if(props.property_master.unit_details.length > 0){
+        props.property_master.unit_details.forEach((unit, index) => {
+            switch (unit.availability_status) {
+                case 1:
+                    unit_details[index].available = 'Rent Out';
+                    $(`#unit_available_${index}`).val('Rent Out').trigger('change');
+                    break;
+                case 2:
+                    unit_details[index].available = 'Sold Out';
+                    $(`#unit_available_${index}`).val('Sold Out').trigger('change');
+                    break;
+                default:
+                    unit_details[index].available = '';
+                    $(`#unit_available_${index}`).val('').trigger('change');
+                    break;
+            }
+
+            $(`#furnished_status_${index}`).val(unit.furniture_status).trigger('change');   
+        })
+    }
+    
+    if(props.property_master.contact_details.length > 0){
+        props.property_master.contact_details.forEach((contact, index) => {
+            other_contact_details[index].contact_code = contact.country_code;
+            $(`#contact_code_${index}`).val(other_contact_details[index].contact_code).trigger('change');
+        })
+    }
 }
 
 function unitDetailsSelect2() {
-    unit_details?.forEach((unit_detail, index) => {
+    props.property_master.unit_details?.forEach((unit_detail, index) => {
         $(`#unit_available_${index}`).select2().on('change', function () {
             unit_details[index].available = $(this).val();
         });
@@ -1018,7 +1054,7 @@ function removeUnit(index) {
 }
 
 function otherContactSelect2() {
-    other_contact_details?.forEach((unit_detail, index) => {
+    props.property_master.contact_details?.forEach((unit_detail, index) => {
         $(`#contact_code_${index}`).select2().on('change', function () {
             other_contact_details[index].contact_code = $(this).val();
         });
@@ -1161,7 +1197,8 @@ function submitForm() {
         headers: { "Content-Type": "multipart/form-data" },
     })
     .then(response => {
-        window.location.href = "/admin/master-properties/index";
+        window.location.reload();
+        // window.location.href = "/admin/master-properties/index";
     })
     .catch(error => {
         console.error(error);
@@ -1180,14 +1217,4 @@ function handleFileUpload(type, event) {
     }
 }
 
-const unitavailabilityStatus = {
-    '1': 'Rent Out',
-    '2': 'Sold Out',
-}
-const furnishedStatus = {
-    '1':  'Furnished' ,
-    '2': 'Semi Furnished' ,
-    '3':  'Unfurnished' ,
-    '4': 'Can Furnished' ,
-}
 </script>

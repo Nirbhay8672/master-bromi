@@ -401,31 +401,29 @@ onMounted(() => {
         }
     });
 
-    console.log(props.property_master);
-
     if(props.property_master.area_sizes.length == 1) {
-        
-        console.log(props.property_master.area_sizes[0]);
-        
+                
         other_details.saleable_area =props.property_master.area_sizes[0].salable_area_value
-        other_details.saleable_area_unit =props.property_master.area_sizes[0].salable_area_measurement_id
+        // other_details.saleable_area_unit = props.property_master.area_sizes[0].salable_area_measurement_id
+        $('#salable_area_unit').val(other_details.saleable_area_unit).trigger('change');
+
 
         other_details.opening_width =props.property_master.area_sizes[0].opening_width_value
-        other_details.opening_width_unit =props.property_master.area_sizes[0].opening_width_measurement_id
+        $('#ceiling_height_unit').val(other_details.opening_width_unit).trigger('change');
 
         other_details.ceiling_height =props.property_master.area_sizes[0].ceiling_height_value
-        other_details.ceiling_height_unit =props.property_master.area_sizes[0].ceiling_height_measurement_id
+        $('#opening_width_unit').val(other_details.ceiling_height_unit).trigger('change');
 
         other_details.add_carpet_area =props.property_master.area_sizes[0].carpet_area_value ? 1 : 0
         other_details.carpet_area =props.property_master.area_sizes[0].carpet_area_value
-        other_details.carpet_area_unit =props.property_master.area_sizes[0].carpet_area_measurement_id
+        $('#carpet_area_unit').val(other_details.carpet_area_unit).trigger('change');
 
         other_details.terrace_saleable_area =props.property_master.area_sizes[0].terrace_salable_area_value
-        other_details.terrace_saleable_area_unit =props.property_master.area_sizes[0].terrace_salable_area_measurement_id
+        $('#terrace_saleable_area_unit').val(other_details.terrace_saleable_area_unit).trigger('change');
         
         other_details.add_terrace_carpet_area =props.property_master.area_sizes[0].terrace_carpet_area_value ? 1 : 0
         other_details.terrace_carpet_area =props.property_master.area_sizes[0].terrace_carpet_area_value
-        other_details.terrace_carpet_area_unit =props.property_master.area_sizes[0].terrace_carpet_area_measurement_id
+        $('#terrace_carpet_area_unit').val(other_details.terrace_carpet_area_unit).trigger('change');
         
         other_details.is_terrace = props.property_master.area_sizes[0].terrace_salable_area_value || other_details.add_terrace_carpet_area ? 1 : 0
     }
@@ -433,7 +431,6 @@ onMounted(() => {
     if(props.property_master.washroom_type) {
         switch (props.property_master.washroom_type) {
             case 1:
-
                 other_details.washrooms = 'Private Washrooms';
                 break;
             case 2:
@@ -445,6 +442,40 @@ onMounted(() => {
             default:
                 break;
         }
+    }
+
+    if(props.property_master.availability_status >= 0) {
+        switch (props.property_master.availability_status) {
+            case 0:
+                other_details.availability_status = 'Under Construction';
+                break;
+            case 1:
+                other_details.availability_status = 'Available';
+                break;  
+            default:
+                break;
+        }
+    }
+
+    if(props.property_master.availability_status == 1) {
+        switch (props.property_master.property_age) {
+            case 1:
+                other_details.age_of_property = '0-1 Years';
+                break;
+            case 2:
+                other_details.age_of_property = '1-5 Years';
+                break;
+            case 3:
+                other_details.age_of_property = '5-10 Years';
+                break;
+            case 4:
+                other_details.age_of_property = '10+ Years';
+                break;
+            default:
+                break;
+        }
+    }else{
+        other_details.available_from = props.property_master.available_from;
     }
     
     if(props.property_master.priority_type) {
@@ -469,20 +500,9 @@ onMounted(() => {
         other_details.source = props.property_master.source;
         $("#source").val(props.property_master.source).trigger('change');
     }
+    
+    console.log(props.property_master);
 
-    if(props.property_master.fourwheller_parking){
-        other_details.four_wheeler_parking = props.property_master.fourwheller_parking;
-    }
-    
-    if(props.property_master.twowheeler_parking){
-        other_details.four_wheeler_parking = props.property_master.twowheeler_parking;
-    }
-    
-    other_details.units_in_project = props.property_master?.units_in_project ?? ''
-    other_details.number_of_floor = props.property_master?.no_of_floor ?? ''
-    other_details.units_in_towers = props.property_master?.units_in_towers ?? ''
-    other_details.units_on_floor = props.property_master?.units_on_floor ?? ''
-    other_details.number_of_elevators = props.property_master?.no_of_elevators ?? ''
 });
 
 const props = defineProps([
@@ -517,18 +537,18 @@ const other_details = reactive({
     'terrace_carpet_area_unit': '',
 
     'units_in_project': props.property_master?.units_in_project ?? '',
-    'number_of_floor': props.property_master?.no_of_floor ?? '',
-    'units_in_towers': props.property_master?.units_in_towers ?? '',
-    'units_on_floor': props.property_master?.units_on_floor ?? '',
+    'number_of_floor':  props.property_master?.no_of_floors ?? '',
+    'units_in_towers':  props.property_master?.units_in_tower ?? '',
+    'units_on_floor':  props.property_master?.units_in_floor ?? '',
     'number_of_elevators': props.property_master?.no_of_elevators ?? '',
 
-    'service_elevator': props.property_master?.service_elevator ?? '',
-    'is_hot': props.property_master?.hot_property ?? 0,
+    'service_elevator': props.property_master?.service_elevator  == 1  ?? false,
+    'is_hot': props.property_master?.hot_property == 1  ?? false,
 
     'washrooms': '', 
 
-    'four_wheeler_parking': '',
-    'two_wheeler_parking': '',
+    'four_wheeler_parking': props.property_master?.fourwheller_parking ?? '',
+    'two_wheeler_parking': props.property_master?.twowheller_parking ?? '',
 
     'priority': '',
     'source': '',
@@ -598,40 +618,4 @@ function getData() {
 defineExpose({
     getData,
 });
-const washrooms = {
-    1: 'Private Washrooms',
-    2: 'Public Washrooms',
-    3: 'Not Available'
-};
-
-const priorityType = {
-    1: 'High',
-    2: 'Medium',
-    3: 'Low'
-};
-
-const availabilityStatus = {
-    0: 'Under Construction',
-    1: 'Available'
-};
-
-const propertyAge = {
-    1: '0-1 Years',
-    2: '1-5 Years',
-    3: '5-10 Years',
-    4: '10+ Years'
-};
-
-const unitAvailabilityStatus = {
-    1: 'Rent Out',
-    2: 'Sold Out'
-};
-
-const furnishedStatus = {
-    1: 'Furnished',
-    2: 'Semi Furnished',
-    3: 'Unfurnished',
-    4: 'Can Furnished'
-};
-
 </script>
