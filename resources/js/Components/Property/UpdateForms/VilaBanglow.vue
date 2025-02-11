@@ -348,8 +348,6 @@ onMounted(() => {
         other_details.source = $(this).val();
     });
 
-    console.log(props.property_master);
-
     if(props.property_master.area_sizes.length == 1) {
                 
         other_details.saleable_plot_area = props.property_master.area_sizes[0].salable_plot_area_value;
