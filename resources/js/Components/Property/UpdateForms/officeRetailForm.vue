@@ -353,8 +353,6 @@
 import { reactive, onMounted } from 'vue';
 
 onMounted(() => {
-    
-
     $('#salable_area_unit').select2().on('change', function () {
         other_details.saleable_area_unit = $(this).val();
         setSameMainUnits($(this).val());

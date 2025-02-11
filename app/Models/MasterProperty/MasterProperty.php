@@ -24,6 +24,7 @@ class MasterProperty extends Model implements HasMedia
 	protected $casts = [
         'storage_inductrial_other_details' => 'array',
 		'amenities' => 'array',
+		'owner_info' => 'array',
     ];
 
 	public function extraSize(): HasMany

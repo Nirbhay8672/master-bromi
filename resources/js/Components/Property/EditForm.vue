@@ -845,12 +845,12 @@ const other_details = reactive({
     'tp_plot_size': props.property_master.tp_plot_size,
     'tp_plot_size_unit': props.property_master.tp_plot_size_unit,
     'tp_price': props.property_master.tp_price,
-    'owner_type': props.property_master.owner_type,
-    'owner_name': props.property_master.owner_name,
-    'owner_contact_code': props.property_master.owner_contact_code,
-    'owner_contact': props.property_master.owner_contact,
-    'owner_email': props.property_master.owner_email,
-    'is_nri': props.property_master.is_nri,
+    'owner_type': props.property_master.owner_info?.type ?? '',
+    'owner_name': props.property_master.owner_info?.name ?? '',
+    'owner_contact_code': props.property_master.owner_info?.country_code ?? '',
+    'owner_contact': props.property_master.owner_info?.contact,
+    'owner_email': props.property_master.owner_info?.email ?? '',
+    'is_nri': props.property_master.owner_info?.is_nri ?? '',
     'key_available_at': props.property_master.key_available_at,
 });
 
@@ -963,12 +963,11 @@ function prefillForm() {
     $("#taluka_id").val(props.property_master.taluka_id).trigger('change');
     $("#village_id").val(props.property_master.village_id).trigger('change');
     $("#zone_id").val(props.property_master.zone_id).trigger('change');
-    $("#owner_type").val(props.property_master.owner_type).trigger('change');
+    $("#owner_type").val(props.property_master.owner_info?.type ?? '').trigger('change');
     $("#survey_plot_size_unit").val(props.property_master.survey_plot_size_unit).trigger('change');
     $("#tp_plot_size_unit").val(props.property_master.tp_plot_size_unit).trigger('change');
-    $("#owner_contact_code").val(props.property_master.owner_contact_code).trigger('change');
+    $("#owner_contact_code").val(props.property_master.owner_info?.country_code ?? '').trigger('change');
     $("#key_available_at").val(props.property_master.key_available_at).trigger('change');
-
 
     if(props.property_master.unit_details.length > 0){
         props.property_master.unit_details.forEach((unit, index) => {

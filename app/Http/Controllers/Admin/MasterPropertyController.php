@@ -171,7 +171,6 @@ class MasterPropertyController extends Controller
 
     public function transformRequest(Request $request) :Request
     {
-        
         $washrooms = [
             'Private Washrooms' => 1,
             'Public Washrooms' => 2,
@@ -566,6 +565,15 @@ class MasterPropertyController extends Controller
                 'contact_details' => [],
             ];
         }
+
+        $transformed_request_array['basic_detail']['owner_info'] = [
+            'type' => $request->other_details['owner_type'] ?? null,
+            'name' => $request->other_details['owner_name'] ?? null,
+            'contact' => $request->other_details['owner_contact'] ?? null,
+            'email' => $request->other_details['owner_email'] ?? null,
+            'country_code' => $request->other_details['owner_contact_code'] ?? null,
+            'is_nri' => $request->other_details['is_nri'] ? 1 : 0,
+        ]; 
 
         if(in_array($request->basic_detail['property_category'], [1,2,3,5,6,7])){
             foreach ($request->unit_details ?? [] as $key => $value) {
