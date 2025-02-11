@@ -347,6 +347,56 @@ onMounted(() => {
     $('#source').select2().on('change', function () {
         other_details.source = $(this).val();
     });
+
+    console.log(props.property_master);
+
+    if(props.property_master.area_sizes.length == 1) {
+                
+        other_details.saleable_plot_area = props.property_master.area_sizes[0].salable_plot_area_value;
+        $('#saleable_plot_area_unit').val(props.property_master.area_sizes[0].salable_plot_area_measurement_id).trigger('change');
+
+        other_details.saleable_constructed_area = props.property_master.area_sizes[0].salable_constructed_area_value;
+        other_details.carpet_plot_area = props.property_master.area_sizes[0].carpet_plot_area_value;
+        other_details.constructed_carpet_area = props.property_master.area_sizes[0].constructed_carpet_area_value;
+        other_details.constructed_builtup_area = props.property_master.area_sizes[0].constructed_builtup_area_value;
+
+        other_details.add_carpet_plot_area = props.property_master.area_sizes[0].carpet_plot_area_value ? 1 : 0;
+        other_details.add_constructed_carpet_area = props.property_master.area_sizes[0].constructed_carpet_area_value ? 1 : 0;
+        other_details.add_constructed_builtup_area = props.property_master.area_sizes[0].constructed_builtup_area_value ? 1 : 0;
+    }
+
+    other_details.number_of_balcony = props.property_master.no_of_balcony;
+    other_details.number_of_units = props.property_master.no_of_units;
+    other_details.number_of_bathrooms = props.property_master.no_of_bathroom;
+    other_details.number_of_open_side = props.property_master.no_of_open_side;
+
+    other_details.servent_room = props.property_master.servent_room ? true : false;
+    other_details.weekend = props.property_master.weekend ? true : false;
+    other_details.is_hot = props.property_master.hot_property ? true : false;
+
+    other_details.four_wheeler_parking = props.property_master.fourwheller_parking;
+    other_details.two_wheeler_parking = props.property_master.twowheller_parking;
+
+    let priority = {
+        1 : 'High',
+        2 : 'Medium',
+        3 : 'Low',
+    };
+
+    $('#priority').val(priority[props.property_master.priority_type]).trigger('change');
+    $('#source').val(props.property_master.source).trigger('change');
+
+    other_details.availability_status = props.property_master.availability_status ? 'Available' : 'Under Construction';
+
+    if(props.property_master.availability_status == 1) {
+        other_details.age_of_property = age_of_property[props.property_master.property_age - 1];
+    } else {
+        other_details.available_from = props.property_master.available_from;
+    }
+
+    other_details.remark = props.property_master.remark;
+    other_details.is_have_amenities = props.property_master.is_have_amenities ? true : false;
+    other_details.amenities = props.property_master.amenities;
 });
 
 const props = defineProps([
@@ -354,6 +404,7 @@ const props = defineProps([
     'property_source',
     'property_category',
     'amenities',
+    'property_master',
 ]);
 
 const age_of_property = ['0-1 Years', '1-5 Years', '5-10 Years', '10+ Years'];
