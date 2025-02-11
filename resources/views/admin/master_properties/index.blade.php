@@ -125,11 +125,11 @@
 
                         if ([1,2,5,7,8].includes(row.category_id)) {
                             area = row.extra_size[0]['salable_area_value'];
-                            measure = row.extra_size[0]['salable_area_measurement_id'] ?? 1;
+                            measure = row.extra_size[0]['salable_area_measurement_id'];
                         } else if (row.category_id == 3) {
                             let salable = row.extra_size[0]['salable_plot_area_value'] ?? '';
                             let constructed = row.extra_size[0]['salable_constructed_area_value'];
-                            let measure = row.extra_size[0]['salable_plot_area_measurement_id'] ?? 1;
+                            let measure = row.extra_size[0]['salable_plot_area_measurement_id'];
 
                             let res = area ? "P :" . area : "";
 
@@ -200,7 +200,7 @@
                         let html = '';
                         if(![3,8].includes(row.property_category)) {
                             if(row.unit_details.length > 0) {
-                                html += `<span>${row.unit_details[0]['wing'] ? row.unit_details[0]['wing'] : ''} ${row.unit_details[0]['wing']}`;
+                                html += `<span>${row.unit_details[0]['wing'] ?? ''} - ${row.unit_details[0]['unit_no'] ?? ''}`;
                             }
                         }
                         return html;
@@ -213,17 +213,15 @@
                         let html = '';
                         if(![3,8].includes(row.property_category)) {
                             if(row.unit_details.length > 0) {
-
                                 row.unit_details.forEach(element => {
-                                    if (row.priority_type == 1) {
+                                    if (row.property_for == 1) {
                                         html += `₹ ${element.price_rent}`;
-                                    } else if (row.priority_type == 2) {
+                                    } else if (row.property_for == 2) {
                                         html += `₹ ${element.price}`;
-                                    } else if (row.priority_type == 3) {
+                                    } else if (row.property_for == 3) {
                                         html += `R : ₹ ${element.price_rent} <br> S : ₹ ${element.price ?? '-'}`;
                                     }
                                 });
-
                                 html += "<br>";
                             }
                         }

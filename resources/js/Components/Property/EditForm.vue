@@ -240,6 +240,7 @@
 
             <flat-form
                 ref="flat_form"
+                :property_master="property_master"
                 :land_units="props.land_units"
                 :property_source="props.property_source"
                 :property_category="data.property_category"
