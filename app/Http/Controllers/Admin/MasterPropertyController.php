@@ -317,6 +317,8 @@ class MasterPropertyController extends Controller
                 'size_area' => [
                     'salable_plot_area_value' => $request->other_details['saleable_plot_area'],
                     'salable_plot_area_measurement_id' => $request->other_details['saleable_plot_area_unit'],
+                    'salable_constructed_area_value' => $request->other_details['saleable_constructed_area'],
+                    'salable_constructed_area_measurement_id' => $request->other_details['saleable_constructed_area_unit'],
                     'carpet_plot_area_value' => $request->other_details['carpet_plot_area'],
                     'carpet_plot_area_measurement_id' => $request->other_details['carpet_plot_area_unit'],
                     'road_width_of_front_side_value' => $request->other_details['road_width_of_front_side'],
