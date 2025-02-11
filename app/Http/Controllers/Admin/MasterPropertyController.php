@@ -37,8 +37,6 @@ class MasterPropertyController extends Controller
         $query->with([
             'project.Area',
             'city',
-            'propertyConstructionType',
-            'propertyCategory',
             'propertySubCategory',
             'district',
             'village',

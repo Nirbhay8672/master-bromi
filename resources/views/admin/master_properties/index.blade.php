@@ -120,23 +120,54 @@
 
                         html += row.property_sub_category ? row.property_sub_category.name : '';
 
-                        if(row.extra_size[0]['salable_area_value']) {
-                            let saleable_unit  = land_units.filter(unit => unit.id == row.extra_size[0]['salable_area_measurement_id']);
+                        let area = '';
+                        let measure = '';
 
-                            html += `<br> ${row.extra_size[0]['salable_area_value']} `;
+                        if ([1,2,5,7,8].includes(row.category_id)) {
+                            area = row.extra_size[0]['salable_area_value'];
+                            measure = row.extra_size[0]['salable_area_measurement_id'] ?? 1;
+                        } else if (row.category_id == 3) {
+                            let salable = row.extra_size[0]['salable_plot_area_value'] ?? '';
+                            let constructed = row.extra_size[0]['salable_constructed_area_value'];
+                            let measure = row.extra_size[0]['salable_plot_area_measurement_id'] ?? 1;
 
-                            if(saleable_unit.length > 0) {
-                                html += saleable_unit[0].unit_name;
-                            } 
-                        } else {
-                            let saleable_unit  = land_units.filter(unit => unit.id == row.extra_size[0]['salable_plot_area_measurement_id']);
+                            let res = area ? "P :" . area : "";
 
-                            html += `<br> P : ${row.extra_size[0]['salable_plot_area_value']} C : ${row.extra_size[0]['salable_constructed_area_value']}`;
+                            if (res) {
+                                constructed = constructed ? ` - C : ${constructed}` : '';
+                                area = `${res}${constructed}`;
+                            } else {
+                                constructed = constructed ? ` C : ${constructed}` : '';
+                                area = `${constructed}`;
+                            }
+                            
+                        } else if (row.category_id == 6) {
+                            let salable = row.extra_size[0]['salable_plot_area_value'] ?? '';
+                            let constructed = row.extra_size[0]['salable_constructed_area_value'];
+                            let measure = row.extra_size[0]['salable_plot_area_measurement_id'] ?? 1;
 
-                            if(saleable_unit.length > 0) {
-                                html += saleable_unit[0].unit_name;
-                            } 
+                            let res = salable ? "P:" . salable : "";
+
+                            if (res) {
+                                constructed = constructed ? ` - C : ${constructed}` : '';
+                                area = `${res} ${constructed}`;
+                            } else {
+                                constructed = constructed ? ` C : ${constructed}` : '';
+                                area = `${constructed}`;
+                            }
                         }
+
+                        let saleable_unit  = land_units.filter(unit => unit.id == measure ?? 1);
+
+                        area = area ?? 52;
+
+                        if (area && saleable_unit.length > 0) {
+                            value = `${area} ${saleable_unit[0]['unit_name']}`;
+                        } else {
+                            value = "Area Not Available";
+                        }
+
+                        html += `<br> ${value}`;
 
                         if (row.priority_type == 1) {
                             html += '<img style="height:24px;margin-top:25px;float: right;bottom: 38px;right:17px;position:relative;" src="/assets/prop_images/Red-Star.png" alt="">';

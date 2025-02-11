@@ -30,6 +30,28 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <div class="form-group col-md-7 m-b-20">
+                    <div class="fname" :class="other_details.saleable_constructed_area !== '' ? 'focused' : ''">
+                        <label for="saleable_constructed_area">Saleble Constructed Area</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="saleable_constructed_area"
+                                v-model="other_details.saleable_constructed_area">
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group-append col-md-5">
+                    <div class="form-group">
+                        <select class="form-select" id="saleable_constructed_area_unit">
+                            <template v-for="(unit) in props.land_units">
+                                <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-3" v-show="other_details.add_carpet_plot_area == 1">
             <div class="input-group">
                 <div class="form-group col-md-7 m-b-20">
@@ -243,6 +265,11 @@ onMounted(() => {
         setSameMainUnits($(this).val());
     });
 
+    $('#saleable_constructed_area_unit').select2().on('change', function () {
+        other_details.saleable_constructed_area_unit  = $(this).val();
+        setSameMainUnits($(this).val());
+    });
+
     $('#carpet_plot_area_unit').select2().on('change', function () {
         other_details.carpet_plot_area_unit = $(this).val();
         setSameMainUnits($(this).val());
@@ -280,6 +307,9 @@ const age_of_property = ['0-1 Years', '1-5 Years', '5-10 Years', '10+ Years'];
 const other_details = reactive({
     'saleable_plot_area': '',
     'saleable_plot_area_unit': '',
+
+    'saleable_constructed_area' : '',
+    'saleable_constructed_area_unit' : '',
 
     'add_carpet_plot_area' : '',
     'carpet_plot_area': '',
@@ -371,6 +401,7 @@ function setSameMainUnits(value) {
     let input_array = [
         'saleable_plot_area_unit',
         'carpet_plot_area_unit',
+        'saleable_constructed_area_unit',
     ];
 
     input_array.forEach(select_input => {
