@@ -577,7 +577,7 @@ class MasterPropertyController extends Controller
             'is_nri' => $request->other_details['is_nri'] ? 1 : 0,
         ]; 
 
-        if(in_array($request->basic_detail['property_category'], [1,2,3,5,6,7])){
+        if(in_array($request->basic_detail['property_category'], [1,2,3,5,6,7,8])){
             foreach ($request->unit_details ?? [] as $key => $value) {
                 $transformed_request_array['unit_details'][] = [
                     'id' => $value['id'] ?? null,

@@ -171,8 +171,8 @@
                             4 : 'Can Furnished',
                         };
 
-                        if(![3,8].includes(row.property_category)) {
-                            if(row.unit_details.length > 0) {
+                        if(![3,8].includes(parseInt(row.property_category))) {
+                            if(row.unit_details.length > 0 && row.unit_details[0]['furniture_status']) {
                                 html += `<br> ${furniture_type[row.unit_details[0]['furniture_status']]}`;
                             }
                         }
@@ -185,7 +185,7 @@
                     name: 'City Name',
                     render: function(data, type , row) {
                         let html = '';
-                        if(![3,8].includes(row.property_category)) {
+                        if(![4].includes(row.property_category)) {
                             if(row.unit_details.length > 0) {
                                 if(row.unit_details[0]['wing']) {
                                     html += `<span>${row.unit_details[0]['wing'] ?? ''}</span> - `;
