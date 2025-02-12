@@ -126,48 +126,35 @@
                         if ([1,2,5,7,8].includes(row.category_id)) {
                             area = row.extra_size[0]['salable_area_value'];
                             measure = row.extra_size[0]['salable_area_measurement_id'];
-                        } else if (row.category_id == 3) {
-                            let salable = row.extra_size[0]['salable_plot_area_value'] ?? '';
+
+                            let saleable_unit  = land_units.filter(unit => unit.id == measure);
+
+                            if (area !='' && saleable_unit.length > 0) {
+                                value = `${area} ${saleable_unit[0]['unit_name']}`;
+                            } else {
+                                value = "Area Not Available";
+                            }
+
+                            html += `<br> ${value}`;
+                        }
+                        else if (row.category_id == 6) {
+                            let salable = row.extra_size[0]['salable_plot_area_value'];
                             let constructed = row.extra_size[0]['salable_constructed_area_value'];
                             let measure = row.extra_size[0]['salable_plot_area_measurement_id'];
 
-                            let res = area ? "P :" . area : "";
+                            area = `P : ${salable} - C : ${constructed}`;
 
-                            if (res) {
-                                constructed = constructed ? ` - C : ${constructed}` : '';
-                                area = `${res}${constructed}`;
+                            let saleable_unit  = land_units.filter(unit => unit.id == measure);
+
+                            if (area !='' && saleable_unit.length > 0) {
+                                value = `${area} ${saleable_unit[0]['unit_name']}`;
                             } else {
-                                constructed = constructed ? ` C : ${constructed}` : '';
-                                area = `${constructed}`;
+                                value = "Area Not Available";
                             }
-                            
-                        } else if (row.category_id == 6) {
-                            let salable = row.extra_size[0]['salable_plot_area_value'] ?? '';
-                            let constructed = row.extra_size[0]['salable_constructed_area_value'];
-                            let measure = row.extra_size[0]['salable_plot_area_measurement_id'] ?? 1;
 
-                            let res = salable ? "P:" . salable : "";
-
-                            if (res) {
-                                constructed = constructed ? ` - C : ${constructed}` : '';
-                                area = `${res} ${constructed}`;
-                            } else {
-                                constructed = constructed ? ` C : ${constructed}` : '';
-                                area = `${constructed}`;
-                            }
+                            html += `<br> ${value}`;
                         }
 
-                        let saleable_unit  = land_units.filter(unit => unit.id == measure ?? 1);
-
-                        area = area ?? 52;
-
-                        if (area && saleable_unit.length > 0) {
-                            value = `${area} ${saleable_unit[0]['unit_name']}`;
-                        } else {
-                            value = "Area Not Available";
-                        }
-
-                        html += `<br> ${value}`;
 
                         if (row.priority_type == 1) {
                             html += '<img style="height:24px;margin-top:25px;float: right;bottom: 38px;right:17px;position:relative;" src="/assets/prop_images/Red-Star.png" alt="">';
@@ -184,8 +171,8 @@
                             4 : 'Can Furnished',
                         };
 
-                        if(![3,8].includes(row.property_category)) {
-                            if(row.unit_details.length > 0) {
+                        if(![3,8].includes(parseInt(row.property_category))) {
+                            if(row.unit_details.length > 0 && row.unit_details[0]['furniture_status']) {
                                 html += `<br> ${furniture_type[row.unit_details[0]['furniture_status']]}`;
                             }
                         }
@@ -198,9 +185,14 @@
                     name: 'City Name',
                     render: function(data, type , row) {
                         let html = '';
-                        if(![3,8].includes(row.property_category)) {
+                        if(![4].includes(row.property_category)) {
                             if(row.unit_details.length > 0) {
-                                html += `<span>${row.unit_details[0]['wing'] ?? ''} - ${row.unit_details[0]['unit_no'] ?? ''}`;
+                                if(row.unit_details[0]['wing']) {
+                                    html += `<span>${row.unit_details[0]['wing'] ?? ''}</span> - `;
+                                }
+                                if(row.unit_details[0]['unit_no']) {
+                                    html += `${row.unit_details[0]['unit_no'] ?? ''}</span>`;
+                                }
                             }
                         }
                         return html;

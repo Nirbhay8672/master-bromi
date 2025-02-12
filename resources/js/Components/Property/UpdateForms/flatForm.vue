@@ -421,8 +421,6 @@ onMounted(() => {
     other_details.number_of_elevators = props.property_master.no_of_elevators;
     other_details.number_of_bathrooms = props.property_master.no_of_bathroom;
 
-    console.log(props.property_master);
-
     other_details.servent_room = props.property_master.servent_room ? true : false;
     other_details.service_elevator = props.property_master.service_elevator ? true : false;
     other_details.is_hot = props.property_master.hot_property ? true : false;

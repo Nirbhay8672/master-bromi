@@ -250,6 +250,7 @@
 
             <vila-banglow-form
                 ref="villa_banglow_form"
+                :property_master="property_master"
                 :land_units="props.land_units"
                 :property_source="props.property_source"
                 :property_category="data.property_category"
@@ -259,6 +260,7 @@
 
             <penthouse-form
                 ref="penthouse_form"
+                :property_master="property_master"
                 :land_units="props.land_units"
                 :property_source="props.property_source"
                 :property_category="data.property_category"
@@ -268,6 +270,7 @@
 
             <plot-form
                 ref="plot_form"
+                :property_master="property_master"
                 :land_units="props.land_units"
                 :property_source="props.property_source"
                 :property_category="data.property_category"

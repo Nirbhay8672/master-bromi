@@ -202,12 +202,52 @@ onMounted(() => {
     $('#source').select2().on('change', function () {
         other_details.source = $(this).val();
     });
+
+    if(props.property_master.area_sizes.length == 1) {
+                
+        other_details.saleable_area = props.property_master.area_sizes[0].salable_area_value;
+        $('#saleable_area_unit').val(props.property_master.area_sizes[0].salable_area_measurement_id).trigger('change');
+
+        other_details.length_of_plot = props.property_master.area_sizes[0].length_of_plot_value;
+        $('#length_of_plot_unit').val(props.property_master.area_sizes[0].length_of_plot_measurement_id).trigger('change');
+
+        other_details.width_of_plot = props.property_master.area_sizes[0].width_of_plot_value;
+        other_details.carpet_plot_area = props.property_master.area_sizes[0].carpet_plot_area_value;
+
+        other_details.add_carpet_plot_area = props.property_master.area_sizes[0].carpet_plot_area_value ? 1 : 0;
+    }
+
+    other_details.number_of_floors_allowed = props.property_master.no_of_floors_allowed;
+    other_details.number_of_units = props.property_master.no_of_units;
+    other_details.number_of_open_side = props.property_master.no_of_open_side;
+
+    other_details.is_hot = props.property_master.hot_property ? true : false;
+
+    let priority = {
+        1 : 'High',
+        2 : 'Medium',
+        3 : 'Low',
+    };
+
+    $('#priority').val(priority[props.property_master.priority_type]).trigger('change');
+    $('#source').val(props.property_master.source).trigger('change');
+
+    other_details.availability_status = props.property_master.availability_status ? 'Available' : 'Under Construction';
+
+    if(props.property_master.availability_status == 1) {
+        other_details.age_of_property = age_of_property[props.property_master.property_age - 1];
+    } else {
+        other_details.available_from = props.property_master.available_from;
+    }
+
+    other_details.remark = props.property_master.remark;
 });
 
 const props = defineProps([
     'land_units',
     'property_source',
     'property_category',
+    'property_master',
 ]);
 
 const other_details = reactive({
