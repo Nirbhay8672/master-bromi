@@ -214,70 +214,70 @@
 
             <template v-if="data.property_category != ''">
                 <!-- second part start -->
-            <office-retail-form
-                ref="office_retail_form"
-                :property_master="property_master"
-                :land_units="props.land_units"
-                :property_source="props.property_source"
-                :property_category="data.property_category"
-                v-if="[1,2].includes(data.property_category)"
-            ></office-retail-form>
+                <office-retail-form
+                    ref="office_retail_form"
+                    :property_master="property_master"
+                    :land_units="props.land_units"
+                    :property_source="props.property_source"
+                    :property_category="data.property_category"
+                    v-if="[1,2].includes(parseInt(data.property_category))"
+                ></office-retail-form>
 
-            <storage-industrial-form
-                ref="storage_industrial_form"
-                :land_units="props.land_units"
-                :property_source="props.property_source"
-                :property_category="data.property_category"
-                v-if="[3].includes(data.property_category)"
-            ></storage-industrial-form>
+                <storage-industrial-form
+                    ref="storage_industrial_form"
+                    :land_units="props.land_units"
+                    :property_source="props.property_source"
+                    :property_category="data.property_category"
+                    v-if="[3].includes(parseInt(data.property_category))"
+                ></storage-industrial-form>
 
-            <land-form
-                ref="land_form"
-                :land_units="props.land_units"
-                :property_source="props.property_source"
-                :property_category="data.property_category"
-                v-if="[4].includes(data.property_category)"
-            ></land-form>
+                <land-form
+                    ref="land_form"
+                    :land_units="props.land_units"
+                    :property_source="props.property_source"
+                    :property_category="data.property_category"
+                    v-if="[4].includes(parseInt(data.property_category))"
+                ></land-form>
 
-            <flat-form
-                ref="flat_form"
-                :property_master="property_master"
-                :land_units="props.land_units"
-                :property_source="props.property_source"
-                :property_category="data.property_category"
-                :amenities="props.amenities"
-                v-if="[5].includes(parseInt(data.property_category))"
-            ></flat-form>
+                <flat-form
+                    ref="flat_form"
+                    :property_master="property_master"
+                    :land_units="props.land_units"
+                    :property_source="props.property_source"
+                    :property_category="data.property_category"
+                    :amenities="props.amenities"
+                    v-if="[5].includes(parseInt(data.property_category))"
+                ></flat-form>
 
-            <vila-banglow-form
-                ref="villa_banglow_form"
-                :property_master="property_master"
-                :land_units="props.land_units"
-                :property_source="props.property_source"
-                :property_category="data.property_category"
-                :amenities="props.amenities"
-                v-if="[6].includes(data.property_category)"
-            ></vila-banglow-form>
+                <vila-banglow-form
+                    ref="villa_banglow_form"
+                    :property_master="property_master"
+                    :land_units="props.land_units"
+                    :property_source="props.property_source"
+                    :property_category="data.property_category"
+                    :amenities="props.amenities"
+                    v-if="[6].includes(parseInt(data.property_category))"
+                ></vila-banglow-form>
 
-            <penthouse-form
-                ref="penthouse_form"
-                :property_master="property_master"
-                :land_units="props.land_units"
-                :property_source="props.property_source"
-                :property_category="data.property_category"
-                :amenities="props.amenities"
-                v-if="[7].includes(data.property_category)"
-            ></penthouse-form>
+                <penthouse-form
+                    ref="penthouse_form"
+                    :property_master="property_master"
+                    :land_units="props.land_units"
+                    :property_source="props.property_source"
+                    :property_category="data.property_category"
+                    :amenities="props.amenities"
+                    v-if="[7].includes(parseInt(data.property_category))"
+                ></penthouse-form>
 
-            <plot-form
-                ref="plot_form"
-                :property_master="property_master"
-                :land_units="props.land_units"
-                :property_source="props.property_source"
-                :property_category="data.property_category"
-                :amenities="props.amenities"
-                v-if="[8].includes(data.property_category)"
-            ></plot-form>
+                <plot-form
+                    ref="plot_form"
+                    :property_master="property_master"
+                    :land_units="props.land_units"
+                    :property_source="props.property_source"
+                    :property_category="data.property_category"
+                    :amenities="props.amenities"
+                    v-if="[8].includes(parseInt(data.property_category))"
+                ></plot-form>
 
             <!-- second part end -->
             </template>
@@ -880,61 +880,60 @@ function initializeSelect2() {
 
     nextTick(() => {
 
-    $('#project_id').select2().on('change', function () {
-        data.selected_project = $(this).val();
-        if (data.selected_project > 0) {
-            let project = props.projects.find(project => parseInt(project.id) == parseInt(data.selected_project));
-            data.address = project.address;
-            data.location_link = project.location_link;
-        }
-    });
+        $('#project_id').select2().on('change', function () {
+            data.selected_project = $(this).val();
+            if (data.selected_project > 0) {
+                let project = props.projects.find(project => parseInt(project.id) == parseInt(data.selected_project));
+                data.address = project.address;
+                data.location_link = project.location_link;
+            }
+        });
 
-    $('#city_id').select2().on('change', function () {
-        data.selected_city = $(this).val();
-    });
+        $('#city_id').select2().on('change', function () {
+            data.selected_city = $(this).val();
+        });
 
-    $('#locality_id').select2().on('change', function () {
-        data.selected_locality = $(this).val();
-    });
+        $('#locality_id').select2().on('change', function () {
+            data.selected_locality = $(this).val();
+        });
 
-    $('#district_id').select2().on('change', function () {
-        data.selected_district = $(this).val();
-    });
+        $('#district_id').select2().on('change', function () {
+            data.selected_district = $(this).val();
+        });
 
-    $('#taluka_id').select2().on('change', function () {
-        data.selected_taluka = $(this).val();
-    });
+        $('#taluka_id').select2().on('change', function () {
+            data.selected_taluka = $(this).val();
+        });
 
-    $('#village_id').select2().on('change', function () {
-        data.selected_village = $(this).val();
-    });
+        $('#village_id').select2().on('change', function () {
+            data.selected_village = $(this).val();
+        });
 
-    $('#zone_id').select2().on('change', function () {
-        data.selected_zone = $(this).val();
-    });
+        $('#zone_id').select2().on('change', function () {
+            data.selected_zone = $(this).val();
+        });
 
-    $('#owner_type').select2().on('change', function () {
-        other_details.owner_type = $(this).val();
-    });
+        $('#owner_type').select2().on('change', function () {
+            other_details.owner_type = $(this).val();
+        });
 
-    $('#survey_plot_size_unit').select2().on('change', function () {
-        other_details.survey_plot_size_unit = $(this).val();
-        setMainUnits($(this).val());
-    });
+        $('#survey_plot_size_unit').select2().on('change', function () {
+            other_details.survey_plot_size_unit = $(this).val();
+            setMainUnits($(this).val());
+        });
 
-    $('#tp_plot_size_unit').select2().on('change', function () {
-        other_details.tp_plot_size_unit = $(this).val();
-        setMainUnits($(this).val());
-    });
+        $('#tp_plot_size_unit').select2().on('change', function () {
+            other_details.tp_plot_size_unit = $(this).val();
+            setMainUnits($(this).val());
+        });
 
-    $('#owner_contact_code').select2().on('change', function () {
-        other_details.owner_contact_code = $(this).val();
-    });
+        $('#owner_contact_code').select2().on('change', function () {
+            other_details.owner_contact_code = $(this).val();
+        });
 
-    $('#key_available_at').select2().on('change', function () {
-        other_details.key_available_at = $(this).val();
-    });
-
+        $('#key_available_at').select2().on('change', function () {
+            other_details.key_available_at = $(this).val();
+        });
     
         unitDetailsSelect2();
         otherContactSelect2();
@@ -958,8 +957,6 @@ function prefillForm() {
     data.selected_zone = props.property_master.zone_id;
     data.address = props.property_master.address;
     data.location_link = props.property_master.location_link;
-    
-    console.log(data.property_category);
 
     Object.assign(other_details, {
         'survey_number': props.property_master.survey_number,
