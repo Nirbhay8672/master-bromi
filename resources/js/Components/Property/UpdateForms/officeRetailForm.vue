@@ -401,29 +401,20 @@ onMounted(() => {
 
     if(props.property_master.area_sizes.length == 1) {
                 
-        other_details.saleable_area =props.property_master.area_sizes[0].salable_area_value
-        // other_details.saleable_area_unit = props.property_master.area_sizes[0].salable_area_measurement_id
+        other_details.saleable_area = props.property_master.area_sizes[0].salable_area_value;
         $('#salable_area_unit').val(other_details.saleable_area_unit).trigger('change');
 
-
-        other_details.opening_width =props.property_master.area_sizes[0].opening_width_value
+        other_details.opening_width = props.property_master.area_sizes[0].opening_width_value;
         $('#ceiling_height_unit').val(other_details.opening_width_unit).trigger('change');
 
-        other_details.ceiling_height =props.property_master.area_sizes[0].ceiling_height_value
-        $('#opening_width_unit').val(other_details.ceiling_height_unit).trigger('change');
+        other_details.is_terrace = props.property_master.area_sizes[0].terrace_salable_area_value ? true : false;
+        other_details.add_terrace_carpet_area = props.property_master.area_sizes[0].terrace_carpet_area_value ? 1 : 0;
+        other_details.add_carpet_area = props.property_master.area_sizes[0].carpet_area_value ? 1 : 0;
 
-        other_details.add_carpet_area =props.property_master.area_sizes[0].carpet_area_value ? 1 : 0
-        other_details.carpet_area =props.property_master.area_sizes[0].carpet_area_value
-        $('#carpet_area_unit').val(other_details.carpet_area_unit).trigger('change');
-
-        other_details.terrace_saleable_area =props.property_master.area_sizes[0].terrace_salable_area_value
-        $('#terrace_saleable_area_unit').val(other_details.terrace_saleable_area_unit).trigger('change');
-        
-        other_details.add_terrace_carpet_area =props.property_master.area_sizes[0].terrace_carpet_area_value ? 1 : 0
-        other_details.terrace_carpet_area =props.property_master.area_sizes[0].terrace_carpet_area_value
-        $('#terrace_carpet_area_unit').val(other_details.terrace_carpet_area_unit).trigger('change');
-        
-        other_details.is_terrace = props.property_master.area_sizes[0].terrace_salable_area_value || other_details.add_terrace_carpet_area ? 1 : 0
+        other_details.ceiling_height = props.property_master.area_sizes[0].ceiling_height_value;
+        other_details.carpet_area = props.property_master.area_sizes[0].carpet_area_value;
+        other_details.terrace_saleable_area = props.property_master.area_sizes[0].terrace_salable_area_value;
+        other_details.terrace_carpet_area = props.property_master.area_sizes[0].terrace_carpet_area_value;
     }
 
     if(props.property_master.washroom_type) {
@@ -441,66 +432,31 @@ onMounted(() => {
                 break;
         }
     }
+    
+    other_details.service_elevator = props.property_master.service_elevator ? true : false;
+    other_details.is_hot = props.property_master.hot_property ? true : false;
 
-    if(props.property_master.availability_status >= 0) {
-        switch (props.property_master.availability_status) {
-            case 0:
-                other_details.availability_status = 'Under Construction';
-                break;
-            case 1:
-                other_details.availability_status = 'Available';
-                break;  
-            default:
-                break;
-        }
-    }
+    other_details.four_wheeler_parking = props.property_master.fourwheller_parking;
+    other_details.two_wheeler_parking = props.property_master.twowheller_parking;
+
+    let priority = {
+        1 : 'High',
+        2 : 'Medium',
+        3 : 'Low',
+    };
+
+    $('#priority').val(priority[props.property_master.priority_type]).trigger('change');
+    $('#source').val(props.property_master.source).trigger('change');
+
+    other_details.availability_status = props.property_master.availability_status ? 'Available' : 'Under Construction';
 
     if(props.property_master.availability_status == 1) {
-        switch (props.property_master.property_age) {
-            case 1:
-                other_details.age_of_property = '0-1 Years';
-                break;
-            case 2:
-                other_details.age_of_property = '1-5 Years';
-                break;
-            case 3:
-                other_details.age_of_property = '5-10 Years';
-                break;
-            case 4:
-                other_details.age_of_property = '10+ Years';
-                break;
-            default:
-                break;
-        }
-    }else{
+        other_details.age_of_property = age_of_property[props.property_master.property_age - 1];
+    } else {
         other_details.available_from = props.property_master.available_from;
     }
-    
-    if(props.property_master.priority_type) {
-        switch (props.property_master.priority_type) {
-            case 1:
-                other_details.priority = 'High';
-                $("#priority").val('High').trigger('change');
-                break;
-            case 2:
-                $("#priority").val('Medium').trigger('change');
 
-                break;
-            case 3:
-                $("#priority").val('Low').trigger('change');
-                break;
-            default:
-                break;
-        }
-    }
-
-    if(props.property_master.source){
-        other_details.source = props.property_master.source;
-        $("#source").val(props.property_master.source).trigger('change');
-    }
-    
-    console.log(props.property_master);
-
+    other_details.remark = props.property_master.remark;
 });
 
 const props = defineProps([
@@ -540,13 +496,13 @@ const other_details = reactive({
     'units_on_floor':  props.property_master?.units_in_floor ?? '',
     'number_of_elevators': props.property_master?.no_of_elevators ?? '',
 
-    'service_elevator': props.property_master?.service_elevator  == 1  ?? false,
-    'is_hot': props.property_master?.hot_property == 1  ?? false,
+    'service_elevator': '',
+    'is_hot': '',
 
     'washrooms': '', 
 
-    'four_wheeler_parking': props.property_master?.fourwheller_parking ?? '',
-    'two_wheeler_parking': props.property_master?.twowheller_parking ?? '',
+    'four_wheeler_parking': '',
+    'two_wheeler_parking': '',
 
     'priority': '',
     'source': '',

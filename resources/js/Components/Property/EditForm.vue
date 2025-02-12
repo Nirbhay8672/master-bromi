@@ -1044,7 +1044,14 @@ function prefillForm() {
                         break;
                 }
     
-                $(`#furnished_status_${index}`).val(unit.furniture_status).trigger('change');   
+                $(`#furnished_status_${index}`).val(unit.furniture_status).trigger('change');
+
+                unit_details[index]['no_of_seats'] = unit.no_of_seats;
+                unit_details[index]['no_of_cabins'] = unit.no_of_cabins;
+                unit_details[index]['no_of_conference_room'] = unit.no_of_conference_room;
+                unit_details[index]['remark'] = unit.remark;
+                unit_details[index]['facilities'] = unit.facilities;
+                unit_details[index]['furniture_total'] = unit.furniture_total;
             })
         })
     }
