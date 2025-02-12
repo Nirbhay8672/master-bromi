@@ -212,7 +212,8 @@
             </div>
             <!-- first part end -->
 
-            <!-- second part start -->
+            <template v-if="data.property_category != ''">
+                <!-- second part start -->
             <office-retail-form
                 ref="office_retail_form"
                 :property_master="property_master"
@@ -279,6 +280,7 @@
             ></plot-form>
 
             <!-- second part end -->
+            </template>
 
             <!-- 3rd part start -->
 
