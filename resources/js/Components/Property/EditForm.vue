@@ -958,6 +958,10 @@ function prefillForm() {
         'location_link': props.property_master.location_link,
     });
 
+    data.property_for = props.property_master.property_for;
+    data.property_construction_type = props.property_master.property_contruction_type_id;
+    data.property_category = props.property_master.category_id;
+
     Object.assign(other_details, {
         'survey_number': props.property_master.survey_number,
         'survey_plot_size': props.property_master.survey_plot_size,
