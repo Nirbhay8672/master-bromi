@@ -864,7 +864,6 @@ const other_contact_details = reactive([]);
 
 onMounted(() => {
     initializeSelect2();
-    prefillForm();
 
     if (props.property_master.unit_details.length === 0) {
         addUnit();
@@ -938,29 +937,24 @@ function initializeSelect2() {
         otherContactSelect2();
     })
 
+    prefillForm();
 }
 
 function prefillForm() {
-    // Initialize data from props
-    Object.assign(data, {
-        'property_for': props.property_master.property_for,
-        'property_construction_type': props.property_master.property_contruction_type_id,
-        'property_category': props.property_master.category_id,
-        'property_sub_category': props.property_master.sub_category_id,
-        'selected_project': props.property_master.project_id,
-        'selected_city': props.property_master.city_id,
-        'selected_locality': props.property_master.area_id,
-        'selected_district': props.property_master.district_id,
-        'selected_taluka': props.property_master.taluka_id,
-        'selected_village': props.property_master.village_id,
-        'selected_zone': props.property_master.zone_id,
-        'address': props.property_master.address,
-        'location_link': props.property_master.location_link,
-    });
 
     data.property_for = props.property_master.property_for;
     data.property_construction_type = props.property_master.property_contruction_type_id;
     data.property_category = props.property_master.category_id;
+    data.property_sub_category = props.property_master.sub_category_id;
+    data.selected_project = props.property_master.project_id;
+    data.selected_city = props.property_master.city_id;
+    data.selected_locality = props.property_master.area_id;
+    data.selected_district = props.property_master.district_id;
+    data.selected_taluka = props.property_master.taluka_id;
+    data.selected_village = props.property_master.village_id;
+    data.selected_zone = props.property_master.zone_id;
+    data.address = props.property_master.address;
+    data.location_link = props.property_master.location_link;
 
     Object.assign(other_details, {
         'survey_number': props.property_master.survey_number,
