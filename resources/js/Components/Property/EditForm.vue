@@ -245,7 +245,7 @@
                 :property_source="props.property_source"
                 :property_category="data.property_category"
                 :amenities="props.amenities"
-                v-if="[5].includes(data.property_category)"
+                v-if="[5].includes(parseInt(data.property_category))"
             ></flat-form>
 
             <vila-banglow-form
@@ -875,6 +875,7 @@ onMounted(() => {
 });
 
 function initializeSelect2() {
+
     nextTick(() => {
 
     $('#project_id').select2().on('change', function () {
@@ -955,6 +956,8 @@ function prefillForm() {
     data.selected_zone = props.property_master.zone_id;
     data.address = props.property_master.address;
     data.location_link = props.property_master.location_link;
+    
+    console.log(data.property_category);
 
     Object.assign(other_details, {
         'survey_number': props.property_master.survey_number,

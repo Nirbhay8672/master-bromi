@@ -40,7 +40,6 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
   __name: 'EditForm',
   props: ['property_master', 'property_for_type', 'property_construction_type', 'projects', 'cities', 'authuser', 'land_units', 'property_source', 'country_codes', 'districts', 'property_zones', 'amenities'],
   setup: function setup(__props, _ref) {
-    var _props$property_maste, _props$property_maste2, _props$property_maste3, _props$property_maste4, _props$property_maste5, _props$property_maste6, _props$property_maste7, _props$property_maste8, _props$property_maste9, _props$property_maste10, _props$property_maste11, _props$property_maste12, _props$property_maste13;
     var __expose = _ref.expose;
     __expose();
     var office_retail_form = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
@@ -57,129 +56,168 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
     var formData = new FormData();
     var props = __props;
     var data = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
-      'property_for': props.property_master.property_for,
-      'property_construction_type': props.property_master.property_contruction_type_id,
-      'property_category': props.property_master.category_id,
-      'property_sub_category': props.property_master.sub_category_id,
-      'selected_project': props.property_master.project_id,
-      'selected_city': props.property_master.city_id,
-      'selected_locality': props.property_master.area_id,
-      'selected_district': props.property_master.district_id,
-      'selected_taluka': props.property_master.taluka_id,
-      'selected_village': props.property_master.village_id,
-      'selected_zone': props.property_master.zone_id,
-      'address': props.property_master.address,
-      'location_link': props.property_master.location_link
+      'property_for': null,
+      'property_construction_type': null,
+      'property_category': null,
+      'property_sub_category': null,
+      'selected_project': null,
+      'selected_city': null,
+      'selected_locality': null,
+      'selected_district': null,
+      'selected_taluka': null,
+      'selected_village': null,
+      'selected_zone': null,
+      'address': null,
+      'location_link': null
     });
     var other_details = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
-      'survey_number': props.property_master.survey_number,
-      'survey_plot_size': props.property_master.survey_plot_size,
-      'survey_plot_size_unit': props.property_master.survey_plot_size_unit,
-      'survey_price': props.property_master.survey_price,
-      'tp_number': props.property_master.tp_number,
-      'fp_number': props.property_master.fp_number,
-      'tp_plot_size': props.property_master.tp_plot_size,
-      'tp_plot_size_unit': props.property_master.tp_plot_size_unit,
-      'tp_price': props.property_master.tp_price,
-      'owner_type': (_props$property_maste = (_props$property_maste2 = props.property_master.owner_info) === null || _props$property_maste2 === void 0 ? void 0 : _props$property_maste2.type) !== null && _props$property_maste !== void 0 ? _props$property_maste : '',
-      'owner_name': (_props$property_maste3 = (_props$property_maste4 = props.property_master.owner_info) === null || _props$property_maste4 === void 0 ? void 0 : _props$property_maste4.name) !== null && _props$property_maste3 !== void 0 ? _props$property_maste3 : '',
-      'owner_contact_code': (_props$property_maste5 = (_props$property_maste6 = props.property_master.owner_info) === null || _props$property_maste6 === void 0 ? void 0 : _props$property_maste6.country_code) !== null && _props$property_maste5 !== void 0 ? _props$property_maste5 : '',
-      'owner_contact': (_props$property_maste7 = props.property_master.owner_info) === null || _props$property_maste7 === void 0 ? void 0 : _props$property_maste7.contact,
-      'owner_email': (_props$property_maste8 = (_props$property_maste9 = props.property_master.owner_info) === null || _props$property_maste9 === void 0 ? void 0 : _props$property_maste9.email) !== null && _props$property_maste8 !== void 0 ? _props$property_maste8 : '',
-      'is_nri': (_props$property_maste10 = (_props$property_maste11 = props.property_master.owner_info) === null || _props$property_maste11 === void 0 ? void 0 : _props$property_maste11.is_nri) !== null && _props$property_maste10 !== void 0 ? _props$property_maste10 : '',
-      'key_available_at': props.property_master.key_available_at
+      'survey_number': null,
+      'survey_plot_size': null,
+      'survey_plot_size_unit': null,
+      'survey_price': null,
+      'tp_number': null,
+      'fp_number': null,
+      'tp_plot_size': null,
+      'tp_plot_size_unit': null,
+      'tp_price': null,
+      'owner_type': null,
+      'owner_name': null,
+      'owner_contact_code': null,
+      'owner_contact': null,
+      'owner_email': null,
+      'is_nri': null,
+      'key_available_at': null
     });
-    var unit_details = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)((_props$property_maste12 = props.property_master.unit_details) === null || _props$property_maste12 === void 0 ? void 0 : _props$property_maste12.map(function (unit) {
-      return {
-        'id': unit.id,
-        'wing': unit.wing,
-        'unit_number': unit.unit_no,
-        'available': null,
-        // 'available': unit.availability_status ? unitavailabilityStatus[unit.availability_status] : null,
-        'price_rent': unit.price_rent,
-        'price': unit.price,
-        'terrace_price': unit.terrace_price,
-        'flat_price': unit.flat_price,
-        'construction_price': unit.construction_price,
-        'plot_price': unit.plot_price,
-        'furnished_status': unit.furniture_status,
-        'no_of_seats': unit.no_of_seats,
-        'no_of_cabins': unit.no_of_cabins,
-        'no_of_conference_room': unit.no_of_conference_room,
-        'remark': unit.remark,
-        'facilities': unit.facilities,
-        'furniture_total': unit.furniture_total
-      };
-    }));
-    var other_contact_details = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)((_props$property_maste13 = props.property_master.contact_details) === null || _props$property_maste13 === void 0 ? void 0 : _props$property_maste13.map(function (contact) {
-      return {
-        'name': contact.name,
-        'contact_code': contact.country_code,
-        'contact': contact.contact_no,
-        'position': contact.position
-      };
-    }));
+    var unit_details = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)([]);
+    var other_contact_details = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)([]);
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
       initializeSelect2();
-      prefillForm();
-      if (props.property_master.unit_details.length == 0) {
+      if (props.property_master.unit_details.length === 0) {
         addUnit();
       }
-      if (props.property_master.contact_details.length == 0) {
+      if (props.property_master.contact_details.length === 0) {
         addContact();
       }
     });
     function initializeSelect2() {
-      $('#project_id').select2().on('change', function () {
-        data.selected_project = $(this).val();
-        if (data.selected_project > 0) {
-          var project = props.projects.find(function (project) {
-            return parseInt(project.id) == parseInt(data.selected_project);
-          });
-          data.address = project.address;
-          data.location_link = project.location_link;
-        }
+      (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(function () {
+        $('#project_id').select2().on('change', function () {
+          data.selected_project = $(this).val();
+          if (data.selected_project > 0) {
+            var project = props.projects.find(function (project) {
+              return parseInt(project.id) == parseInt(data.selected_project);
+            });
+            data.address = project.address;
+            data.location_link = project.location_link;
+          }
+        });
+        $('#city_id').select2().on('change', function () {
+          data.selected_city = $(this).val();
+        });
+        $('#locality_id').select2().on('change', function () {
+          data.selected_locality = $(this).val();
+        });
+        $('#district_id').select2().on('change', function () {
+          data.selected_district = $(this).val();
+        });
+        $('#taluka_id').select2().on('change', function () {
+          data.selected_taluka = $(this).val();
+        });
+        $('#village_id').select2().on('change', function () {
+          data.selected_village = $(this).val();
+        });
+        $('#zone_id').select2().on('change', function () {
+          data.selected_zone = $(this).val();
+        });
+        $('#owner_type').select2().on('change', function () {
+          other_details.owner_type = $(this).val();
+        });
+        $('#survey_plot_size_unit').select2().on('change', function () {
+          other_details.survey_plot_size_unit = $(this).val();
+          setMainUnits($(this).val());
+        });
+        $('#tp_plot_size_unit').select2().on('change', function () {
+          other_details.tp_plot_size_unit = $(this).val();
+          setMainUnits($(this).val());
+        });
+        $('#owner_contact_code').select2().on('change', function () {
+          other_details.owner_contact_code = $(this).val();
+        });
+        $('#key_available_at').select2().on('change', function () {
+          other_details.key_available_at = $(this).val();
+        });
+        unitDetailsSelect2();
+        otherContactSelect2();
       });
-      $('#city_id').select2().on('change', function () {
-        data.selected_city = $(this).val();
-      });
-      $('#locality_id').select2().on('change', function () {
-        data.selected_locality = $(this).val();
-      });
-      $('#district_id').select2().on('change', function () {
-        data.selected_district = $(this).val();
-      });
-      $('#taluka_id').select2().on('change', function () {
-        data.selected_taluka = $(this).val();
-      });
-      $('#village_id').select2().on('change', function () {
-        data.selected_village = $(this).val();
-      });
-      $('#zone_id').select2().on('change', function () {
-        data.selected_zone = $(this).val();
-      });
-      $('#owner_type').select2().on('change', function () {
-        other_details.owner_type = $(this).val();
-      });
-      $('#survey_plot_size_unit').select2().on('change', function () {
-        other_details.survey_plot_size_unit = $(this).val();
-        setMainUnits($(this).val());
-      });
-      $('#tp_plot_size_unit').select2().on('change', function () {
-        other_details.tp_plot_size_unit = $(this).val();
-        setMainUnits($(this).val());
-      });
-      $('#owner_contact_code').select2().on('change', function () {
-        other_details.owner_contact_code = $(this).val();
-      });
-      $('#key_available_at').select2().on('change', function () {
-        other_details.key_available_at = $(this).val();
-      });
-      unitDetailsSelect2();
-      otherContactSelect2();
+      prefillForm();
     }
     function prefillForm() {
-      var _props$property_maste14, _props$property_maste15, _props$property_maste16, _props$property_maste17;
+      var _props$property_maste, _props$property_maste2, _props$property_maste3, _props$property_maste4, _props$property_maste5, _props$property_maste6, _props$property_maste7, _props$property_maste8, _props$property_maste9, _props$property_maste10, _props$property_maste11, _props$property_maste12, _props$property_maste13, _props$property_maste14, _props$property_maste15;
+      data.property_for = props.property_master.property_for;
+      data.property_construction_type = props.property_master.property_contruction_type_id;
+      data.property_category = props.property_master.category_id;
+      data.property_sub_category = props.property_master.sub_category_id;
+      data.selected_project = props.property_master.project_id;
+      data.selected_city = props.property_master.city_id;
+      data.selected_locality = props.property_master.area_id;
+      data.selected_district = props.property_master.district_id;
+      data.selected_taluka = props.property_master.taluka_id;
+      data.selected_village = props.property_master.village_id;
+      data.selected_zone = props.property_master.zone_id;
+      data.address = props.property_master.address;
+      data.location_link = props.property_master.location_link;
+      console.log(data.property_category);
+      Object.assign(other_details, {
+        'survey_number': props.property_master.survey_number,
+        'survey_plot_size': props.property_master.survey_plot_size,
+        'survey_plot_size_unit': props.property_master.survey_plot_size_unit,
+        'survey_price': props.property_master.survey_price,
+        'tp_number': props.property_master.tp_number,
+        'fp_number': props.property_master.fp_number,
+        'tp_plot_size': props.property_master.tp_plot_size,
+        'tp_plot_size_unit': props.property_master.tp_plot_size_unit,
+        'tp_price': props.property_master.tp_price,
+        'owner_type': (_props$property_maste = (_props$property_maste2 = props.property_master.owner_info) === null || _props$property_maste2 === void 0 ? void 0 : _props$property_maste2.type) !== null && _props$property_maste !== void 0 ? _props$property_maste : '',
+        'owner_name': (_props$property_maste3 = (_props$property_maste4 = props.property_master.owner_info) === null || _props$property_maste4 === void 0 ? void 0 : _props$property_maste4.name) !== null && _props$property_maste3 !== void 0 ? _props$property_maste3 : '',
+        'owner_contact_code': (_props$property_maste5 = (_props$property_maste6 = props.property_master.owner_info) === null || _props$property_maste6 === void 0 ? void 0 : _props$property_maste6.country_code) !== null && _props$property_maste5 !== void 0 ? _props$property_maste5 : '',
+        'owner_contact': (_props$property_maste7 = props.property_master.owner_info) === null || _props$property_maste7 === void 0 ? void 0 : _props$property_maste7.contact,
+        'owner_email': (_props$property_maste8 = (_props$property_maste9 = props.property_master.owner_info) === null || _props$property_maste9 === void 0 ? void 0 : _props$property_maste9.email) !== null && _props$property_maste8 !== void 0 ? _props$property_maste8 : '',
+        'is_nri': (_props$property_maste10 = (_props$property_maste11 = props.property_master.owner_info) === null || _props$property_maste11 === void 0 ? void 0 : _props$property_maste11.is_nri) !== null && _props$property_maste10 !== void 0 ? _props$property_maste10 : '',
+        'key_available_at': props.property_master.key_available_at
+      });
+      if (props.property_master.unit_details) {
+        props.property_master.unit_details.forEach(function (unit) {
+          unit_details.push({
+            'id': unit.id,
+            'wing': unit.wing,
+            'unit_number': unit.unit_no,
+            'available': null,
+            'price_rent': unit.price_rent,
+            'price': unit.price,
+            'terrace_price': unit.terrace_price,
+            'flat_price': unit.flat_price,
+            'construction_price': unit.construction_price,
+            'plot_price': unit.plot_price,
+            'furnished_status': unit.furniture_status,
+            'no_of_seats': unit.no_of_seats,
+            'no_of_cabins': unit.no_of_cabins,
+            'no_of_conference_room': unit.no_of_conference_room,
+            'remark': unit.remark,
+            'facilities': unit.facilities,
+            'furniture_total': unit.furniture_total
+          });
+        });
+      }
+      if (props.property_master.contact_details) {
+        props.property_master.contact_details.forEach(function (contact) {
+          other_contact_details.push({
+            'name': contact.name,
+            'contact_code': contact.country_code,
+            'contact': contact.contact_no,
+            'position': contact.position
+          });
+        });
+      }
       $("#project_id").val(props.property_master.project_id).trigger('change');
       $("#city_id").val(props.property_master.city_id).trigger('change');
       $("#locality_id").val(props.property_master.area_id).trigger('change');
@@ -187,40 +225,44 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       $("#taluka_id").val(props.property_master.taluka_id).trigger('change');
       $("#village_id").val(props.property_master.village_id).trigger('change');
       $("#zone_id").val(props.property_master.zone_id).trigger('change');
-      $("#owner_type").val((_props$property_maste14 = (_props$property_maste15 = props.property_master.owner_info) === null || _props$property_maste15 === void 0 ? void 0 : _props$property_maste15.type) !== null && _props$property_maste14 !== void 0 ? _props$property_maste14 : '').trigger('change');
+      $("#owner_type").val((_props$property_maste12 = (_props$property_maste13 = props.property_master.owner_info) === null || _props$property_maste13 === void 0 ? void 0 : _props$property_maste13.type) !== null && _props$property_maste12 !== void 0 ? _props$property_maste12 : '').trigger('change');
       $("#survey_plot_size_unit").val(props.property_master.survey_plot_size_unit).trigger('change');
       $("#tp_plot_size_unit").val(props.property_master.tp_plot_size_unit).trigger('change');
-      $("#owner_contact_code").val((_props$property_maste16 = (_props$property_maste17 = props.property_master.owner_info) === null || _props$property_maste17 === void 0 ? void 0 : _props$property_maste17.country_code) !== null && _props$property_maste16 !== void 0 ? _props$property_maste16 : '').trigger('change');
+      $("#owner_contact_code").val((_props$property_maste14 = (_props$property_maste15 = props.property_master.owner_info) === null || _props$property_maste15 === void 0 ? void 0 : _props$property_maste15.country_code) !== null && _props$property_maste14 !== void 0 ? _props$property_maste14 : '').trigger('change');
       $("#key_available_at").val(props.property_master.key_available_at).trigger('change');
       if (props.property_master.unit_details.length > 0) {
-        props.property_master.unit_details.forEach(function (unit, index) {
-          switch (unit.availability_status) {
-            case 1:
-              unit_details[index].available = 'Rent Out';
-              $("#unit_available_".concat(index)).val('Rent Out').trigger('change');
-              break;
-            case 2:
-              unit_details[index].available = 'Sold Out';
-              $("#unit_available_".concat(index)).val('Sold Out').trigger('change');
-              break;
-            default:
-              unit_details[index].available = '';
-              $("#unit_available_".concat(index)).val('').trigger('change');
-              break;
-          }
-          $("#furnished_status_".concat(index)).val(unit.furniture_status).trigger('change');
+        (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(function () {
+          props.property_master.unit_details.forEach(function (unit, index) {
+            switch (unit.availability_status) {
+              case 1:
+                unit_details[index].available = 'Rent Out';
+                $("#unit_available_".concat(index)).val('Rent Out').trigger('change');
+                break;
+              case 2:
+                unit_details[index].available = 'Sold Out';
+                $("#unit_available_".concat(index)).val('Sold Out').trigger('change');
+                break;
+              default:
+                unit_details[index].available = '';
+                $("#unit_available_".concat(index)).val('').trigger('change');
+                break;
+            }
+            $("#furnished_status_".concat(index)).val(unit.furniture_status).trigger('change');
+          });
         });
       }
       if (props.property_master.contact_details.length > 0) {
-        props.property_master.contact_details.forEach(function (contact, index) {
-          other_contact_details[index].contact_code = contact.country_code;
-          $("#contact_code_".concat(index)).val(other_contact_details[index].contact_code).trigger('change');
+        (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(function () {
+          props.property_master.contact_details.forEach(function (contact, index) {
+            other_contact_details[index].contact_code = contact.country_code;
+            $("#contact_code_".concat(index)).val(other_contact_details[index].contact_code).trigger('change');
+          });
         });
       }
     }
     function unitDetailsSelect2() {
-      var _props$property_maste18;
-      (_props$property_maste18 = props.property_master.unit_details) === null || _props$property_maste18 === void 0 || _props$property_maste18.forEach(function (unit_detail, index) {
+      var _props$property_maste16;
+      (_props$property_maste16 = props.property_master.unit_details) === null || _props$property_maste16 === void 0 || _props$property_maste16.forEach(function (unit_detail, index) {
         $("#unit_available_".concat(index)).select2().on('change', function () {
           unit_details[index].available = $(this).val();
         });
@@ -269,8 +311,8 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       unit_details.splice(index, 1);
     }
     function otherContactSelect2() {
-      var _props$property_maste19;
-      (_props$property_maste19 = props.property_master.contact_details) === null || _props$property_maste19 === void 0 || _props$property_maste19.forEach(function (unit_detail, index) {
+      var _props$property_maste17;
+      (_props$property_maste17 = props.property_master.contact_details) === null || _props$property_maste17 === void 0 || _props$property_maste17.forEach(function (unit_detail, index) {
         $("#contact_code_".concat(index)).select2().on('change', function () {
           other_contact_details[index].contact_code = $(this).val();
         });
@@ -664,7 +706,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'PenthouseForm',
-  props: ['land_units', 'property_source', 'property_category', 'amenities'],
+  props: ['land_units', 'property_source', 'property_category', 'amenities', 'property_master'],
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
@@ -694,6 +736,45 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       $('#source').select2().on('change', function () {
         other_details.source = $(this).val();
       });
+      if (props.property_master.area_sizes.length == 1) {
+        other_details.saleable_area = props.property_master.area_sizes[0].salable_area_value;
+        $('#saleable_area_unit').val(props.property_master.area_sizes[0].salable_area_measurement_id).trigger('change');
+        other_details.terrace_saleable_area = props.property_master.area_sizes[0].terrace_salable_area_value;
+        other_details.carpet_area = props.property_master.area_sizes[0].carpet_area_value;
+        other_details.built_area = props.property_master.area_sizes[0].built_area_value;
+        other_details.terrace_carpet_area = props.property_master.area_sizes[0].terrace_carpet_area_value;
+        other_details.add_carpet_area = props.property_master.area_sizes[0].carpet_area_value ? 1 : 0;
+        other_details.add_builtup_area = props.property_master.area_sizes[0].built_area_value ? 1 : 0;
+        other_details.add_terrace_carpet_area = props.property_master.area_sizes[0].terrace_carpet_area_value ? 1 : 0;
+      }
+      other_details.units_in_project = props.property_master.units_in_project;
+      other_details.number_of_floor = props.property_master.no_of_floors;
+      other_details.units_in_towers = props.property_master.units_in_tower;
+      other_details.units_on_floor = props.property_master.units_in_floor;
+      other_details.number_of_elevators = props.property_master.no_of_elevators;
+      other_details.number_of_balcony = props.property_master.no_of_balcony;
+      other_details.number_of_bathrooms = props.property_master.no_of_bathroom;
+      other_details.servent_room = props.property_master.servent_room ? true : false;
+      other_details.service_elevator = props.property_master.service_elevator ? true : false;
+      other_details.is_hot = props.property_master.hot_property ? true : false;
+      other_details.four_wheeler_parking = props.property_master.fourwheller_parking;
+      other_details.two_wheeler_parking = props.property_master.twowheller_parking;
+      var priority = {
+        1: 'High',
+        2: 'Medium',
+        3: 'Low'
+      };
+      $('#priority').val(priority[props.property_master.priority_type]).trigger('change');
+      $('#source').val(props.property_master.source).trigger('change');
+      other_details.availability_status = props.property_master.availability_status ? 'Available' : 'Under Construction';
+      if (props.property_master.availability_status == 1) {
+        other_details.age_of_property = age_of_property[props.property_master.property_age - 1];
+      } else {
+        other_details.available_from = props.property_master.available_from;
+      }
+      other_details.remark = props.property_master.remark;
+      other_details.is_have_amenities = props.property_master.is_have_amenities ? true : false;
+      other_details.amenities = props.property_master.amenities;
     });
     var props = __props;
     var age_of_property = ['0-1 Years', '1-5 Years', '5-10 Years', '10+ Years'];
@@ -797,7 +878,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'PlotForm',
-  props: ['land_units', 'property_source', 'property_category'],
+  props: ['land_units', 'property_source', 'property_category', 'property_master'],
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
@@ -823,6 +904,33 @@ __webpack_require__.r(__webpack_exports__);
       $('#source').select2().on('change', function () {
         other_details.source = $(this).val();
       });
+      if (props.property_master.area_sizes.length == 1) {
+        other_details.saleable_area = props.property_master.area_sizes[0].salable_area_value;
+        $('#saleable_area_unit').val(props.property_master.area_sizes[0].salable_area_measurement_id).trigger('change');
+        other_details.length_of_plot = props.property_master.area_sizes[0].length_of_plot_value;
+        $('#length_of_plot_unit').val(props.property_master.area_sizes[0].length_of_plot_measurement_id).trigger('change');
+        other_details.width_of_plot = props.property_master.area_sizes[0].width_of_plot_value;
+        other_details.carpet_plot_area = props.property_master.area_sizes[0].carpet_plot_area_value;
+        other_details.add_carpet_plot_area = props.property_master.area_sizes[0].carpet_plot_area_value ? 1 : 0;
+      }
+      other_details.number_of_floors_allowed = props.property_master.no_of_floors_allowed;
+      other_details.number_of_units = props.property_master.no_of_units;
+      other_details.number_of_open_side = props.property_master.no_of_open_side;
+      other_details.is_hot = props.property_master.hot_property ? true : false;
+      var priority = {
+        1: 'High',
+        2: 'Medium',
+        3: 'Low'
+      };
+      $('#priority').val(priority[props.property_master.priority_type]).trigger('change');
+      $('#source').val(props.property_master.source).trigger('change');
+      other_details.availability_status = props.property_master.availability_status ? 'Available' : 'Under Construction';
+      if (props.property_master.availability_status == 1) {
+        other_details.age_of_property = age_of_property[props.property_master.property_age - 1];
+      } else {
+        other_details.available_from = props.property_master.available_from;
+      }
+      other_details.remark = props.property_master.remark;
     });
     var props = __props;
     var other_details = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
@@ -930,7 +1038,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'VilaBanglow',
-  props: ['land_units', 'property_source', 'property_category', 'amenities'],
+  props: ['land_units', 'property_source', 'property_category', 'amenities', 'property_master'],
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
@@ -960,6 +1068,42 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       $('#source').select2().on('change', function () {
         other_details.source = $(this).val();
       });
+      if (props.property_master.area_sizes.length == 1) {
+        other_details.saleable_plot_area = props.property_master.area_sizes[0].salable_plot_area_value;
+        $('#saleable_plot_area_unit').val(props.property_master.area_sizes[0].salable_plot_area_measurement_id).trigger('change');
+        other_details.saleable_constructed_area = props.property_master.area_sizes[0].salable_constructed_area_value;
+        other_details.carpet_plot_area = props.property_master.area_sizes[0].carpet_plot_area_value;
+        other_details.constructed_carpet_area = props.property_master.area_sizes[0].constructed_carpet_area_value;
+        other_details.constructed_builtup_area = props.property_master.area_sizes[0].constructed_builtup_area_value;
+        other_details.add_carpet_plot_area = props.property_master.area_sizes[0].carpet_plot_area_value ? 1 : 0;
+        other_details.add_constructed_carpet_area = props.property_master.area_sizes[0].constructed_carpet_area_value ? 1 : 0;
+        other_details.add_constructed_builtup_area = props.property_master.area_sizes[0].constructed_builtup_area_value ? 1 : 0;
+      }
+      other_details.number_of_balcony = props.property_master.no_of_balcony;
+      other_details.number_of_units = props.property_master.no_of_units;
+      other_details.number_of_bathrooms = props.property_master.no_of_bathroom;
+      other_details.number_of_open_side = props.property_master.no_of_open_side;
+      other_details.servent_room = props.property_master.servent_room ? true : false;
+      other_details.weekend = props.property_master.weekend ? true : false;
+      other_details.is_hot = props.property_master.hot_property ? true : false;
+      other_details.four_wheeler_parking = props.property_master.fourwheller_parking;
+      other_details.two_wheeler_parking = props.property_master.twowheller_parking;
+      var priority = {
+        1: 'High',
+        2: 'Medium',
+        3: 'Low'
+      };
+      $('#priority').val(priority[props.property_master.priority_type]).trigger('change');
+      $('#source').val(props.property_master.source).trigger('change');
+      other_details.availability_status = props.property_master.availability_status ? 'Available' : 'Under Construction';
+      if (props.property_master.availability_status == 1) {
+        other_details.age_of_property = age_of_property[props.property_master.property_age - 1];
+      } else {
+        other_details.available_from = props.property_master.available_from;
+      }
+      other_details.remark = props.property_master.remark;
+      other_details.is_have_amenities = props.property_master.is_have_amenities ? true : false;
+      other_details.amenities = props.property_master.amenities;
     });
     var props = __props;
     var age_of_property = ['0-1 Years', '1-5 Years', '5-10 Years', '10+ Years'];
@@ -1066,7 +1210,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'flatForm',
-  props: ['land_units', 'property_source', 'property_category', 'amenities'],
+  props: ['land_units', 'property_source', 'property_category', 'amenities', 'property_master'],
   setup: function setup(__props, _ref) {
     var __expose = _ref.expose;
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
@@ -1095,6 +1239,46 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       $('#source').select2().on('change', function () {
         other_details.source = $(this).val();
       });
+      if (props.property_master.area_sizes.length == 1) {
+        other_details.saleable_area = props.property_master.area_sizes[0].salable_area_value;
+        $('#saleable_area_unit').val(props.property_master.area_sizes[0].salable_area_measurement_id).trigger('change');
+        other_details.builtup_area = props.property_master.area_sizes[0].builtup_height_value;
+        other_details.add_carpet_area = props.property_master.area_sizes[0].carpet_area_value ? 1 : 0;
+        other_details.carpet_area = props.property_master.area_sizes[0].carpet_area_value;
+        if (props.property_master.area_sizes[0].terrace_salable_area_value) {
+          other_details.is_terrace = true;
+          other_details.terrace_saleable_area = props.property_master.area_sizes[0].terrace_salable_area_value;
+          other_details.add_terrace_carpet_area = props.property_master.area_sizes[0].terrace_carpet_area_value ? 1 : 0;
+          other_details.terrace_carpet_area = props.property_master.area_sizes[0].terrace_carpet_area_value;
+        }
+      }
+      other_details.units_in_project = props.property_master.units_in_project;
+      other_details.number_of_floor = props.property_master.no_of_floors;
+      other_details.units_in_towers = props.property_master.units_in_tower;
+      other_details.units_on_floor = props.property_master.units_in_floor;
+      other_details.number_of_elevators = props.property_master.no_of_elevators;
+      other_details.number_of_bathrooms = props.property_master.no_of_bathroom;
+      other_details.servent_room = props.property_master.servent_room ? true : false;
+      other_details.service_elevator = props.property_master.service_elevator ? true : false;
+      other_details.is_hot = props.property_master.hot_property ? true : false;
+      other_details.four_wheeler_parking = props.property_master.fourwheller_parking;
+      other_details.two_wheeler_parking = props.property_master.twowheller_parking;
+      var priority = {
+        1: 'High',
+        2: 'Medium',
+        3: 'Low'
+      };
+      $('#priority').val(priority[props.property_master.priority_type]).trigger('change');
+      $('#source').val(props.property_master.source).trigger('change');
+      other_details.availability_status = props.property_master.availability_status ? 'Available' : 'Under Construction';
+      if (props.property_master.availability_status == 1) {
+        other_details.age_of_property = age_of_property[props.property_master.property_age - 1];
+      } else {
+        other_details.available_from = props.property_master.available_from;
+      }
+      other_details.remark = props.property_master.remark;
+      other_details.is_have_amenities = props.property_master.is_have_amenities ? true : false;
+      other_details.amenities = props.property_master.amenities;
     });
     var props = __props;
     var age_of_property = ['0-1 Years', '1-5 Years', '5-10 Years', '10+ Years'];
@@ -2422,35 +2606,39 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     land_units: $setup.props.land_units,
     property_source: $setup.props.property_source,
     property_category: $setup.data.property_category
-  }, null, 8 /* PROPS */, ["land_units", "property_source", "property_category"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), [5].includes($setup.data.property_category) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["flatForm"], {
+  }, null, 8 /* PROPS */, ["land_units", "property_source", "property_category"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), [5].includes(parseInt($setup.data.property_category)) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["flatForm"], {
     key: 3,
     ref: "flat_form",
+    property_master: $props.property_master,
     land_units: $setup.props.land_units,
     property_source: $setup.props.property_source,
     property_category: $setup.data.property_category,
     amenities: $setup.props.amenities
-  }, null, 8 /* PROPS */, ["land_units", "property_source", "property_category", "amenities"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), [6].includes($setup.data.property_category) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["vilaBanglowForm"], {
+  }, null, 8 /* PROPS */, ["property_master", "land_units", "property_source", "property_category", "amenities"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), [6].includes($setup.data.property_category) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["vilaBanglowForm"], {
     key: 4,
     ref: "villa_banglow_form",
+    property_master: $props.property_master,
     land_units: $setup.props.land_units,
     property_source: $setup.props.property_source,
     property_category: $setup.data.property_category,
     amenities: $setup.props.amenities
-  }, null, 8 /* PROPS */, ["land_units", "property_source", "property_category", "amenities"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), [7].includes($setup.data.property_category) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["penthouseForm"], {
+  }, null, 8 /* PROPS */, ["property_master", "land_units", "property_source", "property_category", "amenities"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), [7].includes($setup.data.property_category) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["penthouseForm"], {
     key: 5,
     ref: "penthouse_form",
+    property_master: $props.property_master,
     land_units: $setup.props.land_units,
     property_source: $setup.props.property_source,
     property_category: $setup.data.property_category,
     amenities: $setup.props.amenities
-  }, null, 8 /* PROPS */, ["land_units", "property_source", "property_category", "amenities"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), [8].includes($setup.data.property_category) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["PlotForm"], {
+  }, null, 8 /* PROPS */, ["property_master", "land_units", "property_source", "property_category", "amenities"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), [8].includes($setup.data.property_category) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["PlotForm"], {
     key: 6,
     ref: "plot_form",
+    property_master: $props.property_master,
     land_units: $setup.props.land_units,
     property_source: $setup.props.property_source,
     property_category: $setup.data.property_category,
     amenities: $setup.props.amenities
-  }, null, 8 /* PROPS */, ["land_units", "property_source", "property_category", "amenities"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" second part end "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 3rd part start "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Unit Details", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.unit_details, function (unit, index) {
+  }, null, 8 /* PROPS */, ["property_master", "land_units", "property_source", "property_category", "amenities"])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" second part end "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 3rd part start "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Unit Details", -1 /* HOISTED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.unit_details, function (unit, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fname", unit.wing !== '' ? 'focused' : ''])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
