@@ -821,82 +821,60 @@ const props = defineProps([
 ]);
 
 const data = reactive({
-    'property_for': props.property_master.property_for,
-    'property_construction_type': props.property_master.property_contruction_type_id,
-    'property_category': props.property_master.category_id,
-    'property_sub_category': props.property_master.sub_category_id,
-    'selected_project': props.property_master.project_id,
-    'selected_city': props.property_master.city_id,
-    'selected_locality': props.property_master.area_id,
-    'selected_district': props.property_master.district_id,
-    'selected_taluka': props.property_master.taluka_id,
-    'selected_village': props.property_master.village_id,
-    'selected_zone': props.property_master.zone_id,
-    'address': props.property_master.address,
-    'location_link': props.property_master.location_link,
+    'property_for': null,
+    'property_construction_type': null,
+    'property_category': null,
+    'property_sub_category': null,
+    'selected_project': null,
+    'selected_city': null,
+    'selected_locality': null,
+    'selected_district': null,
+    'selected_taluka': null,
+    'selected_village': null,
+    'selected_zone': null,
+    'address': null,
+    'location_link': null,
 });
 
 const other_details = reactive({
-    'survey_number': props.property_master.survey_number,
-    'survey_plot_size': props.property_master.survey_plot_size,
-    'survey_plot_size_unit': props.property_master.survey_plot_size_unit,
-    'survey_price': props.property_master.survey_price,
-    'tp_number': props.property_master.tp_number,
-    'fp_number': props.property_master.fp_number,
-    'tp_plot_size': props.property_master.tp_plot_size,
-    'tp_plot_size_unit': props.property_master.tp_plot_size_unit,
-    'tp_price': props.property_master.tp_price,
-    'owner_type': props.property_master.owner_info?.type ?? '',
-    'owner_name': props.property_master.owner_info?.name ?? '',
-    'owner_contact_code': props.property_master.owner_info?.country_code ?? '',
-    'owner_contact': props.property_master.owner_info?.contact,
-    'owner_email': props.property_master.owner_info?.email ?? '',
-    'is_nri': props.property_master.owner_info?.is_nri ?? '',
-    'key_available_at': props.property_master.key_available_at,
+    'survey_number': null,
+    'survey_plot_size': null,
+    'survey_plot_size_unit': null,
+    'survey_price': null,
+    'tp_number': null,
+    'fp_number': null,
+    'tp_plot_size': null,
+    'tp_plot_size_unit': null,
+    'tp_price': null,
+    'owner_type': null,
+    'owner_name': null,
+    'owner_contact_code': null,
+    'owner_contact': null,
+    'owner_email': null,
+    'is_nri': null,
+    'key_available_at': null,
 });
 
-const unit_details = reactive(props.property_master.unit_details?.map(unit => ({
-    'id': unit.id,
-    'wing': unit.wing,
-    'unit_number': unit.unit_no,
-    'available': null,
-    // 'available': unit.availability_status ? unitavailabilityStatus[unit.availability_status] : null,
-    'price_rent': unit.price_rent,
-    'price': unit.price,
-    'terrace_price': unit.terrace_price,
-    'flat_price': unit.flat_price,
-    'construction_price': unit.construction_price,
-    'plot_price': unit.plot_price,
-    'furnished_status': unit.furniture_status,
-    'no_of_seats': unit.no_of_seats,
-    'no_of_cabins': unit.no_of_cabins,
-    'no_of_conference_room': unit.no_of_conference_room,
-    'remark': unit.remark,
-    'facilities': unit.facilities,
-    'furniture_total': unit.furniture_total,
-})));
+const unit_details = reactive([]);
 
-const other_contact_details = reactive(props.property_master.contact_details?.map(contact => ({
-    'name': contact.name,
-    'contact_code': contact.country_code,
-    'contact': contact.contact_no,
-    'position': contact.position,
-})));
+const other_contact_details = reactive([]);
 
 onMounted(() => {
     initializeSelect2();
     prefillForm();
 
-    if(props.property_master.unit_details.length == 0){
+    if (props.property_master.unit_details.length === 0) {
         addUnit();
     }
 
-    if(props.property_master.contact_details.length == 0){
+    if (props.property_master.contact_details.length === 0) {
         addContact();
     }
 });
 
 function initializeSelect2() {
+    nextTick(() => {
+
     $('#project_id').select2().on('change', function () {
         data.selected_project = $(this).val();
         if (data.selected_project > 0) {
@@ -952,11 +930,86 @@ function initializeSelect2() {
         other_details.key_available_at = $(this).val();
     });
 
-    unitDetailsSelect2();
-    otherContactSelect2();
+    
+        unitDetailsSelect2();
+        otherContactSelect2();
+    })
+
 }
 
 function prefillForm() {
+    // Initialize data from props
+    Object.assign(data, {
+        'property_for': props.property_master.property_for,
+        'property_construction_type': props.property_master.property_contruction_type_id,
+        'property_category': props.property_master.category_id,
+        'property_sub_category': props.property_master.sub_category_id,
+        'selected_project': props.property_master.project_id,
+        'selected_city': props.property_master.city_id,
+        'selected_locality': props.property_master.area_id,
+        'selected_district': props.property_master.district_id,
+        'selected_taluka': props.property_master.taluka_id,
+        'selected_village': props.property_master.village_id,
+        'selected_zone': props.property_master.zone_id,
+        'address': props.property_master.address,
+        'location_link': props.property_master.location_link,
+    });
+
+    Object.assign(other_details, {
+        'survey_number': props.property_master.survey_number,
+        'survey_plot_size': props.property_master.survey_plot_size,
+        'survey_plot_size_unit': props.property_master.survey_plot_size_unit,
+        'survey_price': props.property_master.survey_price,
+        'tp_number': props.property_master.tp_number,
+        'fp_number': props.property_master.fp_number,
+        'tp_plot_size': props.property_master.tp_plot_size,
+        'tp_plot_size_unit': props.property_master.tp_plot_size_unit,
+        'tp_price': props.property_master.tp_price,
+        'owner_type': props.property_master.owner_info?.type ?? '',
+        'owner_name': props.property_master.owner_info?.name ?? '',
+        'owner_contact_code': props.property_master.owner_info?.country_code ?? '',
+        'owner_contact': props.property_master.owner_info?.contact,
+        'owner_email': props.property_master.owner_info?.email ?? '',
+        'is_nri': props.property_master.owner_info?.is_nri ?? '',
+        'key_available_at': props.property_master.key_available_at,
+    });
+
+    if (props.property_master.unit_details) {
+        
+        props.property_master.unit_details.forEach(unit => {
+            unit_details.push({
+                'id': unit.id,
+                'wing': unit.wing,
+                'unit_number': unit.unit_no,
+                'available': null,
+                'price_rent': unit.price_rent,
+                'price': unit.price,
+                'terrace_price': unit.terrace_price,
+                'flat_price': unit.flat_price,
+                'construction_price': unit.construction_price,
+                'plot_price': unit.plot_price,
+                'furnished_status': unit.furniture_status,
+                'no_of_seats': unit.no_of_seats,
+                'no_of_cabins': unit.no_of_cabins,
+                'no_of_conference_room': unit.no_of_conference_room,
+                'remark': unit.remark,
+                'facilities': unit.facilities,
+                'furniture_total': unit.furniture_total,
+            });
+        });
+    }
+
+    if (props.property_master.contact_details) {
+        props.property_master.contact_details.forEach(contact => {
+            other_contact_details.push({
+                'name': contact.name,
+                'contact_code': contact.country_code,
+                'contact': contact.contact_no,
+                'position': contact.position,
+            });
+        });
+    }
+
     $("#project_id").val(props.property_master.project_id).trigger('change');
     $("#city_id").val(props.property_master.city_id).trigger('change');
     $("#locality_id").val(props.property_master.area_id).trigger('change');
@@ -971,30 +1024,34 @@ function prefillForm() {
     $("#key_available_at").val(props.property_master.key_available_at).trigger('change');
 
     if(props.property_master.unit_details.length > 0){
-        props.property_master.unit_details.forEach((unit, index) => {
-            switch (unit.availability_status) {
-                case 1:
-                    unit_details[index].available = 'Rent Out';
-                    $(`#unit_available_${index}`).val('Rent Out').trigger('change');
-                    break;
-                case 2:
-                    unit_details[index].available = 'Sold Out';
-                    $(`#unit_available_${index}`).val('Sold Out').trigger('change');
-                    break;
-                default:
-                    unit_details[index].available = '';
-                    $(`#unit_available_${index}`).val('').trigger('change');
-                    break;
-            }
-
-            $(`#furnished_status_${index}`).val(unit.furniture_status).trigger('change');   
+        nextTick(() => {
+            props.property_master.unit_details.forEach((unit, index) => {
+                switch (unit.availability_status) {
+                    case 1:
+                        unit_details[index].available = 'Rent Out';
+                        $(`#unit_available_${index}`).val('Rent Out').trigger('change');
+                        break;
+                    case 2:
+                        unit_details[index].available = 'Sold Out';
+                        $(`#unit_available_${index}`).val('Sold Out').trigger('change');
+                        break;
+                    default:
+                        unit_details[index].available = '';
+                        $(`#unit_available_${index}`).val('').trigger('change');
+                        break;
+                }
+    
+                $(`#furnished_status_${index}`).val(unit.furniture_status).trigger('change');   
+            })
         })
     }
     
     if(props.property_master.contact_details.length > 0){
-        props.property_master.contact_details.forEach((contact, index) => {
-            other_contact_details[index].contact_code = contact.country_code;
-            $(`#contact_code_${index}`).val(other_contact_details[index].contact_code).trigger('change');
+        nextTick(() => {
+            props.property_master.contact_details.forEach((contact, index) => {
+                other_contact_details[index].contact_code = contact.country_code;
+                $(`#contact_code_${index}`).val(other_contact_details[index].contact_code).trigger('change');
+            })
         })
     }
 }
