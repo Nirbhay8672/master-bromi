@@ -378,7 +378,7 @@ class MasterPropertyController extends Controller
             $transformed_request_array = [
                 'basic_detail' => [
                     'project_id' => $project_id,
-                    '   ' => $request->basic_detail['property_for'],
+                    'property_for' => $request->basic_detail['property_for'],
                     'property_contruction_type_id' => $request->basic_detail['property_construction_type'],
                     'category_id' => $request->basic_detail['property_category'],
                     'sub_category_id' => $request->basic_detail['property_sub_category'],

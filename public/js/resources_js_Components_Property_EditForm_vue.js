@@ -247,6 +247,12 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
                 break;
             }
             $("#furnished_status_".concat(index)).val(unit.furniture_status).trigger('change');
+            unit_details[index]['no_of_seats'] = unit.no_of_seats;
+            unit_details[index]['no_of_cabins'] = unit.no_of_cabins;
+            unit_details[index]['no_of_conference_room'] = unit.no_of_conference_room;
+            unit_details[index]['remark'] = unit.remark;
+            unit_details[index]['facilities'] = unit.facilities;
+            unit_details[index]['furniture_total'] = unit.furniture_total;
           });
         });
       }
@@ -1382,7 +1388,7 @@ __webpack_require__.r(__webpack_exports__);
   __name: 'officeRetailForm',
   props: ['property_master', 'land_units', 'property_source', 'property_category'],
   setup: function setup(__props, _ref) {
-    var _props$property_maste, _props$property_maste2, _props$property_maste3, _props$property_maste4, _props$property_maste5, _props$property_maste6, _props$property_maste7, _props$property_maste8, _props$property_maste9, _props$property_maste10, _ref2, _props$property_maste11, _ref3, _props$property_maste12, _props$property_maste13, _props$property_maste14, _props$property_maste15, _props$property_maste16, _props$property_maste17, _props$property_maste18, _props$property_maste19, _props$property_maste20, _props$property_maste21, _props$property_maste22;
+    var _props$property_maste, _props$property_maste2, _props$property_maste3, _props$property_maste4, _props$property_maste5, _props$property_maste6, _props$property_maste7, _props$property_maste8, _props$property_maste9, _props$property_maste10, _props$property_maste11, _props$property_maste12, _props$property_maste13, _props$property_maste14, _props$property_maste15, _props$property_maste16;
     var __expose = _ref.expose;
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
       $('#salable_area_unit').select2().on('change', function () {
@@ -1429,21 +1435,16 @@ __webpack_require__.r(__webpack_exports__);
       });
       if (props.property_master.area_sizes.length == 1) {
         other_details.saleable_area = props.property_master.area_sizes[0].salable_area_value;
-        // other_details.saleable_area_unit = props.property_master.area_sizes[0].salable_area_measurement_id
         $('#salable_area_unit').val(other_details.saleable_area_unit).trigger('change');
         other_details.opening_width = props.property_master.area_sizes[0].opening_width_value;
         $('#ceiling_height_unit').val(other_details.opening_width_unit).trigger('change');
-        other_details.ceiling_height = props.property_master.area_sizes[0].ceiling_height_value;
-        $('#opening_width_unit').val(other_details.ceiling_height_unit).trigger('change');
-        other_details.add_carpet_area = props.property_master.area_sizes[0].carpet_area_value ? 1 : 0;
-        other_details.carpet_area = props.property_master.area_sizes[0].carpet_area_value;
-        $('#carpet_area_unit').val(other_details.carpet_area_unit).trigger('change');
-        other_details.terrace_saleable_area = props.property_master.area_sizes[0].terrace_salable_area_value;
-        $('#terrace_saleable_area_unit').val(other_details.terrace_saleable_area_unit).trigger('change');
+        other_details.is_terrace = props.property_master.area_sizes[0].terrace_salable_area_value ? true : false;
         other_details.add_terrace_carpet_area = props.property_master.area_sizes[0].terrace_carpet_area_value ? 1 : 0;
+        other_details.add_carpet_area = props.property_master.area_sizes[0].carpet_area_value ? 1 : 0;
+        other_details.ceiling_height = props.property_master.area_sizes[0].ceiling_height_value;
+        other_details.carpet_area = props.property_master.area_sizes[0].carpet_area_value;
+        other_details.terrace_saleable_area = props.property_master.area_sizes[0].terrace_salable_area_value;
         other_details.terrace_carpet_area = props.property_master.area_sizes[0].terrace_carpet_area_value;
-        $('#terrace_carpet_area_unit').val(other_details.terrace_carpet_area_unit).trigger('change');
-        other_details.is_terrace = props.property_master.area_sizes[0].terrace_salable_area_value || other_details.add_terrace_carpet_area ? 1 : 0;
       }
       if (props.property_master.washroom_type) {
         switch (props.property_master.washroom_type) {
@@ -1460,59 +1461,24 @@ __webpack_require__.r(__webpack_exports__);
             break;
         }
       }
-      if (props.property_master.availability_status >= 0) {
-        switch (props.property_master.availability_status) {
-          case 0:
-            other_details.availability_status = 'Under Construction';
-            break;
-          case 1:
-            other_details.availability_status = 'Available';
-            break;
-          default:
-            break;
-        }
-      }
+      other_details.service_elevator = props.property_master.service_elevator ? true : false;
+      other_details.is_hot = props.property_master.hot_property ? true : false;
+      other_details.four_wheeler_parking = props.property_master.fourwheller_parking;
+      other_details.two_wheeler_parking = props.property_master.twowheller_parking;
+      var priority = {
+        1: 'High',
+        2: 'Medium',
+        3: 'Low'
+      };
+      $('#priority').val(priority[props.property_master.priority_type]).trigger('change');
+      $('#source').val(props.property_master.source).trigger('change');
+      other_details.availability_status = props.property_master.availability_status ? 'Available' : 'Under Construction';
       if (props.property_master.availability_status == 1) {
-        switch (props.property_master.property_age) {
-          case 1:
-            other_details.age_of_property = '0-1 Years';
-            break;
-          case 2:
-            other_details.age_of_property = '1-5 Years';
-            break;
-          case 3:
-            other_details.age_of_property = '5-10 Years';
-            break;
-          case 4:
-            other_details.age_of_property = '10+ Years';
-            break;
-          default:
-            break;
-        }
+        other_details.age_of_property = age_of_property[props.property_master.property_age - 1];
       } else {
         other_details.available_from = props.property_master.available_from;
       }
-      if (props.property_master.priority_type) {
-        switch (props.property_master.priority_type) {
-          case 1:
-            other_details.priority = 'High';
-            $("#priority").val('High').trigger('change');
-            break;
-          case 2:
-            $("#priority").val('Medium').trigger('change');
-            break;
-          case 3:
-            $("#priority").val('Low').trigger('change');
-            break;
-          default:
-            break;
-        }
-      }
-      if (props.property_master.source) {
-        other_details.source = props.property_master.source;
-        $("#source").val(props.property_master.source).trigger('change');
-      }
-      console.log(props.property_master);
+      other_details.remark = props.property_master.remark;
     });
     var props = __props;
     var age_of_property = ['0-1 Years', '1-5 Years', '5-10 Years', '10+ Years'];
@@ -1537,18 +1503,18 @@ __webpack_require__.r(__webpack_exports__);
       'units_in_towers': (_props$property_maste5 = (_props$property_maste6 = props.property_master) === null || _props$property_maste6 === void 0 ? void 0 : _props$property_maste6.units_in_tower) !== null && _props$property_maste5 !== void 0 ? _props$property_maste5 : '',
       'units_on_floor': (_props$property_maste7 = (_props$property_maste8 = props.property_master) === null || _props$property_maste8 === void 0 ? void 0 : _props$property_maste8.units_in_floor) !== null && _props$property_maste7 !== void 0 ? _props$property_maste7 : '',
       'number_of_elevators': (_props$property_maste9 = (_props$property_maste10 = props.property_master) === null || _props$property_maste10 === void 0 ? void 0 : _props$property_maste10.no_of_elevators) !== null && _props$property_maste9 !== void 0 ? _props$property_maste9 : '',
-      'service_elevator': (_ref2 = ((_props$property_maste11 = props.property_master) === null || _props$property_maste11 === void 0 ? void 0 : _props$property_maste11.service_elevator) == 1) !== null && _ref2 !== void 0 ? _ref2 : false,
-      'is_hot': (_ref3 = ((_props$property_maste12 = props.property_master) === null || _props$property_maste12 === void 0 ? void 0 : _props$property_maste12.hot_property) == 1) !== null && _ref3 !== void 0 ? _ref3 : false,
+      'service_elevator': '',
+      'is_hot': '',
       'washrooms': '',
-      'four_wheeler_parking': (_props$property_maste13 = (_props$property_maste14 = props.property_master) === null || _props$property_maste14 === void 0 ? void 0 : _props$property_maste14.fourwheller_parking) !== null && _props$property_maste13 !== void 0 ? _props$property_maste13 : '',
-      'two_wheeler_parking': (_props$property_maste15 = (_props$property_maste16 = props.property_master) === null || _props$property_maste16 === void 0 ? void 0 : _props$property_maste16.twowheller_parking) !== null && _props$property_maste15 !== void 0 ? _props$property_maste15 : '',
+      'four_wheeler_parking': '',
+      'two_wheeler_parking': '',
       'priority': '',
       'source': '',
       'availability_status': '',
       'age_of_property': '',
-      'available_from': (_props$property_maste17 = (_props$property_maste18 = props.property_master) === null || _props$property_maste18 === void 0 ? void 0 : _props$property_maste18.available_from) !== null && _props$property_maste17 !== void 0 ? _props$property_maste17 : '',
-      'two_road_corner': (_props$property_maste19 = (_props$property_maste20 = props.property_master) === null || _props$property_maste20 === void 0 ? void 0 : _props$property_maste20.two_road_corner) !== null && _props$property_maste19 !== void 0 ? _props$property_maste19 : '',
-      'remark': (_props$property_maste21 = (_props$property_maste22 = props.property_master) === null || _props$property_maste22 === void 0 ? void 0 : _props$property_maste22.remark) !== null && _props$property_maste21 !== void 0 ? _props$property_maste21 : ''
+      'available_from': (_props$property_maste11 = (_props$property_maste12 = props.property_master) === null || _props$property_maste12 === void 0 ? void 0 : _props$property_maste12.available_from) !== null && _props$property_maste11 !== void 0 ? _props$property_maste11 : '',
+      'two_road_corner': (_props$property_maste13 = (_props$property_maste14 = props.property_master) === null || _props$property_maste14 === void 0 ? void 0 : _props$property_maste14.two_road_corner) !== null && _props$property_maste13 !== void 0 ? _props$property_maste13 : '',
+      'remark': (_props$property_maste15 = (_props$property_maste16 = props.property_master) === null || _props$property_maste16 === void 0 ? void 0 : _props$property_maste16.remark) !== null && _props$property_maste15 !== void 0 ? _props$property_maste15 : ''
     });
     function resetValue(array) {
       array.forEach(function (element) {

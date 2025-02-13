@@ -174,6 +174,42 @@
                         if(![3,8].includes(parseInt(row.property_category))) {
                             if(row.unit_details.length > 0 && row.unit_details[0]['furniture_status']) {
                                 html += `<br> ${furniture_type[row.unit_details[0]['furniture_status']]}`;
+
+                                if([1,5,6,7].includes(row.category_id)) {
+
+                                    html += `<div class="dropdown-basic" style="position:relative; float:right;">
+                                        <div class="dropdown">
+                                            <i class="dropbtn fa fa-info-circle p-0 text-dark"></i>
+                                            <div class="dropdown-content py-2 px-2 mx-wd-350 cust-top-20 rounded">
+                                                <div class="row p-1">`;
+
+                                    if(row.category_id == 1) {
+                                        html += `<div class="col-12 mb-2"><b>No. of cabins : </b> ${row.unit_details[0]['no_of_cabins']}</div>`;
+                                        html += `<div class="col-12 mb-2"><b>No. of seats : </b> ${row.unit_details[0]['no_of_seats']}</div>`;
+                                        html += `<div class="col-12 mb-2"><b>No. of conference room : </b> ${row.unit_details[0]['no_of_conference_room']}</div>`;
+                                    } else {
+                                        Object.entries(row.unit_details[0]['furniture_total']).forEach((element)  => {
+                                            html += `<div class="col-12 col-md-4 mb-2 d-flex justify-content-between"><b>${element[0]} : </b> ${element[1]}</div>`;
+                                        });
+                                    }
+
+                                    html += '<div class="col-12"><hr></div>';
+
+                                    Object.entries(row.unit_details[0]['facilities']).forEach((faci)  => {
+
+                                        function slugToTitle(slug) {
+                                            return slug.split('_')
+                                                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                                    .join(' ');
+                                        }
+
+                                        let title = slugToTitle(faci[1]);
+
+                                        html += `<div class="col-12 col-md-6 mb-2 d-flex justify-content-between">${title}</div>`;
+                                    });
+                                    
+                                    html += `</div></div></div></div>`;
+                                }
                             }
                         }
 
@@ -213,8 +249,8 @@
                                     } else if (row.property_for == 3) {
                                         html += `R : ₹ ${element.price_rent} <br> S : ₹ ${element.price ?? '-'}`;
                                     }
+                                    html += "<br>";
                                 });
-                                html += "<br>";
                             }
                         }
                         return html;

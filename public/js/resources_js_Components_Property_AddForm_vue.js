@@ -294,6 +294,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
     ;
     function submitForm() {
+      formData = new FormData();
       var post_data = {
         'basic_detail': data,
         'other_details': other_details,

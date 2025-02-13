@@ -1123,6 +1123,8 @@ function appendFormData (data, parentKey = ""){
 
 function submitForm() {
 
+    formData = new FormData();
+
     let post_data = {
         'basic_detail' : data,
         'other_details' : other_details,
