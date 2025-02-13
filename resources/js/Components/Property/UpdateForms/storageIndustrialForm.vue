@@ -30,6 +30,28 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="input-group">
+                <div class="form-group col-md-7 m-b-20">
+                    <div class="fname" :class="other_details.saleable_constructed_area !== '' ? 'focused' : ''">
+                        <label for="saleable_constructed_area">Saleble Constructed Area</label>
+                        <div class="fvalue">
+                            <input class="form-control" type="text" value="" id="saleable_constructed_area"
+                                v-model="other_details.saleable_constructed_area">
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group-append col-md-5">
+                    <div class="form-group">
+                        <select class="form-select" id="saleable_constructed_area_unit">
+                            <template v-for="(unit) in props.land_units">
+                                <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
+                            </template>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-md-3" v-show="other_details.add_carpet_plot_area == 1">
             <div class="input-group">
                 <div class="form-group col-md-7 m-b-20">
@@ -237,9 +259,23 @@
 
 import { reactive, onMounted } from 'vue';
 
+
+
+const props = defineProps([
+    'land_units',
+    'property_source',
+    'property_category',
+    'property_master'
+]);
+
 onMounted(() => {
     $('#saleable_plot_area_unit').select2().on('change', function () {
         other_details.saleable_plot_area_unit  = $(this).val();
+        setSameMainUnits($(this).val());
+    });
+
+    $('#saleable_constructed_area_unit').select2().on('change', function () {
+        other_details.saleable_constructed_area_unit  = $(this).val();
         setSameMainUnits($(this).val());
     });
 
@@ -267,19 +303,68 @@ onMounted(() => {
             select2Instance.trigger('select', { data: { id: options.eq(0).val(), text: options.eq(0).text() } });
         }
     });
-});
+    
+    if(props.property_master.area_sizes.length == 1) {
+                
+        other_details.saleable_plot_area = props.property_master.area_sizes[0].saleable_plot_area_value;
+        $('#saleable_plot_area_unit').val(props.property_master.area_sizes[0].saleable_plot_area_measurement_id).trigger('change');
 
-const props = defineProps([
-    'land_units',
-    'property_source',
-    'property_category',
-]);
+        other_details.saleable_constructed_area = props.property_master.area_sizes[0].saleable_constructed_area_value;
+        $('#saleable_constructed_area_unit').val(props.property_master.area_sizes[0].saleable_constructed_area_measurement_id).trigger('change');
+
+        if(props.property_master.area_sizes[0].carpet_plot_area_value) {
+            other_details.add_carpet_plot_area = true;
+
+            other_details.carpet_plot_area = props.property_master.area_sizes[0].carpet_plot_area_value;
+            $('#carpet_plot_area__unit').val(props.property_master.area_sizes[0].carpet_plot_area_measurement_id).trigger('change');    
+        }
+    }
+
+    console.log(props.property_master.other_storage_industrial_detail);
+    
+    other_details.road_width_of_front_side = props.property_master.area_sizes[0].road_width_of_front_side_value;
+    $('#road_width_of_front_side_unit').val(props.property_master.area_sizes[0].road_width_of_front_side_measurement_id).trigger('change');
+
+    other_details.units_in_project = props.property_master.units_in_project;
+    other_details.is_hot = props.property_master.hot_property ? true : false;
+
+    other_details.four_wheeler_parking = props.property_master.fourwheller_parking;
+    other_details.two_wheeler_parking = props.property_master.twowheller_parking;
+
+    let priority = {
+        1 : 'High',
+        2 : 'Medium',
+        3 : 'Low',
+    };
+
+    $('#priority').val(priority[props.property_master.priority_type]).trigger('change');
+    $('#source').val(props.property_master.source).trigger('change');
+
+    other_details.availability_status = props.property_master.availability_status ? 'Available' : 'Under Construction';
+
+    if(props.property_master.availability_status == 1) {
+        other_details.age_of_property = age_of_property[props.property_master.property_age - 1];
+    } else {
+        other_details.available_from = props.property_master.available_from;
+    }
+
+    other_details.remark = props.property_master.remark;
+
+    other_details.other_storage_industrial_detail = JSON.parse(props.property_master.other_storage_industrial_detail).map((item) => {
+        item.exist = Boolean(item.exist);
+        item.is_active = Boolean(item.is_active);
+        return item;
+    }); 
+});
 
 const age_of_property = ['0-1 Years', '1-5 Years', '5-10 Years', '10+ Years'];
 
 const other_details = reactive({
     'saleable_plot_area': '',
     'saleable_plot_area_unit': '',
+
+    'saleable_constructed_area' : '',
+    'saleable_constructed_area_unit' : '',
 
     'add_carpet_plot_area' : '',
     'carpet_plot_area': '',
@@ -340,11 +425,11 @@ const other_details = reactive({
     ],
 });
 
-function addOtherField() {
+function addOtherField(data = null) {
     other_details.other_storage_industrial_detail.push({
-        'name' : other_details.temp_input_field,
-        'value' : '',
-        'is_active' : '',
+        'name' : data ? data.name : other_details.temp_input_field,
+        'value' : data ? data.value : '',
+        'is_active' : data ? data.is_active : '', 
         'exist' : false,
     });
 

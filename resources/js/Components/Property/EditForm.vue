@@ -228,6 +228,7 @@
                     :land_units="props.land_units"
                     :property_source="props.property_source"
                     :property_category="data.property_category"
+                    :property_master="property_master"
                     v-if="[3].includes(parseInt(data.property_category))"
                 ></storage-industrial-form>
 
@@ -957,7 +958,7 @@ function prefillForm() {
     data.selected_zone = props.property_master.zone_id;
     data.address = props.property_master.address;
     data.location_link = props.property_master.location_link;
-
+    
     Object.assign(other_details, {
         'survey_number': props.property_master.survey_number,
         'survey_plot_size': props.property_master.survey_plot_size,
@@ -1258,7 +1259,6 @@ function submitForm() {
 
     appendFormData(post_data);
     appendFormData(files.value);
-
 
     axios.post(`/admin/master-properties/update-property/${props.property_master.id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
