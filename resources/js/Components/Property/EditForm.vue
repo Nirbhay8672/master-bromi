@@ -237,6 +237,7 @@
                     :land_units="props.land_units"
                     :property_source="props.property_source"
                     :property_category="data.property_category"
+                    :property_master="property_master"
                     v-if="[4].includes(parseInt(data.property_category))"
                 ></land-form>
 
@@ -944,7 +945,7 @@ function initializeSelect2() {
 }
 
 function prefillForm() {
-
+    
     data.property_for = props.property_master.property_for;
     data.property_construction_type = props.property_master.property_contruction_type_id;
     data.property_category = props.property_master.category_id;

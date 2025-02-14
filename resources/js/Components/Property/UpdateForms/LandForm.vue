@@ -94,9 +94,9 @@
         <div class="col-md-3 m-b-4 mb-4">
             <select class="form-select" id="construction_allowed_for">
                 <option value="">Construction allowed for</option>
-                <option value="">Residential</option>
-                <option value="">Commercial</option>
-                <option value="">Industrial</option>
+                <option value="1">Residential</option>
+                <option value="2">Commercial</option>
+                <option value="3">Industrial</option>
             </select>
         </div>
     </div>
@@ -181,6 +181,40 @@
 
 import { reactive, onMounted , nextTick } from 'vue';
 
+const props = defineProps([
+    'land_units',
+    'property_source',
+    'property_category',
+    'property_master',
+]);
+
+const other_details = reactive({
+    'length_of_plot': '',
+    'length_of_plot_unit': '',
+
+    'width_of_plot': '',
+    'width_of_plot_unit': '',
+
+    'number_of_floors_allowed': '',
+
+    'road_width_of_front_side' : '',
+    'road_width_of_front_side_unit' : '',
+
+    'construction_allowed_for' : '',
+    'fsi_far' : '',
+
+    'priority': '',
+    'source': '',
+    'remark': '',
+});
+
+let construction_docs = reactive([
+    {
+        'category' : '',
+        'file' : '',
+    }
+]);
+
 onMounted(() => {
     $('#length_of_plot_unit').select2().on('change', function () {
         other_details.length_of_plot_unit = $(this).val();
@@ -218,40 +252,45 @@ onMounted(() => {
             select2Instance.trigger('select', { data: { id: options.eq(0).val(), text: options.eq(0).text() } });
         }
     });
-});
 
-const props = defineProps([
-    'land_units',
-    'property_source',
-    'property_category',
-]);
+    if(props.property_master.area_sizes.length == 1) {            
+        other_details.length_of_plot = props.property_master.area_sizes[0].length_of_plot_value;
+        $('#length_of_plot_unit').val(props.property_master.area_sizes[0].length_of_plot_measurement_id).trigger('change');
+        
+        other_details.width_of_plot = props.property_master.area_sizes[0].width_of_plot_value;
+        $('#width_of_plot_unit').val(props.property_master.area_sizes[0].width_of_plot_measurement_id).trigger('change');
 
-const other_details = reactive({
-    'length_of_plot': '',
-    'length_of_plot_unit': '',
-
-    'width_of_plot': '',
-    'width_of_plot_unit': '',
-
-    'number_of_floors_allowed': '',
-
-    'road_width_of_front_side' : '',
-    'road_width_of_front_side_unit' : '',
-
-    'construction_allowed_for' : '',
-    'fsi_far' : '',
-
-    'priority': '',
-    'source': '',
-    'remark': '',
-});
-
-let construction_docs = reactive([
-    {
-        'category' : '',
-        'file' : '',
+        other_details.road_width_of_front_side = props.property_master.area_sizes[0].road_width_of_front_side_value;
+        $('#road_width_of_front_side_unit').val(props.property_master.area_sizes[0].road_width_of_front_side_measurement_id).trigger('change');
     }
-]);
+    
+    other_details.number_of_floors_allowed = props.property_master.no_of_floors_allowed;
+    other_details.is_hot = props.property_master.hot_property ? true : false;
+    
+    console.log(props.property_master.property_construction_documents);
+    
+    other_details.construction_allowed_for = props.property_master.construction_allowed_for;
+    other_details.fsi_far = props.property_master.fsi_far;
+    other_details.priority = props.property_master.priority_type;
+    
+    $('#priority').val(other_details.priority).trigger('change');
+    other_details.source = props.property_master.source_id;
+    $('#source').val(other_details.source).trigger('change');
+    other_details.remark = props.property_master.remark;
+
+    construction_docs = props.property_master.property_construction_documents.map((document) => {
+        return {
+            'id': document.id,
+            'category' : document.type,
+            'file' : '',
+        };
+    });
+
+    console.log(construction_docs);
+    
+
+    $('#construction_allowed_for').val(other_details.construction_allowed_for).trigger('change');
+});
 
 function documentSelect2() {
     construction_docs.forEach((document, index) => {

@@ -136,15 +136,20 @@ class MasterPropertyController extends Controller
                 $propertyContactDetail =  new PropertyContactDetail();
                 $propertyContactDetail->fill(['property_id' => $masterProperty->id,...$contact_detail])->save();
             }
+
             if($transformedRequest->has('images')) {
                 foreach ($transformedRequest->images as $image) {
-                    $masterProperty->addMedia($image)->toMediaCollection('images');
+                    if($image['file']){
+                        $masterProperty->addMedia($image)->toMediaCollection('images');
+                    }
                 }
             }
 
             if($transformedRequest->has('documents')) {
                 foreach ($transformedRequest->documents as $document) {
-                    $masterProperty->addMedia($document)->toMediaCollection('document');
+                    if($document['file']){
+                        $masterProperty->addMedia($document)->toMediaCollection('document');
+                    }   
                 }
             }
 
@@ -153,10 +158,12 @@ class MasterPropertyController extends Controller
                     if($constructionDocs['category']){
                         $propertyContactDocument = PropertyConstructionDocument::firstOrCreate([
                             'property_id' => $masterProperty->id,
-                            'document_type' => $constructionDocs['category'],
+                            'document_name' => $constructionDocs['category'],
                         ]);
 
-                        $propertyContactDocument->addMedia($constructionDocs['file'])->toMediaCollection('construction-documents');
+                        if($constructionDocs['file']){
+                            $propertyContactDocument->addMedia($constructionDocs['file'])->toMediaCollection('construction-documents');
+                        }
                     }
                 }
             }
