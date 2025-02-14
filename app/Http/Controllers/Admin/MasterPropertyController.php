@@ -38,6 +38,7 @@ class MasterPropertyController extends Controller
             'project.Area',
             'city',
             'propertySubCategory',
+            'propertyCategory',
             'district',
             'village',
             'extraSize',

@@ -1,4 +1,23 @@
 @extends('admin.layouts.app')
+<style>
+    table.dataTable tbody td {
+        line-height: 22px;
+    }
+
+    table.dataTable {
+        font-size: 13px;
+    }
+
+    table.dataTable .fa-map-marker {
+        margin-top: 3px;
+    }
+
+    .dataTables_wrapper table.dataTable th, .dataTables_wrapper table.dataTable td {
+        padding: 3px !important;
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+    }
+</style>
 @section('content')
 <div class="page-body">
     <div class="container-fluid">
@@ -22,7 +41,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="display" id="branchTable">
+                            <table id="propertyTable">
                                 <thead>
                                     <tr>
                                         <th style="width: 10px !important;">
@@ -31,12 +50,12 @@
                                                 <label class="form-check-label" for="select_all_checkbox"></label>
                                             </div>
                                         </th>
-                                        <th>Project Name</th>
-                                        <th>Property Info</th>
-                                        <th>Units</th>
-                                        <th>Price</th>
-                                        <th>Remark</th>
-                                        <th>Action</th>
+                                        <th style="min-width:220px !important;">Project Name</th>
+                                        <th style="min-width:220px !important;">Property Info</th>
+                                        <th style="min-width:150px !important;">Units</th>
+                                        <th style="min-width:150px !important;">Price</th>
+                                        <th style="min-width:250px !important;">Remark</th>
+                                        <th style="min-width:80px !important;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,7 +74,7 @@
 <script>
     $(document).ready(function() {
 
-        $('#branchTable').DataTable({
+        $('#propertyTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('admin.master_properties.data_table') }}",
@@ -81,7 +100,7 @@
                         html += `<td style="vertical-align:top"><font size="3"><a href="" style="font-weight: bold;">${row.category_id != 4 ? row.project.project_name : ( row.village?.name ?? '') }</a>`;
 
                         if (row.hot_property == '1') {
-                            html += `<img style="height:22px;margin-left:10px;" src="/assets/images/hotProperty.png" alt="adasd">`;
+                            html += `<img style="height:24px;margin-top:43px;float: right;bottom: 38px;position:relative;" src="/assets/images/hotProperty.png" alt="adasd">`;
                         }
 
                         html += '</font>';
@@ -118,12 +137,12 @@
                             html += 'Rent & Sell | ';
                         }
 
-                        html += row.property_sub_category ? row.property_sub_category.name : '';
+                        html += row.property_sub_category ? row.property_sub_category.name : row.property_category.name;
 
                         let area = '';
                         let measure = '';
 
-                        if ([1,2,5,7,8].includes(row.category_id)) {
+                        if ([1,2,5,7,8].includes(parseInt(row.category_id))) {
                             area = row.extra_size[0]['salable_area_value'];
                             measure = row.extra_size[0]['salable_area_measurement_id'];
 
@@ -139,10 +158,9 @@
                         }
                         else if (row.category_id == 6) {
                             let salable = row.extra_size[0]['salable_plot_area_value'];
-                            let constructed = row.extra_size[0]['salable_constructed_area_value'];
                             let measure = row.extra_size[0]['salable_plot_area_measurement_id'];
 
-                            area = `P : ${salable} - C : ${constructed}`;
+                            area = `P : ${salable}`;
 
                             let saleable_unit  = land_units.filter(unit => unit.id == measure);
 
@@ -157,11 +175,11 @@
 
 
                         if (row.priority_type == 1) {
-                            html += '<img style="height:24px;margin-top:25px;float: right;bottom: 38px;right:17px;position:relative;" src="/assets/prop_images/Red-Star.png" alt="">';
+                            html += '<img style="height:24px;margin-top:25px;float: right;bottom: 38px;position:relative;" src="/assets/prop_images/Red-Star.png" alt="">';
                         } else if (row.priority_type == 2) {
-                            html += '<img style="height:24px;margin-top:25px;float: right;bottom: 38px;right:17px;position:relative;" src="/assets/prop_images/Blue-Star.png" alt="">';
+                            html += '<img style="height:24px;margin-top:25px;float: right;bottom: 38px;position:relative;" src="/assets/prop_images/Blue-Star.png" alt="">';
                         } else if (row.priority_type == 3) {
-                            html += '<img style="height:24px;margin-top:25px;float: right;bottom: 38px;right:17px;position:relative;" src="/assets/prop_images/Yellow-Star.png" alt="">';
+                            html += '<img style="height:24px;margin-top:25px;float: right;bottom: 38px;position:relative;" src="/assets/prop_images/Yellow-Star.png" alt="">';
                         }
 
                         let furniture_type = {
@@ -175,40 +193,106 @@
                             if(row.unit_details.length > 0 && row.unit_details[0]['furniture_status']) {
                                 html += `<br> ${furniture_type[row.unit_details[0]['furniture_status']]}`;
 
-                                if([1,5,6,7].includes(row.category_id)) {
+                                if([1,5,6,7].includes(parseInt(row.category_id))) {
 
-                                    html += `<div class="dropdown-basic" style="position:relative; float:right;">
-                                        <div class="dropdown">
-                                            <i class="dropbtn fa fa-info-circle p-0 text-dark"></i>
-                                            <div class="dropdown-content py-2 px-2 mx-wd-350 cust-top-20 rounded">
-                                                <div class="row p-1">`;
+                                    if(row.unit_details.length == 1) {
+                                            html += `<div class="dropdown-basic" style="position:relative; float:right; margin-right : -20px;">
+                                            <div class="dropdown">
+                                                <i class="dropbtn fa fa-info-circle p-0 text-dark fs-6"></i>
+                                                <div class="dropdown-content py-2 px-2 mx-wd-350 cust-top-20 rounded">`;
 
-                                    if(row.category_id == 1) {
-                                        html += `<div class="col-12 mb-2"><b>No. of cabins : </b> ${row.unit_details[0]['no_of_cabins']}</div>`;
-                                        html += `<div class="col-12 mb-2"><b>No. of seats : </b> ${row.unit_details[0]['no_of_seats']}</div>`;
-                                        html += `<div class="col-12 mb-2"><b>No. of conference room : </b> ${row.unit_details[0]['no_of_conference_room']}</div>`;
+                                                row.unit_details.forEach((element , index) => {
+
+                                                        html += `<div class="row p-1">`;
+
+                                                            if(row.category_id == 1) {
+                                                                html += `<div class="col-12 mb-2"><b>No. of cabins : </b> ${element['no_of_cabins']}</div>`;
+                                                                html += `<div class="col-12 mb-2"><b>No. of seats : </b> ${element['no_of_seats']}</div>`;
+                                                                html += `<div class="col-12 mb-2"><b>No. of conference room : </b> ${element['no_of_conference_room']}</div>`;
+                                                            } else {
+                                                                Object.entries(element['furniture_total']).forEach((element)  => {
+                                                                    if(element[1] > 0) {
+                                                                        html += `<div class="col-12 col-md-4 mb-2 d-flex justify-content-between"><b>${element[0]} : </b> ${element[1]}</div>`;
+                                                                    }
+                                                                });
+                                                            }
+
+                                                            html += '<div class="col-12"><hr></div>';
+
+                                                            Object.entries(element['facilities']).forEach((faci)  => {
+
+                                                                function slugToTitle(slug) {
+                                                                    return slug.split('_')
+                                                                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                                                            .join(' ');
+                                                                }
+
+                                                                let title = slugToTitle(faci[1]);
+
+                                                                html += `<div class="col-12 col-md-6 mb-2 d-flex justify-content-between">${title}</div>`;
+                                                            });
+
+                                                            html += `</div>`;
+                                                });
+                                        
+                                        html += `</div></div></div>`;
                                     } else {
-                                        Object.entries(row.unit_details[0]['furniture_total']).forEach((element)  => {
-                                            html += `<div class="col-12 col-md-4 mb-2 d-flex justify-content-between"><b>${element[0]} : </b> ${element[1]}</div>`;
-                                        });
+
+                                        html += `<div class="dropdown-basic" style="position:relative; float:right; margin-right : -20px;">
+                                            <div class="dropdown">
+                                                <i class="dropbtn fa fa-info-circle p-0 text-dark fs-6"></i>
+                                                <div class="dropdown-content py-2 px-2 mx-wd-350 cust-top-20 rounded">`;
+                                                
+                                                html +=`<div class="accordion" id="accordionExample">`;
+
+                                                row.unit_details.forEach((element , index) => {
+                                                    html += `<div class="accordion-item">
+                                                        <h2 class="accordion-header" id="headingOne">
+                                                        <button class="accordion-button ${index != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#unit_${index}" aria-expanded="${index == 0 ? 'true' : ''}" aria-controls="unit_${index}">
+                                                            Unit ${index + 1}
+                                                        </button>
+                                                        </h2>
+                                                        <div id="unit_${index}" class="accordion-collapse collapse ${index == 0 ? 'show' : ''}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                                        <div class="accordion-body">`;
+
+                                                        html += `<div class="row p-1">`;
+
+                                                            if(row.category_id == 1) {
+                                                                html += `<div class="col-12 mb-2"><b>No. of cabins : </b> ${element['no_of_cabins']}</div>`;
+                                                                html += `<div class="col-12 mb-2"><b>No. of seats : </b> ${element['no_of_seats']}</div>`;
+                                                                html += `<div class="col-12 mb-2"><b>No. of conference room : </b> ${element['no_of_conference_room']}</div>`;
+                                                            } else {
+                                                                Object.entries(element['furniture_total']).forEach((element)  => {
+                                                                    if(element[1] > 0) {
+                                                                        html += `<div class="col-12 col-md-4 mb-2 d-flex justify-content-between"><b>${element[0]} : </b> ${element[1]}</div>`;
+                                                                    }
+                                                                });
+                                                            }
+
+                                                            html += '<div class="col-12"><hr></div>';
+
+                                                            Object.entries(element['facilities']).forEach((faci)  => {
+
+                                                                function slugToTitle(slug) {
+                                                                    return slug.split('_')
+                                                                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                                                                            .join(' ');
+                                                                }
+
+                                                                let title = slugToTitle(faci[1]);
+
+                                                                html += `<div class="col-12 col-md-6 mb-2 d-flex justify-content-between">${title}</div>`;
+                                                            });
+
+                                                            html += `</div>`;
+
+                                                        html += `</div>
+                                                        </div>
+                                                    </div>`;
+                                                });
+                                        
+                                        html += `</div></div></div></div>`;
                                     }
-
-                                    html += '<div class="col-12"><hr></div>';
-
-                                    Object.entries(row.unit_details[0]['facilities']).forEach((faci)  => {
-
-                                        function slugToTitle(slug) {
-                                            return slug.split('_')
-                                                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                                                    .join(' ');
-                                        }
-
-                                        let title = slugToTitle(faci[1]);
-
-                                        html += `<div class="col-12 col-md-6 mb-2 d-flex justify-content-between">${title}</div>`;
-                                    });
-                                    
-                                    html += `</div></div></div></div>`;
                                 }
                             }
                         }
@@ -229,6 +313,32 @@
                                 if(row.unit_details[0]['unit_no']) {
                                     html += `${row.unit_details[0]['unit_no'] ?? ''}</span>`;
                                 }
+
+                                if(row.unit_details.length > 1) {
+                                    html += `<div class="dropdown-basic" style="position:relative; float:right; margin-right : -20px;">
+                                            <div class="dropdown">
+                                                <i class="dropbtn fa fa-info-circle p-0 text-dark fs-6"></i>
+                                                <div class="dropdown-content py-2 px-2 mx-wd-350 cust-top-20 rounded">`;
+
+                                    row.unit_details.forEach((element , index) => {
+
+                                        if(index != 0) {
+                                            html += '<hr>';
+                                        }
+                                        html += `<div>
+                                            <span>Unit - ${index  + 1 }</span></div>
+                                            <div class="row"><span>`;
+                                            if(element['wing']) {
+                                                html += `${element['wing'] ?? ''} - `;
+                                            }
+                                            if(element['unit_no']) {
+                                                html += `${element['unit_no'] ?? ''}`;
+                                            }
+                                        html += `</span></div>`;
+                                    });
+
+                                    html += '</div></div></div>';
+                                }
                             }
                         }
                         return html;
@@ -239,18 +349,44 @@
                     name: 'Address',
                     render: function(data, type , row) {
                         let html = '';
-                        if(![3,8].includes(row.property_category)) {
+                        if(![3,8].includes(parseInt(row.property_category))) {
                             if(row.unit_details.length > 0) {
-                                row.unit_details.forEach(element => {
+                                if (row.property_for == 1) {
+                                    html += `₹ ${row.unit_details[0].price_rent.toLocaleString('en-IN')}`;
+                                } else if (row.property_for == 2) {
+                                    html += `₹ ${row.unit_details[0].price.toLocaleString('en-IN')}`;
+                                } else if (row.property_for == 3) {
+                                    html += `R : ₹ ${row.unit_details[0].price_rent.toLocaleString('en-IN')} <br> S : ₹ ${row.unit_details[0].price ? row.unit_details[0].price.toLocaleString('en-IN') : '-'}`;
+                                }
+                                html += "<br>";
+                            }
+
+
+                            if(row.unit_details.length > 1) {
+                                html += `<div class="dropdown-basic" style="position:relative; float:right; margin-right : -20px;margin-top:-20px;">
+                                        <div class="dropdown">
+                                            <i class="dropbtn fa fa-info-circle p-0 text-dark fs-6"></i>
+                                            <div class="dropdown-content py-2 px-2 mx-wd-350 cust-top-20 rounded">`;
+
+                                row.unit_details.forEach((element , index) => {
+
+                                    if(index != 0) {
+                                        html += '<hr>';
+                                    }
+
+                                    html += `<span class="mb-2">Unit - ${index  + 1 }</span><br>`;
+
                                     if (row.property_for == 1) {
-                                        html += `₹ ${element.price_rent}`;
+                                        html += `₹ ${element.price_rent.toLocaleString('en-IN')}`;
                                     } else if (row.property_for == 2) {
-                                        html += `₹ ${element.price}`;
+                                        html += `₹ ${element.price.toLocaleString('en-IN')}`;
                                     } else if (row.property_for == 3) {
-                                        html += `R : ₹ ${element.price_rent} <br> S : ₹ ${element.price ?? '-'}`;
+                                        html += `R : ₹ ${element.price_rent.toLocaleString('en-IN')} <br> S : ₹ ${element.price ? element.price.toLocaleString('en-IN') : '-'}`;
                                     }
                                     html += "<br>";
                                 });
+
+                                html += '</div></div></div>';
                             }
                         }
                         return html;
@@ -258,7 +394,14 @@
                 },
                 {
                     data: 'remark',
-                    name: 'Remark'
+                    name: 'Remark',
+                    render: function(data, type, full, meta) {
+                        if (data && data.length > 20) {
+                            return `<div style="max-width:250px;"><span class="truncated" style="text-transform:none;">${data.substr(0, 20)} ...</span><span class="full" style="display:none;text-transform:none;"> ${data} </span><span class="read-more" style="text-transform:none;"> Read more</span></div>`;
+                        } else {
+                            return data;
+                        }
+                    }
                 },
                 {
                     data: 'Actions',
@@ -268,14 +411,28 @@
                         
                         let edit_url = "{{ route('admin.master_properties.updateForm', ['masterProperty' => '__ID__']) }}".replace('__ID__', row.id);
 
-                        let html = "";
-
-                        html += `<a href="${edit_url}"><i class="fa fa-pencil fs-5"></i></a>`;
-                        html += '<i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa-trash pointer fa text-danger" type="button"></i>';
-                        html += '<i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa-whatsapp pointer fa text-success" type="button"></i>';
-                        html += '<i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa-plane pointer fa text-info" type="button"></i>';
-                        html += '<i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa fa-clipboard pointer fa text-secondary" type="button"></i>';
-                        html += '<i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa fa-phone-square pointer fa text-dark" type="button"></i>';
+                        let html = `<div class="row" style="margin-left:-25px;">
+                            <div class="col-4">
+                                <a href="${edit_url}"><i class="fs-22 py-2 mx-2 fa fa-pencil pointer fa"></i></a>
+                            </div>
+                            <div class="col-4">
+                                <i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa-trash pointer fa text-danger" type="button"></i>
+                            </div>
+                            <div class="col-4">
+                                <i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa-whatsapp pointer fa text-success" type="button"></i>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-left:-25px;">
+                            <div class="col-4">
+                                <i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa-plane pointer fa text-info" type="button"></i>
+                            </div>
+                            <div class="col-4">
+                                <i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa fa-clipboard pointer fa text-secondary" type="button"></i>
+                            </div>
+                            <div class="col-4">
+                                <i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa fa-phone-square pointer fa text-dark" type="button"></i>
+                            </div>
+                        </div>`;
 
                         return html;
                     }
@@ -285,6 +442,19 @@
                 [1, "asc"]
             ],
         });
+    });
+
+    $('#propertyTable .read-more, #propertyTable .read-less').css('cursor', 'pointer');
+
+    $('#propertyTable').on('click', '.read-more', function() {
+        $(this).siblings('.truncated').hide();
+        $(this).siblings('.full').show();
+        $(this).text(' ...Read Less').removeClass('read-more').addClass('read-less');
+    });
+    $('#propertyTable').on('click', '.read-less', function() {
+        $(this).siblings('.full').hide();
+        $(this).siblings('.truncated').show();
+        $(this).text('Read More').removeClass('read-less').addClass('read-more');
     });
 
     $(document).on('change', '#select_all_checkbox', function(e) {
