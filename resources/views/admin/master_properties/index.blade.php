@@ -352,11 +352,11 @@
                         if(![3,8].includes(parseInt(row.property_category))) {
                             if(row.unit_details.length > 0) {
                                 if (row.property_for == 1) {
-                                    html += `₹ ${row.unit_details[0].price_rent.toLocaleString('en-IN')}`;
+                                    html += `₹ ${parseInt(row.unit_details[0].price_rent).toLocaleString('en-IN')}`;
                                 } else if (row.property_for == 2) {
-                                    html += `₹ ${row.unit_details[0].price.toLocaleString('en-IN')}`;
+                                    html += `₹ ${parseInt(row.unit_details[0].price).toLocaleString('en-IN')}`;
                                 } else if (row.property_for == 3) {
-                                    html += `R : ₹ ${row.unit_details[0].price_rent.toLocaleString('en-IN')} <br> S : ₹ ${row.unit_details[0].price ? row.unit_details[0].price.toLocaleString('en-IN') : '-'}`;
+                                    html += `R : ₹ ${parseInt(row.unit_details[0].price_rent).toLocaleString('en-IN')} <br> S : ₹ ${row.unit_details[0].price ? parseInt(row.unit_details[0].price).toLocaleString('en-IN') : '-'}`;
                                 }
                                 html += "<br>";
                             }
@@ -377,11 +377,11 @@
                                     html += `<span class="mb-2">Unit - ${index  + 1 }</span><br>`;
 
                                     if (row.property_for == 1) {
-                                        html += `₹ ${element.price_rent.toLocaleString('en-IN')}`;
+                                        html += `₹ ${parseInt(element.price_rent).toLocaleString('en-IN')}`;
                                     } else if (row.property_for == 2) {
-                                        html += `₹ ${element.price.toLocaleString('en-IN')}`;
+                                        html += `₹ ${parseInt(element.price).toLocaleString('en-IN')}`;
                                     } else if (row.property_for == 3) {
-                                        html += `R : ₹ ${element.price_rent.toLocaleString('en-IN')} <br> S : ₹ ${element.price ? element.price.toLocaleString('en-IN') : '-'}`;
+                                        html += `R : ₹ ${parseInt(element.price_rent).toLocaleString('en-IN')} <br> S : ₹ ${element.price ? parseInt(element.price).toLocaleString('en-IN') : '-'}`;
                                     }
                                     html += "<br>";
                                 });
