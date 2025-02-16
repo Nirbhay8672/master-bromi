@@ -44,18 +44,18 @@
                             <table id="propertyTable">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10px !important;">
+                                        <th style="width: 3% !important;">
                                             <div class="form-check form-check-inline checkbox checkbox-dark mb-0 me-0">
                                                 <input class="form-check-input" id="select_all_checkbox" name="selectrows" type="checkbox">
                                                 <label class="form-check-label" for="select_all_checkbox"></label>
                                             </div>
                                         </th>
-                                        <th style="min-width:220px !important;">Project Name</th>
-                                        <th style="min-width:220px !important;">Property Info</th>
-                                        <th style="min-width:150px !important;">Units</th>
-                                        <th style="min-width:150px !important;">Price</th>
-                                        <th style="min-width:250px !important;">Remark</th>
-                                        <th style="min-width:80px !important;">Action</th>
+                                        <th style="min-width: 25% !important;">Project Name</th>
+                                        <th style="min-width: 20% !important;">Property Info</th>
+                                        <th style="min-width: 12% !important;">Units</th>
+                                        <th style="min-width: 12% !important;">Price</th>
+                                        <th style="min-width: 18% !important;">Remark</th>
+                                        <th style="min-width: 10% !important;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -65,6 +65,11 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <a href="{{ route('admin.master_properties.resetData') }}">Remove All Data - Do not click here</a>
             </div>
         </div>
     </div>
@@ -97,7 +102,14 @@
 
                         let html = '';
 
-                        html += `<td style="vertical-align:top"><font size="3"><a href="" style="font-weight: bold;">${row.category_id != 4 ? row.project.project_name : ( row.village?.name ?? '') }</a>`;
+                        html += `<font size="3">`;
+
+                        if ([1].includes(parseInt(row.category_id))) {
+                            let view_url = "{{ route('admin.master_properties.view', ['masterProperty' => '__ID__']) }}".replace('__ID__', row.id);
+                            html += `<a href="${view_url}" style="font-weight: bold;">${row.category_id != 4 ? row.project.project_name : ( row.village?.name ?? '') }</a>`;
+                        } else {
+                            html += `<a href="" style="font-weight: bold;">${row.category_id != 4 ? row.project.project_name : ( row.village?.name ?? '') }</a>`;
+                        }
 
                         if (row.hot_property == '1') {
                             html += `<img style="height:24px;margin-top:43px;float: right;bottom: 38px;position:relative;" src="/assets/images/hotProperty.png" alt="adasd">`;
@@ -241,21 +253,23 @@
                                         html += `<div class="dropdown-basic" style="position:relative; float:right; margin-right : -20px;">
                                             <div class="dropdown">
                                                 <i class="dropbtn fa fa-info-circle p-0 text-dark fs-6"></i>
-                                                <div class="dropdown-content py-2 px-2 mx-wd-350 cust-top-20 rounded">`;
+                                                <div class="dropdown-content mx-wd-350 cust-top-20 rounded" style="padding-right:10px;">`;
                                                 
-                                                html +=`<div class="accordion" id="accordionExample">`;
+                                                html +=`<div class="accordion" id="accordionExample_${row.id}">`;
 
                                                 row.unit_details.forEach((element , index) => {
                                                     html += `<div class="accordion-item">
-                                                        <h2 class="accordion-header" id="headingOne">
-                                                        <button class="accordion-button ${index != 0 ? 'collapsed' : ''}" type="button" data-bs-toggle="collapse" data-bs-target="#unit_${index}" aria-expanded="${index == 0 ? 'true' : ''}" aria-controls="unit_${index}">
-                                                            Unit ${index + 1}
-                                                        </button>
-                                                        </h2>
-                                                        <div id="unit_${index}" class="accordion-collapse collapse ${index == 0 ? 'show' : ''}" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                                        <div class="accordion-body">`;
+                                                        <div class="row p-2">
+                                                            <div class="col-12">
+                                                                <button class="${index != 0 ? 'collapsed' : ''}" style="width:100%;margin-right:15px;line-height: 11px;max-height: 29px;border: 1px solid black;;" type="button" data-bs-toggle="collapse" data-bs-target="#unit_${index}" aria-expanded="${index == 0 ? 'true' : ''}" aria-controls="unit_${index}">
+                                                                    Unit ${index + 1}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div id="unit_${index}" class="accordion-collapse collapse ${index == 0 ? 'show' : ''}" aria-labelledby="headingOne" data-bs-parent="#accordionExample_${row.id}" style="border:none !important;">
+                                                        <div class="accordion-body" style="border:none;">`;
 
-                                                        html += `<div class="row p-1">`;
+                                                        html += `<div class="row mt-2">`;
 
                                                             if(row.category_id == 1) {
                                                                 html += `<div class="col-12 mb-2"><b>No. of cabins : </b> ${element['no_of_cabins']}</div>`;
@@ -352,11 +366,17 @@
                         if(![3,8].includes(parseInt(row.property_category))) {
                             if(row.unit_details.length > 0) {
                                 if (row.property_for == 1) {
-                                    html += `₹ ${parseInt(row.unit_details[0].price_rent).toLocaleString('en-IN')}`;
+                                    if(row.unit_details[0].price_rent) {
+                                        html += `₹ ${parseInt(row.unit_details[0].price_rent).toLocaleString('en-IN')}`;
+                                    }
                                 } else if (row.property_for == 2) {
-                                    html += `₹ ${parseInt(row.unit_details[0].price).toLocaleString('en-IN')}`;
+                                    if(row.unit_details[0].price) {
+                                        html += `₹ ${parseInt(row.unit_details[0].price).toLocaleString('en-IN')}`;
+                                    }
                                 } else if (row.property_for == 3) {
-                                    html += `R : ₹ ${parseInt(row.unit_details[0].price_rent).toLocaleString('en-IN')} <br> S : ₹ ${row.unit_details[0].price ? parseInt(row.unit_details[0].price).toLocaleString('en-IN') : '-'}`;
+                                    if(row.unit_details[0].price_rent && row.unit_details[0].price) {
+                                        html += `R : ₹ ${parseInt(row.unit_details[0].price_rent).toLocaleString('en-IN')} <br> S : ₹ ${row.unit_details[0].price ? parseInt(row.unit_details[0].price).toLocaleString('en-IN') : '-'}`;
+                                    }
                                 }
                                 html += "<br>";
                             }
@@ -377,11 +397,17 @@
                                     html += `<span class="mb-2">Unit - ${index  + 1 }</span><br>`;
 
                                     if (row.property_for == 1) {
-                                        html += `₹ ${parseInt(element.price_rent).toLocaleString('en-IN')}`;
+                                        if(element.price_rent) {
+                                            html += `₹ ${parseInt(element.price_rent).toLocaleString('en-IN')}`;
+                                        }
                                     } else if (row.property_for == 2) {
-                                        html += `₹ ${parseInt(element.price).toLocaleString('en-IN')}`;
+                                        if(element.price) {
+                                            html += `₹ ${parseInt(element.price).toLocaleString('en-IN')}`;
+                                        }
                                     } else if (row.property_for == 3) {
-                                        html += `R : ₹ ${parseInt(element.price_rent).toLocaleString('en-IN')} <br> S : ₹ ${element.price ? parseInt(element.price).toLocaleString('en-IN') : '-'}`;
+                                        if(element.price && element.price_rent) {
+                                            html += `R : ₹ ${parseInt(element.price_rent).toLocaleString('en-IN')} <br> S : ₹ ${element.price ? parseInt(element.price).toLocaleString('en-IN') : '-'}`;
+                                        }
                                     }
                                     html += "<br>";
                                 });
@@ -397,7 +423,7 @@
                     name: 'Remark',
                     render: function(data, type, full, meta) {
                         if (data && data.length > 20) {
-                            return `<div style="max-width:250px;"><span class="truncated" style="text-transform:none;">${data.substr(0, 20)} ...</span><span class="full" style="display:none;text-transform:none;"> ${data} </span><span class="read-more" style="text-transform:none;"> Read more</span></div>`;
+                            return `<div style="max-width:250px;"><span class="truncated" style="text-transform:none;">${data.substr(0, 20)} ...</span><span class="full" style="display:none;text-transform:none;"> ${data} </span><br><span class="read-more" style="text-transform:none;"> Read more</span></div>`;
                         } else {
                             return data;
                         }
@@ -449,7 +475,7 @@
     $('#propertyTable').on('click', '.read-more', function() {
         $(this).siblings('.truncated').hide();
         $(this).siblings('.full').show();
-        $(this).text(' ...Read Less').removeClass('read-more').addClass('read-less');
+        $(this).text('Read Less').removeClass('read-more').addClass('read-less');
     });
     $('#propertyTable').on('click', '.read-less', function() {
         $(this).siblings('.full').hide();

@@ -1,5 +1,5 @@
 <template>
-    <div class="row gy-2 mt-3">
+    <div class="row gy-2">
         <b>Area Size</b>
         <div class="col-md-3">
             <div class="input-group">

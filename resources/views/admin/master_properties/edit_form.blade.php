@@ -33,7 +33,9 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h5 class="mb-3">Update Property</h5>
+                        <h5 class="mb-3">Update Property <a class="btn custom-icon-theme-button tooltip-btn" href="{{ route('admin.master_properties.index') }}" data-tooltip="Back" style="float: inline-end;">
+                            <i class="fa fa-backward"></i>
+                        </a></h5>
                     </div>
                     <div class="card-body">
                         <div id="app">

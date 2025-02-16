@@ -1,25 +1,24 @@
 <template>
-    <div class="row">
+    <div class="row" style="min-height: calc(100vh - 210px);">
         <div class="col-12 col-md-3 col-lg-2">
             <div class="bromi-form-wizard stepwizard">
                 <div class="stepwizard-row setup-panel">
-                    <div class="stepwizard-step mb-5">
-                        <button class="btn btn-primary" id="step0" data-action="#information-step">1</button>
+                    <div class="stepwizard-step mb-5" style="text-align:initial">
+                        <button class="btn btn-primary tab-btn" id="step-1" data-action="#information-step" @click="tabChange('first_tab', 'step-1')">1</button>
                         <p class="ms-2">Information</p>
                     </div>
-                    <div class="stepwizard-step mb-5">
-                        <button class="btn btn-light" id="step1" data-action="#profile-step">2</button>
+                    <div class="stepwizard-step mb-5" style="text-align:initial">
+                        <button class="btn btn-light tab-btn" id="step-2" data-action="#profile-step" @click="tabChange('second_tab', 'step-2')">2</button>
                         <p class="ms-2">Property Details</p>
                     </div>
-
-                    <div class="stepwizard-step">
-                        <button class="btn btn-light" id="step2" data-action="#unit-owner-step">3</button>
+                    <div class="stepwizard-step" style="text-align:initial">
+                        <button class="btn btn-light tab-btn" id="step-3" data-action="#unit-owner-step" @click="tabChange('third_tab', 'step-3')">3</button>
                         <p class="ms-2">Unit & Contact Information</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-9 col-lg-10 border-start ps-4">
+        <div class="col-12 col-md-9 col-lg-10 border-start ps-4 custom-tab" id="first_tab">
             <div class="row">
                 <div class="row mb-2">
                     <div class="col">
@@ -212,6 +211,14 @@
             </div>
             <!-- first part end -->
 
+            <div class="row mt-4">
+                <div class="col-12 col-3">
+                    <button class="btn btn-primary" type="button" @click="tabChange('second_tab', 'step-2')">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-9 col-lg-10 border-start ps-4 custom-tab d-none" id="second_tab">
             <template v-if="data.property_category != ''">
                 <!-- second part start -->
                 <office-retail-form
@@ -284,9 +291,17 @@
             <!-- second part end -->
             </template>
 
-            <!-- 3rd part start -->
+            <div class="row mt-4">
+                <div class="col-12 col-3">
+                    <button class="btn btn-primary" type="button" @click="tabChange('first_tab', 'step-1')">Previous</button>
+                    <button class="btn btn-primary ms-3" type="button" @click="tabChange('third_tab', 'step-3')">Next</button>
+                </div>
+            </div>
+        </div>
 
-            <div class="row mt-5" v-show="data.property_category != 4">
+        <!-- 3rd part start -->
+        <div class="col-12 col-md-9 col-lg-10 border-start ps-4 custom-tab d-none" id="third_tab">
+            <div class="row" v-show="data.property_category != 4">
                 <b>Unit Details</b>
                 <template v-for="(unit, index) in unit_details">
                     <div class="row mt-2">
@@ -536,7 +551,7 @@
                         </div>
                     </template>
                 </template>
-                <hr class="ms-3 mr-3">
+                <hr class="ms-3 mr-3 mt-4">
             </div>
 
             <div class="row mt-3" v-show="data.property_category == 4">
@@ -656,7 +671,7 @@
                     </select>
                 </div>
                 <div class="col-12 col-md-2">
-                    <div class="fname" :class="other_details.owner_name !== '' ? 'focused' : ''">
+                    <div class="fname" :class="other_details.owner_name != '' ? 'focused' : ''">
                         <label for="owner_name">Name</label>
                         <div class="fvalue">
                             <input class="form-control" type="text" value="" id="owner_name"
@@ -779,7 +794,8 @@
 
             <div class="row mt-4">
                 <div class="col-12 col-3">
-                    <button class="btn btn-primary" @click="submitForm()">Submit</button>
+                    <button class="btn btn-primary" type="button" @click="tabChange('second_tab', 'step-2')">Previous</button>
+                    <button class="btn btn-primary ms-3" type="button" @click="submitForm()">Submit</button>
                 </div>
             </div>
         </div>
@@ -973,7 +989,7 @@ function prefillForm() {
         'owner_type': props.property_master.owner_info?.type ?? '',
         'owner_name': props.property_master.owner_info?.name ?? '',
         'owner_contact_code': props.property_master.owner_info?.country_code ?? '',
-        'owner_contact': props.property_master.owner_info?.contact,
+        'owner_contact': props.property_master.owner_info?.contact ?? '',
         'owner_email': props.property_master.owner_info?.email ?? '',
         'is_nri': props.property_master.owner_info?.is_nri ?? '',
         'key_available_at': props.property_master.key_available_at,
@@ -984,7 +1000,7 @@ function prefillForm() {
         props.property_master.unit_details.forEach(unit => {
             unit_details.push({
                 'id': unit.id,
-                'wing': unit.wing,
+                'wing': unit.wing ?? '',
                 'unit_number': unit.unit_no,
                 'available': null,
                 'price_rent': unit.price_rent,
@@ -1007,10 +1023,10 @@ function prefillForm() {
     if (props.property_master.contact_details) {
         props.property_master.contact_details.forEach(contact => {
             other_contact_details.push({
-                'name': contact.name,
-                'contact_code': contact.country_code,
-                'contact': contact.contact_no,
-                'position': contact.position,
+                'name': contact.name ?? '',
+                'contact_code': contact.country_code ?? '',
+                'contact': contact.contact_no ?? '',
+                'position': contact.position ?? '',
             });
         });
     }
@@ -1069,18 +1085,19 @@ function prefillForm() {
 }
 
 function unitDetailsSelect2() {
-    props.property_master.unit_details?.forEach((unit_detail, index) => {
-        $(`#unit_available_${index}`).select2().on('change', function () {
-            unit_details[index].available = $(this).val();
+    unit_details.forEach((unit_detail, unit_detail_index) => {
+        
+        $(`#unit_available_${unit_detail_index}`).select2().on('change', function () {
+            unit_details[unit_detail_index].available = $(this).val();
         });
 
-        $(`#furnished_status_${index}`).select2().on('change', function () {
-            unit_details[index].furnished_status = $(this).val();
-            unit_details[index]['no_of_seats'] = '';
-            unit_details[index]['no_of_cabins'] = '';
-            unit_details[index]['no_of_conference_room'] = '';
-            unit_details[index]['remark'] = '';
-            unit_details[index]['facilities'] = [];
+        $(`#furnished_status_${unit_detail_index}`).select2().on('change', function () {
+            unit_details[unit_detail_index].furnished_status = $(this).val();
+            unit_details[unit_detail_index]['no_of_seats'] = '';
+            unit_details[unit_detail_index]['no_of_cabins'] = '';
+            unit_details[unit_detail_index]['no_of_conference_room'] = '';
+            unit_details[unit_detail_index]['remark'] = '';
+            unit_details[unit_detail_index]['facilities'] = [];
         });
     });
 }
@@ -1123,9 +1140,9 @@ function removeUnit(index) {
 }
 
 function otherContactSelect2() {
-    props.property_master.contact_details?.forEach((unit_detail, index) => {
-        $(`#contact_code_${index}`).select2().on('change', function () {
-            other_contact_details[index].contact_code = $(this).val();
+    other_contact_details.forEach((unit_detail, other_contact_index) => {
+        $(`#contact_code_${other_contact_index}`).select2().on('change', function () {
+            other_contact_details[other_contact_index].contact_code = $(this).val();
         });
     });
 }
@@ -1265,8 +1282,7 @@ function submitForm() {
         headers: { "Content-Type": "multipart/form-data" },
     })
     .then(response => {
-        window.location.reload();
-        // window.location.href = "/admin/master-properties/index";
+        window.location.href = "/admin/master-properties/index";
     })
     .catch(error => {
         console.error(error);
@@ -1283,6 +1299,14 @@ function handleFileUpload(type, event) {
     if (type == 'document') {
         files.value.documents = event.target.files;
     }
+}
+
+function tabChange(tab_id , btn_id) {
+    $('.custom-tab').addClass('d-none');
+    $('.tab-btn').addClass('btn-light');
+    $('.tab-btn').removeClass('btn-primary');
+    $(`#${tab_id}`).removeClass('d-none');
+    $(`#${btn_id}`).addClass('btn-primary');
 }
 
 </script>

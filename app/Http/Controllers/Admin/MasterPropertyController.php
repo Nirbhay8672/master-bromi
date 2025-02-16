@@ -280,16 +280,20 @@ class MasterPropertyController extends Controller
                     'parent_id' => auth()->user()->parent_id,
                 ],
                 'size_area' => [
-                    'carpet_area_value' => $request->other_details['saleable_area'],
-                    'carpet_area_measurement_id' => $request->other_details['saleable_area_unit'] ?? 1,
+                    'carpet_area_value' => $request->other_details['carpet_area'],
+                    'carpet_area_measurement_id' => $request->other_details['carpet_area_unit'] ?? 1,
+                    
                     'ceiling_height_value' => $request->other_details['ceiling_height'],
                     'ceiling_height_measurement_id' => '4' ?? $request->other_details['ceiling_height_unit'] ?? 1,
-                    'salable_area_value' => $request->other_details['carpet_area'],
-                    'salable_area_measurement_id' => $request->other_details['carpet_area_unit'] ?? 1,
-                    'terrace_carpet_area_value' => $request->other_details['terrace_saleable_area'],
-                    'terrace_carpet_area_measurement_id' => $request->other_details['terrace_saleable_area_unit'] ?? 1,
-                    'terrace_salable_area_value' => $request->other_details['terrace_carpet_area'],
-                    'terrace_salable_area_measurement_id' => $request->other_details['terrace_carpet_area_unit'] ?? 1,
+                    
+                    'salable_area_value' => $request->other_details['saleable_area'],
+                    'salable_area_measurement_id' => $request->other_details['saleable_area_unit'] ?? 1,
+
+                    'terrace_carpet_area_value' => $request->other_details['terrace_carpet_area'],
+                    'terrace_carpet_area_measurement_id' => $request->other_details['terrace_carpet_area_unit'] ?? 1,
+
+                    'terrace_salable_area_value' => $request->other_details['terrace_saleable_area'],
+                    'terrace_salable_area_measurement_id' => $request->other_details['terrace_saleable_area_unit'] ?? 1,
                 ], 
                 'unit_details' => [],
                 'contact_details' => [],
@@ -417,16 +421,20 @@ class MasterPropertyController extends Controller
                     'parent_id' => auth()->user()->parent_id,
                 ],
                 'size_area' => [
-                    'carpet_area_value' => $request->other_details['saleable_area'],
-                    'carpet_area_measurement_id' => $request->other_details['saleable_area_unit'] ?? 1,
+                    'carpet_area_value' => $request->other_details['carpet_area'],
+                    'carpet_area_measurement_id' => $request->other_details['carpet_area_unit'] ?? 1,
+
                     'builtup_height_value' => $request->other_details['builtup_area'],
                     'builtup_height_measurement_id' => $request->other_details['builtup_area_unit'] ?? 1,
-                    'salable_area_value' => $request->other_details['carpet_area'],
-                    'salable_area_measurement_id' => $request->other_details['carpet_area_unit'] ?? 1,
-                    'terrace_carpet_area_value' => $request->other_details['terrace_saleable_area'],
-                    'terrace_carpet_area_measurement_id' => $request->other_details['terrace_saleable_area_unit'] ?? 1,
-                    'terrace_salable_area_value' => $request->other_details['terrace_carpet_area'],
-                    'terrace_salable_area_measurement_id' => $request->other_details['terrace_carpet_area_unit'] ?? 1,
+                    
+                    'salable_area_value' => $request->other_details['saleable_area'],
+                    'salable_area_measurement_id' => $request->other_details['saleable_area_unit'] ?? 1,
+                    
+                    'terrace_carpet_area_value' => $request->other_details['terrace_carpet_area'],
+                    'terrace_carpet_area_measurement_id' => $request->other_details['terrace_carpet_area_unit'] ?? 1,
+                    
+                    'terrace_salable_area_value' => $request->other_details['terrace_saleable_area'],
+                    'terrace_salable_area_measurement_id' => $request->other_details['terrace_saleable_area_unit'] ?? 1,
                 ], 
                 'unit_details' => [],
                 'contact_details' => [],
@@ -524,14 +532,18 @@ class MasterPropertyController extends Controller
                 'size_area' => [
                     'built_area_value' => $request->other_details['built_area'],
                     'built_area_measurement_id' => $request->other_details['built_area_unit'] ?? 1,
+
                     'carpet_area_value' => $request->other_details['carpet_area'] ,
                     'carpet_area_measurement_id' => $request->other_details['carpet_area_unit'] ?? 1,
+
                     'salable_area_value' => $request->other_details['saleable_area'],
                     'salable_area_measurement_id' => $request->other_details['saleable_area_unit'] ?? 1,
-                    'terrace_carpet_area_value' => $request->other_details['terrace_saleable_area'],
-                    'terrace_carpet_area_measurement_id' => $request->other_details['terrace_saleable_area_unit'] ?? 1,
-                    'terrace_salable_area_value' => $request->other_details['terrace_carpet_area'],
-                    'terrace_salable_area_measurement_id' => $request->other_details['terrace_carpet_area_unit'] ?? 1,
+
+                    'terrace_carpet_area_value' => $request->other_details['terrace_carpet_area'],
+                    'terrace_carpet_area_measurement_id' => $request->other_details['terrace_carpet_area_unit'] ?? 1,
+                    
+                    'terrace_salable_area_value' => $request->other_details['terrace_saleable_area'],
+                    'terrace_salable_area_measurement_id' => $request->other_details['terrace_saleable_area_unit'] ?? 1,
                 ], 
                 'unit_details' => [],
                 'contact_details' => [],
@@ -565,10 +577,13 @@ class MasterPropertyController extends Controller
                 'size_area' => [
                     'salable_area_value' => $request->other_details['saleable_area'],
                     'salable_area_measurement_id' => $request->other_details['saleable_area_unit'] ?? 1,
+
                     'length_of_plot_value' => $request->other_details["length_of_plot"],
                     'length_of_plot_measurement_id' => $request->other_details["length_of_plot_unit"] ?? 1,
+
                     'width_of_plot_value' => $request->other_details["width_of_plot"],
                     'width_of_plot_measurement_id' => $request->other_details["width_of_plot_unit"] ?? 1,
+                    
                     'carpet_plot_area_value' => $request->other_details['carpet_plot_area'],
                     'carpet_plot_area_measurement_id' => $request->other_details['carpet_plot_area_unit'] ?? 1,
                 ], 
@@ -759,4 +774,29 @@ class MasterPropertyController extends Controller
         }
     }
 
+    public function view(MasterProperty $masterProperty)
+    {   
+        $land_units = PropertyLandUnit::all();
+        $property_source = PropertySource::all();
+
+        return view('admin.master_properties.view')->with([
+            'land_units' => $land_units,
+            'sources' => $property_source,
+            'property_master' => $masterProperty->load(['unitDetails','contactDetails','areaSizes','propertyConstructionDocuments']),
+        ]);
+    }
+
+    public function resetData()
+    {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        DB::table('property_master')->truncate();
+        DB::table('property_unit_details')->truncate();
+        DB::table('property_area_size')->truncate();
+        DB::table('property_contact_details')->truncate();
+    
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        return view('admin.master_properties.index')->with(['land_units' => PropertyLandUnit::all()]);
+    }
 }

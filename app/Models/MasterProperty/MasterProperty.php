@@ -2,6 +2,7 @@
 
 namespace App\Models\MasterProperty;
 
+use App\Models\Areas;
 use App\Models\City;
 use App\Models\District;
 use App\Models\Projects;
@@ -45,6 +46,11 @@ class MasterProperty extends Model implements HasMedia
 	public function city(): BelongsTo
 	{
 		return $this->belongsTo(City::class, 'city_id' , 'id');
+	}
+
+	public function locality(): BelongsTo
+	{
+		return $this->belongsTo(Areas::class, 'area_id' , 'id');
 	}
 
 	public function propertyFor(): BelongsTo

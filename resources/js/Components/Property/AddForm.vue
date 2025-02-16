@@ -1,25 +1,24 @@
 <template>
-    <div class="row">
+    <div class="row" style="min-height: calc(100vh - 210px);">
         <div class="col-12 col-md-3 col-lg-2">
             <div class="bromi-form-wizard stepwizard">
                 <div class="stepwizard-row setup-panel">
                     <div class="stepwizard-step mb-5" style="text-align:initial">
-                        <button class="btn btn-primary" id="step0" data-action="#information-step">1</button>
+                        <button class="btn btn-primary tab-btn" id="step-1" data-action="#information-step" @click="tabChange('first_tab', 'step-1')">1</button>
                         <p class="ms-2">Information</p>
                     </div>
                     <div class="stepwizard-step mb-5" style="text-align:initial">
-                        <button class="btn btn-light" id="step1" data-action="#profile-step">2</button>
+                        <button class="btn btn-light tab-btn" id="step-2" data-action="#profile-step" @click="tabChange('second_tab', 'step-2')">2</button>
                         <p class="ms-2">Property Details</p>
                     </div>
-
                     <div class="stepwizard-step" style="text-align:initial">
-                        <button class="btn btn-light" id="step2" data-action="#unit-owner-step">3</button>
+                        <button class="btn btn-light tab-btn" id="step-3" data-action="#unit-owner-step" @click="tabChange('third_tab', 'step-3')">3</button>
                         <p class="ms-2">Unit & Contact Information</p>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-9 col-lg-10 border-start ps-4">
+        <div class="col-12 col-md-9 col-lg-10 border-start ps-4 custom-tab" id="first_tab">
             <!-- first part start -->
             <div class="row">
                 <div class="row mb-2">
@@ -113,7 +112,7 @@
                 </div>
             </div>
 
-            <div class="row mt-5" v-show="data.property_category !== 4">
+            <div class="row mt-3" v-show="data.property_category !== 4">
                 <div class="col-md-3 m-b-4 mb-4">
                     <select class="form-select" id="project_id">
                         <option value="">Project</option>
@@ -215,6 +214,14 @@
             </div>
             <!-- first part end -->
 
+            <div class="row mt-4">
+                <div class="col-12 col-3">
+                    <button class="btn btn-primary" type="button" @click="tabChange('second_tab', 'step-2')">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-9 col-lg-10 border-start ps-4 custom-tab d-none" id="second_tab">
             <!-- second part start -->
             <office-retail-form
                 ref="office_retail_form"
@@ -278,9 +285,18 @@
 
             <!-- second part end -->
 
+            <div class="row mt-4">
+                <div class="col-12 col-3">
+                    <button class="btn btn-primary" type="button" @click="tabChange('first_tab', 'step-1')">Previous</button>
+                    <button class="btn btn-primary ms-3" type="button" @click="tabChange('third_tab', 'step-3')">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-9 col-lg-10 border-start ps-4 custom-tab d-none" id="third_tab">
             <!-- 3rd part start -->
 
-            <div class="row mt-5" v-show="data.property_category != 4">
+            <div class="row" v-show="data.property_category != 4">
                 <b>Unit Details</b>
                 <template v-for="(unit, index) in unit_details">
                     <div class="row mt-2">
@@ -381,7 +397,7 @@
                     </div>
 
                     <template v-if="[1,2,4].includes( parseInt(unit.furnished_status)) && data.property_category == 1">
-                        <div class="row mt-2">
+                        <div class="row mt-2 mb-2">
                             <div class="col-12 col-md-2">
                                 <div class="fname" :class="unit.no_of_seats !== '' ? 'focused' : ''">
                                     <label :for="`unit_no_of_seats_${index}`">No. of seats</label>
@@ -533,7 +549,7 @@
                 <hr class="ms-3 mr-3">
             </div>
 
-            <div class="row mt-3" v-show="data.property_category == 4">
+            <div class="row" v-show="data.property_category == 4">
                 <b>Survey Details</b>
             </div>
 
@@ -773,7 +789,8 @@
 
             <div class="row mt-4">
                 <div class="col-12 col-3">
-                    <button class="btn btn-primary" @click="submitForm()">Submit</button>
+                    <button class="btn btn-primary" type="button" @click="tabChange('second_tab', 'step-2')">Previous</button>
+                    <button class="btn btn-primary ms-3" type="button" @click="submitForm()">Submit</button>
                 </div>
             </div>
         </div>
@@ -910,9 +927,9 @@ const props = defineProps([
 
 const data = reactive({
     'property_for': 1,
-    'property_construction_type': 2,
-    'property_category': 5,
-    'property_sub_category': 15,
+    'property_construction_type': 1,
+    'property_category': 1,
+    'property_sub_category': 1,
     'selected_project': '',
     'selected_city': '',
     'selected_locality': '',
@@ -1222,5 +1239,13 @@ function handleFileUpload(type, event) {
         files.value.documents= event.target.files;
     }
 }
+
+function tabChange(tab_id , btn_id) {
+    $('.custom-tab').addClass('d-none');
+    $('.tab-btn').addClass('btn-light');
+    $('.tab-btn').removeClass('btn-primary');
+    $(`#${tab_id}`).removeClass('d-none');
+    $(`#${btn_id}`).addClass('btn-primary');
+} 
 
 </script>
