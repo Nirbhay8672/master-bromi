@@ -515,10 +515,10 @@ const other_details = reactive({
 
     'availability_status': '',
     'age_of_property': '',
-    'available_from': props.property_master?.available_from ?? '',    
+    'available_from': props.property_master.available_from ?? '',    
 
-    'two_road_corner': props.property_master?.two_road_corner ?? '',
-    'remark': props.property_master?.remark ?? '',
+    'two_road_corner': props.property_master.two_road_corner ?? '',
+    'remark': props.property_master.remark ?? '',
 });
 
 function resetValue(array) {
