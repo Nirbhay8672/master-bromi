@@ -53,6 +53,7 @@ class MasterPropertyController extends Controller
         } else {
             $sub_users_ids = User::where('parent_id', $user->parent_id)->pluck('id')->toArray();
             array_push($sub_users_ids, $user->id);
+            $query->whereIn('user_id', $sub_users_ids);
         }
 
         // return datatable
