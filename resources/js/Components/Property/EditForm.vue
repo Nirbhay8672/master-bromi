@@ -305,7 +305,7 @@
                 <b>Unit Details</b>
                 <template v-for="(unit, index) in unit_details">
                     <div class="row mt-2">
-                        <div class="col-12 col-md-2" v-show="![6,8].includes(data.property_category)">
+                        <div class="col-12 col-md-2" v-show="![6,8].includes(parseInt(data.property_category))">
                             <div class="fname" :class="unit.wing !== '' ? 'focused' : ''">
                                 <label :for="`unit_wing_${index}`">Wing</label>
                                 <div class="fvalue">
@@ -330,7 +330,7 @@
                                 <option value="Sold Out">Sold Out</option>
                             </select>
                         </div>
-                        <div class="col-12 col-md-2" v-if="[1, 3].includes(data.property_for)">
+                        <div class="col-12 col-md-2" v-if="[1, 3].includes(parseInt(data.property_for))">
                             <div class="fname" :class="unit.price_rent !== '' ? 'focused' : ''">
                                 <label :for="`unit_price_rent_${index}`">Price Rent</label>
                                 <div class="fvalue">
@@ -339,7 +339,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for)">
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(parseInt(data.property_for))">
                             <div class="fname" :class="unit.price !== '' ? 'focused' : ''">
                                 <label :for="`unit_price_${index}`">Price</label>
                                 <div class="fvalue">
@@ -348,7 +348,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 7">
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(parseInt(data.property_for)) && data.property_category == 7">
                             <div class="fname" :class="unit.terrace_price !== '' ? 'focused' : ''">
                                 <label :for="`unit_terrace_price_${index}`">Terrace Price</label>
                                 <div class="fvalue">
@@ -357,7 +357,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 7">
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(parseInt(data.property_for)) && data.property_category == 7">
                             <div class="fname" :class="unit.flat_price !== '' ? 'focused' : ''">
                                 <label :for="`unit_flat_price_${index}`">Flat Price</label>
                                 <div class="fvalue">
@@ -366,7 +366,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 6">
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(parseInt(data.property_for)) && data.property_category == 6">
                             <div class="fname" :class="unit.plot_price !== '' ? 'focused' : ''">
                                 <label :for="`unit_plot_price_${index}`">Plot Price</label>
                                 <div class="fvalue">
@@ -375,7 +375,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 6">
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(parseInt(data.property_for)) && data.property_category == 6">
                             <div class="fname" :class="unit.construction_price !== '' ? 'focused' : ''">
                                 <label :for="`unit_construction_price_${index}`">Construction Price</label>
                                 <div class="fvalue">
@@ -384,7 +384,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 m-b-4 mb-4" v-show="![3,8].includes(data.property_category)">
+                        <div class="col-md-2 m-b-4 mb-4" v-show="![3,8].includes(parseInt(data.property_category))">
                             <select class="form-select" :id="`furnished_status_${index}`">
                                 <option value="">Furnished Status</option>
                                 <option value="1">Furnished</option>
@@ -583,7 +583,7 @@
                             <div class="form-group">
                                 <select class="form-select" id="survey_plot_size_unit">
                                     <template v-for="(unit) in props.land_units">
-                                        <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
+                                        <option :value="unit.id" v-if="![24,25].includes(parseInt(unit.id))">{{ unit.unit_name }}</option>
                                     </template>
                                 </select>
                             </div>
@@ -639,7 +639,7 @@
                             <div class="form-group">
                                 <select class="form-select" id="tp_plot_size_unit">
                                     <template v-for="(unit) in props.land_units">
-                                        <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
+                                        <option :value="unit.id" v-if="![24,25].includes(parseInt(unit.id))">{{ unit.unit_name }}</option>
                                     </template>
                                 </select>
                             </div>

@@ -104,7 +104,7 @@
 
                         html += `<font size="3">`;
 
-                        if ([1].includes(parseInt(row.category_id))) {
+                        if ([1,2].includes(parseInt(row.category_id))) {
                             let view_url = "{{ route('admin.master_properties.view', ['masterProperty' => '__ID__']) }}".replace('__ID__', row.id);
                             html += `<a href="${view_url}" style="font-weight: bold;">${row.category_id != 4 ? row.project.project_name : ( row.village?.name ?? '') }</a>`;
                         } else {
