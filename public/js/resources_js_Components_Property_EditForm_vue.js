@@ -383,7 +383,7 @@ function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == 
       };
       if ([1, 2].includes(data.property_category)) {
         var office_retail_data = office_retail_form.value.getData();
-        post_data.other_details = _objectSpread(_objectSpread({}, post_data.other_details), office_retail_data);
+        post_data.other_details = Object.assign({}, post_data.other_details, office_retail_data);
       }
       if (data.property_category == 3) {
         var storage_industrial_data = storage_industrial_form.value.getData();

@@ -1221,10 +1221,7 @@ function submitForm() {
 
     if ([1, 2].includes(data.property_category)) {
         let office_retail_data = office_retail_form.value.getData();
-        post_data.other_details = {
-            ...post_data.other_details,
-            ...office_retail_data
-        };
+        post_data.other_details = Object.assign({}, post_data.other_details, office_retail_data);
     }
 
     if (data.property_category == 3) {

@@ -706,7 +706,6 @@ class MasterPropertyController extends Controller
 
             $masterProperty->areaSizes()->update($transformedRequest->size_area);
 
-
             $currentIds = [];
             // Update or create PropertyUnitDetails -  More efficient way
             if (in_array($transformedRequest->basic_detail['category_id'], [1, 2, 3, 5, 6, 7])) {
