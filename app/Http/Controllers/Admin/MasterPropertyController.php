@@ -51,7 +51,7 @@ class MasterPropertyController extends Controller
         if($user->parent_id) {
             $query->where('user_id', $user->id);
         } else {
-            $sub_users_ids = User::where('parent_id', $user->parent_id)->pluck('id')->toArray();
+            $sub_users_ids = User::where('parent_id', $user->id)->pluck('id')->toArray();
             array_push($sub_users_ids, $user->id);
             $query->whereIn('user_id', $sub_users_ids);
         }
