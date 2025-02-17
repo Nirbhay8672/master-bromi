@@ -457,6 +457,12 @@ onMounted(() => {
     }
 
     other_details.remark = props.property_master.remark;
+
+   other_details.units_in_project = props.property_master.units_in_project;
+   other_details.number_of_floor =  props.property_master.no_of_floors;
+   other_details.units_in_towers =  props.property_master.units_in_tower;
+   other_details.units_on_floor =  props.property_master.units_in_floor;
+   other_details.number_of_elevators = props.property_master.no_of_elevators;
 });
 
 const props = defineProps([
@@ -490,11 +496,11 @@ const other_details = reactive({
     'terrace_carpet_area': '',
     'terrace_carpet_area_unit': '',
 
-    'units_in_project': props.property_master?.units_in_project ?? '',
-    'number_of_floor':  props.property_master?.no_of_floors ?? '',
-    'units_in_towers':  props.property_master?.units_in_tower ?? '',
-    'units_on_floor':  props.property_master?.units_in_floor ?? '',
-    'number_of_elevators': props.property_master?.no_of_elevators ?? '',
+    'units_in_project':'',
+    'number_of_floor': '',
+    'units_in_towers': '',
+    'units_on_floor': '',
+    'number_of_elevators':'',
 
     'service_elevator': '',
     'is_hot': '',
