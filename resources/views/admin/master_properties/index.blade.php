@@ -244,7 +244,7 @@
                                         if(index != 0) {
                                             html += '<hr>';
                                         }
-                                        html += `<div class="row"><span> <b>Unit - ${index  + 1 } <i class="fa fa-arrow-right me-2"></i>`;
+                                        html += `<div class="row"><span> <b>Unit - ${index  + 1 } </b><i class="fa fa-arrow-right me-2"></i>`;
 
                                             if(![3,8].includes(parseInt(row.property_category))) {
                                                 if(element['furniture_status']) {
