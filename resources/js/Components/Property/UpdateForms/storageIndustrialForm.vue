@@ -1,13 +1,6 @@
 <template>
-    <div class="row gy-2 mt-3">
+    <div class="row gy-2">
         <b>Area Size</b>
-        <div class="row gy-2">
-            <div class="col">
-                <label for="add_carpet_plot_area" class="add-input-link fw-bold">{{ other_details.add_carpet_plot_area != 1 ? '+ Add' : '- Remove'}} Carpet Plot Area</label>
-                <input type="checkbox" value="1" id="add_carpet_plot_area" class="d-none"
-                    v-model="other_details.add_carpet_plot_area" @change="resetValue(['carpet_plot_area', 'carpet_plot_area_unit'])">
-            </div>
-        </div>
         <div class="col-md-3">
             <div class="input-group">
                 <div class="form-group col-md-7 m-b-20">
@@ -72,6 +65,13 @@
                         </select>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="row gy-2">
+            <div class="col">
+                <label for="add_carpet_plot_area" class="add-input-link fw-bold">{{ other_details.add_carpet_plot_area != 1 ? '+ Add' : '- Remove'}} Carpet Plot Area</label>
+                <input type="checkbox" value="1" id="add_carpet_plot_area" class="d-none"
+                    v-model="other_details.add_carpet_plot_area" @change="resetValue(['carpet_plot_area', 'carpet_plot_area_unit'])">
             </div>
         </div>
     </div>
@@ -306,11 +306,10 @@ onMounted(() => {
     
     if(props.property_master.area_sizes.length == 1) {
                 
-        other_details.saleable_plot_area = props.property_master.area_sizes[0].saleable_plot_area_value;
-        $('#saleable_plot_area_unit').val(props.property_master.area_sizes[0].saleable_plot_area_measurement_id).trigger('change');
+        other_details.saleable_plot_area = props.property_master.area_sizes[0].salable_plot_area_value;
+        $('#saleable_plot_area_unit').val(props.property_master.area_sizes[0].salable_plot_area_measurement_id).trigger('change');
 
-        other_details.saleable_constructed_area = props.property_master.area_sizes[0].saleable_constructed_area_value;
-        $('#saleable_constructed_area_unit').val(props.property_master.area_sizes[0].saleable_constructed_area_measurement_id).trigger('change');
+        other_details.saleable_constructed_area = props.property_master.area_sizes[0].salable_constructed_area_value;
 
         if(props.property_master.area_sizes[0].carpet_plot_area_value) {
             other_details.add_carpet_plot_area = true;

@@ -50,8 +50,8 @@
                                                 <label class="form-check-label" for="select_all_checkbox"></label>
                                             </div>
                                         </th>
-                                        <th style="min-width: 25% !important;">Project Name</th>
-                                        <th style="min-width: 20% !important;">Property Info</th>
+                                        <th style="min-width: 23% !important;">Project Name</th>
+                                        <th style="min-width: 23% !important;">Property Info</th>
                                         <th style="min-width: 12% !important;">Units</th>
                                         <th style="min-width: 12% !important;">Price</th>
                                         <th style="min-width: 18% !important;">Remark</th>
@@ -104,7 +104,7 @@
 
                         html += `<font size="3">`;
 
-                        if ([1,2].includes(parseInt(row.category_id))) {
+                        if ([1,2,3].includes(parseInt(row.category_id))) {
                             let view_url = "{{ route('admin.master_properties.view', ['masterProperty' => '__ID__']) }}".replace('__ID__', row.id);
                             html += `<a href="${view_url}" style="font-weight: bold;">${row.category_id != 4 ? row.project.project_name : ( row.village?.name ?? '') }</a>`;
                         } else {
@@ -148,6 +148,16 @@
                         if(row.property_for == '3') {
                             html += 'Rent & Sell | ';
                         }
+                        
+                        if (row.priority_type == 1) {
+                            html += '<img style="height:24px;float: right;" src="/assets/prop_images/Red-Star.png" alt="">';
+                        } else if (row.priority_type == 2) {
+                            html += '<img style="height:24px;float: right;" src="/assets/prop_images/Blue-Star.png" alt="">';
+                        } else if (row.priority_type == 3) {
+                            html += '<img style="height:24px;float: right;" src="/assets/prop_images/Yellow-Star.png" alt="">';
+                        }
+
+                        html += `${row.property_category ? row.property_category.name : ''} | `;
 
                         html += row.property_sub_category ? row.property_sub_category.name : row.property_category.name;
 
@@ -185,15 +195,6 @@
                             html += `<br> ${value}`;
                         }
 
-
-                        if (row.priority_type == 1) {
-                            html += '<img style="height:24px;margin-top:25px;float: right;bottom: 38px;position:relative;" src="/assets/prop_images/Red-Star.png" alt="">';
-                        } else if (row.priority_type == 2) {
-                            html += '<img style="height:24px;margin-top:25px;float: right;bottom: 38px;position:relative;" src="/assets/prop_images/Blue-Star.png" alt="">';
-                        } else if (row.priority_type == 3) {
-                            html += '<img style="height:24px;margin-top:25px;float: right;bottom: 38px;position:relative;" src="/assets/prop_images/Yellow-Star.png" alt="">';
-                        }
-
                         let furniture_type = {
                             1 : 'Furnished',
                             2 : 'Semi Furnished',
@@ -204,110 +205,6 @@
                         if(![3,8].includes(parseInt(row.property_category))) {
                             if(row.unit_details.length > 0 && row.unit_details[0]['furniture_status']) {
                                 html += `<br> ${furniture_type[row.unit_details[0]['furniture_status']]}`;
-
-                                if([1,5,6,7].includes(parseInt(row.category_id))) {
-
-                                    if(row.unit_details.length == 1) {
-                                            html += `<div class="dropdown-basic" style="position:relative; float:right; margin-right : -20px;">
-                                            <div class="dropdown">
-                                                <i class="dropbtn fa fa-info-circle p-0 text-dark fs-6"></i>
-                                                <div class="dropdown-content py-2 px-2 mx-wd-350 cust-top-20 rounded">`;
-
-                                                row.unit_details.forEach((element , index) => {
-
-                                                        html += `<div class="row p-1">`;
-
-                                                            if(row.category_id == 1) {
-                                                                html += `<div class="col-12 mb-2"><b>No. of cabins : </b> ${element['no_of_cabins']}</div>`;
-                                                                html += `<div class="col-12 mb-2"><b>No. of seats : </b> ${element['no_of_seats']}</div>`;
-                                                                html += `<div class="col-12 mb-2"><b>No. of conference room : </b> ${element['no_of_conference_room']}</div>`;
-                                                            } else {
-                                                                Object.entries(element['furniture_total']).forEach((element)  => {
-                                                                    if(element[1] > 0) {
-                                                                        html += `<div class="col-12 col-md-4 mb-2 d-flex justify-content-between"><b>${element[0]} : </b> ${element[1]}</div>`;
-                                                                    }
-                                                                });
-                                                            }
-
-                                                            html += '<div class="col-12"><hr></div>';
-
-                                                            Object.entries(element['facilities']).forEach((faci)  => {
-
-                                                                function slugToTitle(slug) {
-                                                                    return slug.split('_')
-                                                                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                                                                            .join(' ');
-                                                                }
-
-                                                                let title = slugToTitle(faci[1]);
-
-                                                                html += `<div class="col-12 col-md-6 mb-2 d-flex justify-content-between">${title}</div>`;
-                                                            });
-
-                                                            html += `</div>`;
-                                                });
-                                        
-                                        html += `</div></div></div>`;
-                                    } else {
-
-                                        html += `<div class="dropdown-basic" style="position:relative; float:right; margin-right : -20px;">
-                                            <div class="dropdown">
-                                                <i class="dropbtn fa fa-info-circle p-0 text-dark fs-6"></i>
-                                                <div class="dropdown-content mx-wd-350 cust-top-20 rounded" style="padding-right:10px;">`;
-                                                
-                                                html +=`<div class="accordion" id="accordionExample_${row.id}">`;
-
-                                                row.unit_details.forEach((element , index) => {
-                                                    html += `<div class="accordion-item">
-                                                        <div class="row p-2">
-                                                            <div class="col-12">
-                                                                <button class="${index != 0 ? 'collapsed' : ''}" style="width:100%;margin-right:15px;line-height: 11px;max-height: 29px;border: 1px solid black;;" type="button" data-bs-toggle="collapse" data-bs-target="#unit_${index}" aria-expanded="${index == 0 ? 'true' : ''}" aria-controls="unit_${index}">
-                                                                    Unit ${index + 1}
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                        <div id="unit_${index}" class="accordion-collapse collapse ${index == 0 ? 'show' : ''}" aria-labelledby="headingOne" data-bs-parent="#accordionExample_${row.id}" style="border:none !important;">
-                                                        <div class="accordion-body" style="border:none;">`;
-
-                                                        html += `<div class="row mt-2">`;
-
-                                                            if(row.category_id == 1) {
-                                                                html += `<div class="col-12 mb-2"><b>No. of cabins : </b> ${element['no_of_cabins']}</div>`;
-                                                                html += `<div class="col-12 mb-2"><b>No. of seats : </b> ${element['no_of_seats']}</div>`;
-                                                                html += `<div class="col-12 mb-2"><b>No. of conference room : </b> ${element['no_of_conference_room']}</div>`;
-                                                            } else {
-                                                                Object.entries(element['furniture_total']).forEach((element)  => {
-                                                                    if(element[1] > 0) {
-                                                                        html += `<div class="col-12 col-md-4 mb-2 d-flex justify-content-between"><b>${element[0]} : </b> ${element[1]}</div>`;
-                                                                    }
-                                                                });
-                                                            }
-
-                                                            html += '<div class="col-12"><hr></div>';
-
-                                                            Object.entries(element['facilities']).forEach((faci)  => {
-
-                                                                function slugToTitle(slug) {
-                                                                    return slug.split('_')
-                                                                            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                                                                            .join(' ');
-                                                                }
-
-                                                                let title = slugToTitle(faci[1]);
-
-                                                                html += `<div class="col-12 col-md-6 mb-2 d-flex justify-content-between">${title}</div>`;
-                                                            });
-
-                                                            html += `</div>`;
-
-                                                        html += `</div>
-                                                        </div>
-                                                    </div>`;
-                                                });
-                                        
-                                        html += `</div></div></div></div>`;
-                                    }
-                                }
                             }
                         }
 
@@ -328,6 +225,14 @@
                                     html += `${row.unit_details[0]['unit_no'] ?? ''}</span>`;
                                 }
 
+
+                                let furniture_type = {
+                                    1 : 'Furnished',
+                                    2 : 'Semi Furnished',
+                                    3 : 'Unfurnished',
+                                    4 : 'Can Furnished',
+                                };
+                                
                                 if(row.unit_details.length > 1) {
                                     html += `<div class="dropdown-basic" style="position:relative; float:right; margin-right : -20px;">
                                             <div class="dropdown">
@@ -339,15 +244,38 @@
                                         if(index != 0) {
                                             html += '<hr>';
                                         }
-                                        html += `<div>
-                                            <span>Unit - ${index  + 1 }</span></div>
-                                            <div class="row"><span>`;
+                                        html += `<div class="row"><span> <b>Unit - ${index  + 1 } <i class="fa fa-arrow-right me-2"></i>`;
+
+                                            if(![3,8].includes(parseInt(row.property_category))) {
+                                                if(element['furniture_status']) {
+                                                    html += furniture_type[element['furniture_status']];
+                                                    html += '<b> | </b>';
+                                                }
+                                            }
+                                            
                                             if(element['wing']) {
                                                 html += `${element['wing'] ?? ''} - `;
                                             }
                                             if(element['unit_no']) {
                                                 html += `${element['unit_no'] ?? ''}`;
                                             }
+
+                                            html += '<b> | </b>';
+
+                                            if (row.property_for == 1) {
+                                                if(element.price_rent) {
+                                                    html += `₹ ${parseInt(element.price_rent).toLocaleString('en-IN')}`;
+                                                }
+                                            } else if (row.property_for == 2) {
+                                                if(element.price) {
+                                                    html += `₹ ${parseInt(element.price).toLocaleString('en-IN')}`;
+                                                }
+                                            } else if (row.property_for == 3) {
+                                                if(element.price && element.price_rent) {
+                                                    html += `R : ₹ ${parseInt(element.price_rent).toLocaleString('en-IN')} S : ₹ ${element.price ? parseInt(element.price).toLocaleString('en-IN') : '-'}`;
+                                                }
+                                            }
+                                            
                                         html += `</span></div>`;
                                     });
 
@@ -379,40 +307,6 @@
                                     }
                                 }
                                 html += "<br>";
-                            }
-
-
-                            if(row.unit_details.length > 1) {
-                                html += `<div class="dropdown-basic" style="position:relative; float:right; margin-right : -20px;margin-top:-20px;">
-                                        <div class="dropdown">
-                                            <i class="dropbtn fa fa-info-circle p-0 text-dark fs-6"></i>
-                                            <div class="dropdown-content py-2 px-2 mx-wd-350 cust-top-20 rounded">`;
-
-                                row.unit_details.forEach((element , index) => {
-
-                                    if(index != 0) {
-                                        html += '<hr>';
-                                    }
-
-                                    html += `<span class="mb-2">Unit - ${index  + 1 }</span><br>`;
-
-                                    if (row.property_for == 1) {
-                                        if(element.price_rent) {
-                                            html += `₹ ${parseInt(element.price_rent).toLocaleString('en-IN')}`;
-                                        }
-                                    } else if (row.property_for == 2) {
-                                        if(element.price) {
-                                            html += `₹ ${parseInt(element.price).toLocaleString('en-IN')}`;
-                                        }
-                                    } else if (row.property_for == 3) {
-                                        if(element.price && element.price_rent) {
-                                            html += `R : ₹ ${parseInt(element.price_rent).toLocaleString('en-IN')} <br> S : ₹ ${element.price ? parseInt(element.price).toLocaleString('en-IN') : '-'}`;
-                                        }
-                                    }
-                                    html += "<br>";
-                                });
-
-                                html += '</div></div></div>';
                             }
                         }
                         return html;

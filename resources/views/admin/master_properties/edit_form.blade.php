@@ -16,6 +16,10 @@
         .btn {
             border-radius: 5px;
         }
+
+        .btn-red {
+            border: 2px solid #ff000073;
+        }
     </style>
 @endpush
 

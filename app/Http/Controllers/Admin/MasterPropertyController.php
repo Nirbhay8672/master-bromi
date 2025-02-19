@@ -57,7 +57,7 @@ class MasterPropertyController extends Controller
         }
 
         // return datatable
-        return DataTables::of($query->get())
+        return DataTables::of($query->orderBy('id' , 'DESC')->get())
             ->editColumn('project_name', function ($row) {
                 return $row->category_id != 4 ? $row->project?->project_name : ($row->village?->name ?? '');
             })
@@ -139,7 +139,7 @@ class MasterPropertyController extends Controller
             }
 
             if($transformedRequest->has('images')) {
-                foreach ($transformedRequest->images as $image) {
+                foreach ($transformedRequest->images ?? [] as $image) {
                     if($image['file']){
                         $masterProperty->addMedia($image)->toMediaCollection('images');
                     }
@@ -147,7 +147,7 @@ class MasterPropertyController extends Controller
             }
 
             if($transformedRequest->has('documents')) {
-                foreach ($transformedRequest->documents as $document) {
+                foreach ($transformedRequest->documents ?? [] as $document) {
                     if($document['file']){
                         $masterProperty->addMedia($document)->toMediaCollection('document');
                     }   
@@ -277,6 +277,7 @@ class MasterPropertyController extends Controller
                     'property_age' => $propertyAge[$request->other_details['age_of_property']] ?? null,
                     'available_from' => $request->other_details['available_from'],
                     'remark' => $request->other_details['remark'],
+                    'key_available_at' => $request->other_details['key_available_at'],
                     'user_id' => auth()->user()->id,
                     'parent_id' => auth()->user()->parent_id,
                 ],
@@ -323,6 +324,7 @@ class MasterPropertyController extends Controller
                     'property_age' => $propertyAge[$request->other_details['age_of_property']] ?? null,
                     'available_from' => $request->other_details['available_from'],
                     'other_storage_industrial_detail' => json_encode($request->other_details['other_storage_industrial_detail']),
+                    'key_available_at' => $request->other_details['key_available_at'],
                     'remark' => $request->other_details['remark'],
                     'user_id' => auth()->user()->id,
                     'parent_id' => auth()->user()->parent_id,
@@ -414,6 +416,7 @@ class MasterPropertyController extends Controller
                     'availability_status' => $request->other_details['availability_status'] ? $availabilityStatus[$request->other_details['availability_status']] : null,
                     'property_age' => $propertyAge[$request->other_details['age_of_property']] ?? null,
                     'available_from' => $request->other_details['available_from'],
+                    'key_available_at' => $request->other_details['key_available_at'],
                     'remark' => $request->other_details['remark'],
                     'is_have_amenities' => $request->other_details['is_have_amenities'] ? ($request->other_details['is_have_amenities'] == 'true' ? true : false) : false,
 
@@ -468,6 +471,7 @@ class MasterPropertyController extends Controller
                     'availability_status' => $request->other_details['availability_status'] ? $availabilityStatus[$request->other_details['availability_status']] : null,
                     'property_age' => $propertyAge[$request->other_details['age_of_property']] ?? null,
                     'available_from' => $request->other_details['available_from'],
+                    'key_available_at' => $request->other_details['key_available_at'],
                     'remark' => $request->other_details['remark'],
                     'is_have_amenities' => $request->other_details['is_have_amenities'] ? ($request->other_details['is_have_amenities'] == 'true' ? true : false) : false,
                     'amenities' => $request->other_details['amenities'],
@@ -523,6 +527,7 @@ class MasterPropertyController extends Controller
                     'availability_status' => $request->other_details['availability_status'] ? $availabilityStatus[$request->other_details['availability_status']] : null,
                     'property_age' => $propertyAge[$request->other_details['age_of_property']] ?? null,
                     'available_from' => $request->other_details['available_from'],
+                    'key_available_at' => $request->other_details['key_available_at'],
                     'remark' => $request->other_details['remark'],
                     'is_have_amenities' => $request->other_details['is_have_amenities'] ? ($request->other_details['is_have_amenities'] == 'true' ? true : false) : false,
 
@@ -697,11 +702,9 @@ class MasterPropertyController extends Controller
          */
         $transformedRequest = $this->transformRequest($request);
 
-        // dd($transformedRequest->all());
-
         try {
             DB::beginTransaction();
-            
+
             $masterProperty->update($transformedRequest->basic_detail);
 
             $masterProperty->areaSizes()->update($transformedRequest->size_area);
@@ -715,10 +718,6 @@ class MasterPropertyController extends Controller
                     $currentIds[] = $propertyUnitDetail->id;
                 }
             }
-
-            // $test = PropertyUnitDetail::where('property_id', $masterProperty->id)->get();
-
-            // dd($test);
 
             PropertyUnitDetail::where('property_id', $masterProperty->id)->whereNotIn('id', $currentIds)->delete(); // Clear existing
 

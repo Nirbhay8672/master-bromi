@@ -397,7 +397,7 @@
                             <button class="btn btn-primary" type="button" @click="addUnit()">+</button>
                         </div>
                         <div class="col-md-1 m-b-4 mb-4" v-else>
-                            <button class="btn btn-danger" type="button" @click="removeUnit(index)">-</button>
+                            <button class="btn" :class="unit.id ? 'btn-red' : 'btn-danger'" type="button" @click="removeUnit(index)">-</button>
                         </div>
                     </div>
 
