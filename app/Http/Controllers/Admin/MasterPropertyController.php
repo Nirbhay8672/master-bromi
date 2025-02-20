@@ -43,6 +43,7 @@ class MasterPropertyController extends Controller
             'village',
             'extraSize',
             'unitDetails',
+            'zone',
         ]);
         
         $user = Auth::user();
@@ -372,6 +373,7 @@ class MasterPropertyController extends Controller
                     'tp_price' => $request->other_details["tp_price"],
                     'priority_type' => $priorityType[$request->other_details['priority']] ?? null,
                     'source' => $request->other_details["source"],
+                    'key_available_at' => $request->other_details['key_available_at'],
                     'remark' => $request->other_details["remark"],
                     'hot_property' => $request->other_details["is_hot"] ? 1 : 0,
                     'user_id' => auth()->user()->id,

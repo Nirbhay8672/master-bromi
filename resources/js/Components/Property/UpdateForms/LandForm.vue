@@ -105,7 +105,7 @@
         <b>Construction Documents</b>
     </div>
 
-    <template v-for="(document, index) in construction_docs">
+    <template v-for="(document, index) in construction_docs" :key="`doc_${index}`">
         <div class="row mt-2">
             <div class="col-md-4">
                 <select class="form-select" :id="`document_category_${index}`">
@@ -124,7 +124,7 @@
                 <input type="file" :id="`document_file_${index}`" @change="(e) => handleFileUpload(e, index)" name="" class="form-control" style="border: 2px solid;border-radius: 5px;">
             </div>
             <div class="col-md-1 m-b-4 mb-4" v-if="index == 0">
-                <button class="btn btn-primary" type="button" @click="addDoc()">+</button>
+                <button class="btn btn-primary" type="button" @click="addDoc()" disabled>+</button>
             </div>
             <div class="col-md-1 m-b-4 mb-4" v-else>
                 <button class="btn btn-danger" type="button" @click="removeDoc(index)">-</button>
@@ -267,15 +267,19 @@ onMounted(() => {
     other_details.number_of_floors_allowed = props.property_master.no_of_floors_allowed;
     other_details.is_hot = props.property_master.hot_property ? true : false;
     
-    console.log(props.property_master.property_construction_documents);
-    
-    other_details.construction_allowed_for = props.property_master.construction_allowed_for;
+    $("#construction_allowed_for").val(props.property_master.construction_allowed_for).trigger('change');
+
     other_details.fsi_far = props.property_master.fsi_far;
-    other_details.priority = props.property_master.priority_type;
+
+    let priority = {
+        1 : 'High',
+        2 : 'Medium',
+        3 : 'Low',
+    };
+
+    $('#priority').val(priority[props.property_master.priority_type]).trigger('change');
+    $('#source').val(props.property_master.source).trigger('change');
     
-    $('#priority').val(other_details.priority).trigger('change');
-    other_details.source = props.property_master.source_id;
-    $('#source').val(other_details.source).trigger('change');
     other_details.remark = props.property_master.remark;
 
     construction_docs = props.property_master.property_construction_documents.map((document) => {
@@ -285,9 +289,6 @@ onMounted(() => {
             'file' : '',
         };
     });
-
-    console.log(construction_docs);
-    
 
     $('#construction_allowed_for').val(other_details.construction_allowed_for).trigger('change');
 });
@@ -301,7 +302,6 @@ function documentSelect2() {
 }
 
 function addDoc() {
-
     construction_docs.push({
         'category' : '',
         'file' : '',

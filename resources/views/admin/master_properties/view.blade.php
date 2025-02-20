@@ -32,6 +32,10 @@
                     @if(in_array($property_master->category_id, [3]))
                         @include('admin.master_properties.views.storage')
                     @endif
+
+                    @if(in_array($property_master->category_id, [4]))
+                        @include('admin.master_properties.views.land')
+                    @endif
                 </div>
             </div>
         </div>

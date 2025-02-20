@@ -1033,10 +1033,18 @@ function prefillForm() {
 
     $("#project_id").val(props.property_master.project_id).trigger('change');
     $("#city_id").val(props.property_master.city_id).trigger('change');
-    $("#locality_id").val(props.property_master.area_id).trigger('change');
+
+    nextTick(() => {
+        $("#locality_id").val(props.property_master.area_id).trigger('change');
+    });
+
     $("#district_id").val(props.property_master.district_id).trigger('change');
-    $("#taluka_id").val(props.property_master.taluka_id).trigger('change');
-    $("#village_id").val(props.property_master.village_id).trigger('change');
+
+    nextTick(() => {
+        $("#taluka_id").val(props.property_master.taluka_id).trigger('change');
+        $("#village_id").val(props.property_master.village_id).trigger('change');
+    });
+
     $("#zone_id").val(props.property_master.zone_id).trigger('change');
     $("#owner_type").val(props.property_master.owner_info?.type ?? '').trigger('change');
     $("#survey_plot_size_unit").val(props.property_master.survey_plot_size_unit).trigger('change');

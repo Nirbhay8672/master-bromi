@@ -7,6 +7,7 @@ use App\Models\City;
 use App\Models\District;
 use App\Models\Projects;
 use App\Models\PropertyConstructionDocument;
+use App\Models\Taluka;
 use App\Models\Village;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -93,8 +94,19 @@ class MasterProperty extends Model implements HasMedia
 		return $this->belongsTo(District::class);
 	}
 
+	public function taluka(): BelongsTo
+	{
+		return $this->belongsTo(Taluka::class);
+	}
+
+
 	public function propertyConstructionDocuments(): HasMany
 	{
 		return $this->hasMany(PropertyConstructionDocument::class, 'property_id', 'id');
+	}
+
+	public function zone(): BelongsTo
+	{
+		return $this->belongsTo(PropertyZone::class, 'zone_id', 'id');
 	}
 }

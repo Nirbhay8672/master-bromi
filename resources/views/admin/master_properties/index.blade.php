@@ -13,10 +13,15 @@
     }
 
     .dataTables_wrapper table.dataTable th, .dataTables_wrapper table.dataTable td {
-        padding: 3px !important;
+        padding: 7px !important;
         padding-left: 25px !important;
         padding-right: 25px !important;
     }
+
+    table.dataTable tbody td {
+        vertical-align: top !important;
+    }
+
 </style>
 @section('content')
 <div class="page-body">
@@ -52,9 +57,9 @@
                                         </th>
                                         <th style="min-width: 23% !important;">Project Name</th>
                                         <th style="min-width: 23% !important;">Property Info</th>
-                                        <th style="min-width: 12% !important;">Units</th>
+                                        <th style="min-width: 14% !important;">Units</th>
                                         <th style="min-width: 12% !important;">Price</th>
-                                        <th style="min-width: 18% !important;">Remark</th>
+                                        <th style="min-width: 16% !important;">Remark</th>
                                         <th style="min-width: 10% !important;">Action</th>
                                     </tr>
                                 </thead>
@@ -104,7 +109,7 @@
 
                         html += `<font size="3">`;
 
-                        if ([1,2,3].includes(parseInt(row.category_id))) {
+                        if ([1,2,3,4].includes(parseInt(row.category_id))) {
                             let view_url = "{{ route('admin.master_properties.view', ['masterProperty' => '__ID__']) }}".replace('__ID__', row.id);
                             html += `<a href="${view_url}" style="font-weight: bold;">${row.category_id != 4 ? row.project.project_name : ( row.village?.name ?? '') }</a>`;
                         } else {
@@ -112,7 +117,7 @@
                         }
 
                         if (row.hot_property == '1') {
-                            html += `<img style="height:24px;margin-top:43px;float: right;bottom: 38px;position:relative;" src="/assets/images/hotProperty.png" alt="adasd">`;
+                            html += `<img style="height:24px;float: right;position:relative;" src="/assets/images/hotProperty.png" alt="adasd">`;
                         }
 
                         html += '</font>';
@@ -178,7 +183,7 @@
 
                             html += `<br> ${value}`;
                         }
-                        else if (row.category_id == 6) {
+                        else if ([3,6].includes(parseInt(row.category_id))) {
                             let salable = row.extra_size[0]['salable_plot_area_value'];
                             let measure = row.extra_size[0]['salable_plot_area_measurement_id'];
 
@@ -193,8 +198,12 @@
                             }
 
                             html += `<br> ${value}`;
+                        } else if (row.category_id == 4) {
+                            if(row.zone_id) {
+                                html += `<br> Zone - ${row.zone.name}`;
+                            }
                         }
-
+                    
                         let furniture_type = {
                             1 : 'Furnished',
                             2 : 'Semi Furnished',
@@ -202,7 +211,7 @@
                             4 : 'Can Furnished',
                         };
 
-                        if(![3,8].includes(parseInt(row.property_category))) {
+                        if(![3,8].includes(parseInt(row.category_id))) {
                             if(row.unit_details.length > 0 && row.unit_details[0]['furniture_status']) {
                                 html += `<br> ${furniture_type[row.unit_details[0]['furniture_status']]}`;
                             }
@@ -216,7 +225,9 @@
                     name: 'City Name',
                     render: function(data, type , row) {
                         let html = '';
-                        if(![4].includes(row.property_category)) {
+
+                        if(![4].includes(parseInt(row.category_id))) {
+
                             if(row.unit_details.length > 0) {
                                 if(row.unit_details[0]['wing']) {
                                     html += `<span>${row.unit_details[0]['wing'] ?? ''}</span> - `;
@@ -234,7 +245,7 @@
                                 };
                                 
                                 if(row.unit_details.length > 1) {
-                                    html += `<div class="dropdown-basic" style="position:relative; float:right; margin-right : -20px;">
+                                    html += `<div class="dropdown-basic" style="position:relative; float:right;margin-top:2px;">
                                             <div class="dropdown">
                                                 <i class="dropbtn fa fa-info-circle p-0 text-dark fs-6"></i>
                                                 <div class="dropdown-content py-2 px-2 mx-wd-350 cust-top-20 rounded">`;
@@ -246,7 +257,7 @@
                                         }
                                         html += `<div class="row"><span> <b>Unit - ${index  + 1 } </b><i class="fa fa-arrow-right me-2"></i>`;
 
-                                            if(![3,8].includes(parseInt(row.property_category))) {
+                                            if(![3,8].includes(parseInt(row.category_id))) {
                                                 if(element['furniture_status']) {
                                                     html += furniture_type[element['furniture_status']];
                                                     html += '<b> | </b>';
@@ -282,6 +293,16 @@
                                     html += '</div></div></div>';
                                 }
                             }
+                        } else {
+                            if(row.survey_number) {
+                                html += `Survey number : ${row.survey_number} <br>`;
+                            }
+                            if(row.tp_number) {
+                                html += `TP number : ${row.tp_number} <br>`;
+                            }
+                            if(row.fp_number) {
+                                html += `FP number : ${row.fp_number} <br>`;
+                            }
                         }
                         return html;
                     }
@@ -290,8 +311,10 @@
                     data: 'address',
                     name: 'Address',
                     render: function(data, type , row) {
+                        
                         let html = '';
-                        if(![3,8].includes(parseInt(row.property_category))) {
+
+                        if(![4].includes(parseInt(row.category_id))) {
                             if(row.unit_details.length > 0) {
                                 if (row.property_for == 1) {
                                     if(row.unit_details[0].price_rent) {
@@ -308,7 +331,12 @@
                                 }
                                 html += "<br>";
                             }
+                        } else {
+                            if(row.survey_price) {
+                                html += `S : ₹ ${parseInt(row.survey_price).toLocaleString('en-IN')}`;
+                            }
                         }
+
                         return html;
                     }
                 },
