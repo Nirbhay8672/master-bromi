@@ -222,6 +222,8 @@ class RegisterController extends Controller
         $state = State::find($request->state_id);
         $city = SuperCity::find($request->city_id);
 
+        Session::put('user_id' , $user->id);
+
         $new_state = new State();
         $new_state->fill([
             'name' => $state->name,

@@ -1,4 +1,28 @@
 @extends('admin.layouts.app')
+<style>
+    table.dataTable tbody td {
+        line-height: 22px;
+    }
+
+    table.dataTable {
+        font-size: 13px;
+    }
+
+    table.dataTable .fa-map-marker {
+        margin-top: 3px;
+    }
+
+    .dataTables_wrapper table.dataTable th, .dataTables_wrapper table.dataTable td {
+        padding: 7px !important;
+        padding-left: 25px !important;
+        padding-right: 25px !important;
+    }
+
+    table.dataTable tbody td {
+        vertical-align: top !important;
+    }
+
+</style>
 @section('content')
 <div class="page-body">
     <div class="container-fluid">
@@ -22,17 +46,21 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="display" id="branchTable">
+                            <table id="propertyTable">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10px !important;">
+                                        <th style="width: 3% !important;">
                                             <div class="form-check form-check-inline checkbox checkbox-dark mb-0 me-0">
                                                 <input class="form-check-input" id="select_all_checkbox" name="selectrows" type="checkbox">
                                                 <label class="form-check-label" for="select_all_checkbox"></label>
                                             </div>
                                         </th>
-                                        <th>Project Name</th>
-                                        <th>Action</th>
+                                        <th style="min-width: 23% !important;">Project Name</th>
+                                        <th style="min-width: 23% !important;">Property Info</th>
+                                        <th style="min-width: 14% !important;">Units</th>
+                                        <th style="min-width: 12% !important;">Price</th>
+                                        <th style="min-width: 16% !important;">Remark</th>
+                                        <th style="min-width: 10% !important;">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -44,6 +72,11 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-4">
+                <a href="{{ route('admin.master_properties.resetData') }}">Remove All Data - Do not click here</a>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
@@ -51,29 +84,325 @@
 <script>
     $(document).ready(function() {
 
-        $('#branchTable').DataTable({
+        $('#propertyTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('admin.master_properties.data_table') }}",
             columns: [{
                     data: 'select_checkbox',
                     name: 'select_checkbox',
-                    orderable: false
+                    orderable: false,
+                    render: function(data, type, row) {
+
+                        return `<div class="form-check checkbox checkbox-primary mb-0">
+                            <input class="form-check-input table_checkbox" data-id="${row.id}" name="select_row[]" id="checkbox-primary-${row.id}" type="checkbox">
+                            <label class="form-check-label" for="checkbox-primary-${row.id}"></label>
+                        </div>`;
+                    }
                 },
                 {
                     data: 'project_name',
-                    name: 'Project Name'
+                    name: 'Project Name',
+                    render: function(data, type , row) {
+
+                        let html = '';
+
+                        html += `<font size="3">`;
+
+                        if ([1,2,3,4].includes(parseInt(row.category_id))) {
+                            let view_url = "{{ route('admin.master_properties.view', ['masterProperty' => '__ID__']) }}".replace('__ID__', row.id);
+                            html += `<a href="${view_url}" style="font-weight: bold;">${row.category_id != 4 ? row.project.project_name : ( row.village?.name ?? '') }</a>`;
+                        } else {
+                            html += `<a href="" style="font-weight: bold;">${row.category_id != 4 ? row.project.project_name : ( row.village?.name ?? '') }</a>`;
+                        }
+
+                        if (row.hot_property == '1') {
+                            html += `<img style="height:24px;float: right;position:relative;" src="/assets/images/hotProperty.png" alt="adasd">`;
+                        }
+
+                        html += '</font>';
+
+                        if(row.project.area) {
+                            html += `<br>Locality : ${ row.project.area ? row.project.area.name : '-'}`;
+                        }
+
+                        if(row.location_link) {
+                            html += `<br> <a href="${row.location_link}" target="_blank">
+                                <i class="fa fa-map-marker fa-1x cursor-pointer color-code-popover" data-bs-trigger="hover focus">  check on map </i>
+                            </a>`;
+                        }
+
+                        return html;
+                    }
+                },
+                {
+                    data: 'information',
+                    name: 'Information',
+                    render: function(data, type , row) {
+
+                        let land_units = @json($land_units);
+
+                        let html = '';
+                        
+                        if(row.property_for == '1') {
+                            html += 'Rent | ';
+                        }
+                        if(row.property_for == '2') {
+                            html += 'Sell | ';
+                        }
+                        if(row.property_for == '3') {
+                            html += 'Rent & Sell | ';
+                        }
+                        
+                        if (row.priority_type == 1) {
+                            html += '<img style="height:24px;float: right;" src="/assets/prop_images/Red-Star.png" alt="">';
+                        } else if (row.priority_type == 2) {
+                            html += '<img style="height:24px;float: right;" src="/assets/prop_images/Blue-Star.png" alt="">';
+                        } else if (row.priority_type == 3) {
+                            html += '<img style="height:24px;float: right;" src="/assets/prop_images/Yellow-Star.png" alt="">';
+                        }
+
+                        html += `${row.property_category ? row.property_category.name : ''} | `;
+
+                        html += row.property_sub_category ? row.property_sub_category.name : row.property_category.name;
+
+                        let area = '';
+                        let measure = '';
+
+                        if ([1,2,5,7,8].includes(parseInt(row.category_id))) {
+                            area = row.extra_size[0]['salable_area_value'];
+                            measure = row.extra_size[0]['salable_area_measurement_id'];
+
+                            let saleable_unit  = land_units.filter(unit => unit.id == measure);
+
+                            if (area !='' && saleable_unit.length > 0) {
+                                value = `${area} ${saleable_unit[0]['unit_name']}`;
+                            } else {
+                                value = "Area Not Available";
+                            }
+
+                            html += `<br> ${value}`;
+                        }
+                        else if ([3,6].includes(parseInt(row.category_id))) {
+                            let salable = row.extra_size[0]['salable_plot_area_value'];
+                            let measure = row.extra_size[0]['salable_plot_area_measurement_id'];
+
+                            area = `P : ${salable}`;
+
+                            let saleable_unit  = land_units.filter(unit => unit.id == measure);
+
+                            if (area !='' && saleable_unit.length > 0) {
+                                value = `${area} ${saleable_unit[0]['unit_name']}`;
+                            } else {
+                                value = "Area Not Available";
+                            }
+
+                            html += `<br> ${value}`;
+                        } else if (row.category_id == 4) {
+                            if(row.zone_id) {
+                                html += `<br> Zone - ${row.zone.name}`;
+                            }
+                        }
+                    
+                        let furniture_type = {
+                            1 : 'Furnished',
+                            2 : 'Semi Furnished',
+                            3 : 'Unfurnished',
+                            4 : 'Can Furnished',
+                        };
+
+                        if(![3,8].includes(parseInt(row.category_id))) {
+                            if(row.unit_details.length > 0 && row.unit_details[0]['furniture_status']) {
+                                html += `<br> ${furniture_type[row.unit_details[0]['furniture_status']]}`;
+                            }
+                        }
+
+                        return html;
+                    }
+                },
+                {
+                    data: 'city_name',
+                    name: 'City Name',
+                    render: function(data, type , row) {
+                        let html = '';
+
+                        if(![4].includes(parseInt(row.category_id))) {
+
+                            if(row.unit_details.length > 0) {
+                                if(row.unit_details[0]['wing']) {
+                                    html += `<span>${row.unit_details[0]['wing'] ?? ''}</span> - `;
+                                }
+                                if(row.unit_details[0]['unit_no']) {
+                                    html += `${row.unit_details[0]['unit_no'] ?? ''}</span>`;
+                                }
+
+
+                                let furniture_type = {
+                                    1 : 'Furnished',
+                                    2 : 'Semi Furnished',
+                                    3 : 'Unfurnished',
+                                    4 : 'Can Furnished',
+                                };
+                                
+                                if(row.unit_details.length > 1) {
+                                    html += `<div class="dropdown-basic" style="position:relative; float:right;margin-top:2px;">
+                                            <div class="dropdown">
+                                                <i class="dropbtn fa fa-info-circle p-0 text-dark fs-6"></i>
+                                                <div class="dropdown-content py-2 px-2 mx-wd-350 cust-top-20 rounded">`;
+
+                                    row.unit_details.forEach((element , index) => {
+
+                                        if(index != 0) {
+                                            html += '<hr>';
+                                        }
+                                        html += `<div class="row"><span> <b>Unit - ${index  + 1 } </b><i class="fa fa-arrow-right me-2"></i>`;
+
+                                            if(![3,8].includes(parseInt(row.category_id))) {
+                                                if(element['furniture_status']) {
+                                                    html += furniture_type[element['furniture_status']];
+                                                    html += '<b> | </b>';
+                                                }
+                                            }
+                                            
+                                            if(element['wing']) {
+                                                html += `${element['wing'] ?? ''} - `;
+                                            }
+                                            if(element['unit_no']) {
+                                                html += `${element['unit_no'] ?? ''}`;
+                                            }
+
+                                            html += '<b> | </b>';
+
+                                            if (row.property_for == 1) {
+                                                if(element.price_rent) {
+                                                    html += `₹ ${parseInt(element.price_rent).toLocaleString('en-IN')}`;
+                                                }
+                                            } else if (row.property_for == 2) {
+                                                if(element.price) {
+                                                    html += `₹ ${parseInt(element.price).toLocaleString('en-IN')}`;
+                                                }
+                                            } else if (row.property_for == 3) {
+                                                if(element.price && element.price_rent) {
+                                                    html += `R : ₹ ${parseInt(element.price_rent).toLocaleString('en-IN')} S : ₹ ${element.price ? parseInt(element.price).toLocaleString('en-IN') : '-'}`;
+                                                }
+                                            }
+                                            
+                                        html += `</span></div>`;
+                                    });
+
+                                    html += '</div></div></div>';
+                                }
+                            }
+                        } else {
+                            if(row.survey_number) {
+                                html += `Survey number : ${row.survey_number} <br>`;
+                            }
+                            if(row.tp_number) {
+                                html += `TP number : ${row.tp_number} <br>`;
+                            }
+                            if(row.fp_number) {
+                                html += `FP number : ${row.fp_number} <br>`;
+                            }
+                        }
+                        return html;
+                    }
+                },
+                {
+                    data: 'address',
+                    name: 'Address',
+                    render: function(data, type , row) {
+                        
+                        let html = '';
+
+                        if(![4].includes(parseInt(row.category_id))) {
+                            if(row.unit_details.length > 0) {
+                                if (row.property_for == 1) {
+                                    if(row.unit_details[0].price_rent) {
+                                        html += `₹ ${parseInt(row.unit_details[0].price_rent).toLocaleString('en-IN')}`;
+                                    }
+                                } else if (row.property_for == 2) {
+                                    if(row.unit_details[0].price) {
+                                        html += `₹ ${parseInt(row.unit_details[0].price).toLocaleString('en-IN')}`;
+                                    }
+                                } else if (row.property_for == 3) {
+                                    if(row.unit_details[0].price_rent && row.unit_details[0].price) {
+                                        html += `R : ₹ ${parseInt(row.unit_details[0].price_rent).toLocaleString('en-IN')} <br> S : ₹ ${row.unit_details[0].price ? parseInt(row.unit_details[0].price).toLocaleString('en-IN') : '-'}`;
+                                    }
+                                }
+                                html += "<br>";
+                            }
+                        } else {
+                            if(row.survey_price) {
+                                html += `S : ₹ ${parseInt(row.survey_price).toLocaleString('en-IN')}`;
+                            }
+                        }
+
+                        return html;
+                    }
+                },
+                {
+                    data: 'remark',
+                    name: 'Remark',
+                    render: function(data, type, full, meta) {
+                        if (data && data.length > 20) {
+                            return `<div style="max-width:250px;"><span class="truncated" style="text-transform:none;">${data.substr(0, 20)} ...</span><span class="full" style="display:none;text-transform:none;"> ${data} </span><br><span class="read-more" style="text-transform:none;"> Read more</span></div>`;
+                        } else {
+                            return data;
+                        }
+                    }
                 },
                 {
                     data: 'Actions',
                     name: 'Actions',
-                    orderable: false
+                    orderable: false,
+                    render:function (data, type, row) {
+                        
+                        let edit_url = "{{ route('admin.master_properties.updateForm', ['masterProperty' => '__ID__']) }}".replace('__ID__', row.id);
+
+                        let html = `<div class="row" style="margin-left:-25px;">
+                            <div class="col-4">
+                                <a href="${edit_url}"><i class="fs-22 py-2 mx-2 fa fa-pencil pointer fa"></i></a>
+                            </div>
+                            <div class="col-4">
+                                <i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa-trash pointer fa text-danger" type="button"></i>
+                            </div>
+                            <div class="col-4">
+                                <i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa-whatsapp pointer fa text-success" type="button"></i>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-left:-25px;">
+                            <div class="col-4">
+                                <i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa-plane pointer fa text-info" type="button"></i>
+                            </div>
+                            <div class="col-4">
+                                <i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa fa-clipboard pointer fa text-secondary" type="button"></i>
+                            </div>
+                            <div class="col-4">
+                                <i role="button" title="Delete" class="fs-22 py-2 mx-2 fa fa fa-phone-square pointer fa text-dark" type="button"></i>
+                            </div>
+                        </div>`;
+
+                        return html;
+                    }
                 },
             ],
             "order": [
                 [1, "asc"]
             ],
         });
+    });
+
+    $('#propertyTable .read-more, #propertyTable .read-less').css('cursor', 'pointer');
+
+    $('#propertyTable').on('click', '.read-more', function() {
+        $(this).siblings('.truncated').hide();
+        $(this).siblings('.full').show();
+        $(this).text('Read Less').removeClass('read-more').addClass('read-less');
+    });
+    $('#propertyTable').on('click', '.read-less', function() {
+        $(this).siblings('.full').hide();
+        $(this).siblings('.truncated').show();
+        $(this).text('Read More').removeClass('read-less').addClass('read-more');
     });
 
     $(document).on('change', '#select_all_checkbox', function(e) {

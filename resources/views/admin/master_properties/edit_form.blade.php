@@ -16,6 +16,10 @@
         .btn {
             border-radius: 5px;
         }
+
+        .btn-red {
+            border: 2px solid #ff000073;
+        }
     </style>
 @endpush
 
@@ -33,13 +37,14 @@
             <div class="col-sm-12">
                 <div class="card">
                     <div class="card-header pb-0">
-                        <h5 class="mb-3">Add Property <a class="btn custom-icon-theme-button tooltip-btn" href="{{ route('admin.master_properties.index') }}" data-tooltip="Back" style="float: inline-end;">
+                        <h5 class="mb-3">Update Property <a class="btn custom-icon-theme-button tooltip-btn" href="{{ route('admin.master_properties.index') }}" data-tooltip="Back" style="float: inline-end;">
                             <i class="fa fa-backward"></i>
                         </a></h5>
                     </div>
                     <div class="card-body">
                         <div id="app">
-                            <add-property-form
+                            <edit-property-form
+                                :property_master="{{ $property_master }}"
                                 :property_for_type="{{ $property_for_type }}"
                                 :property_construction_type="{{ $property_construction_type }}"
                                 :projects="{{ $projects }}"
@@ -51,7 +56,7 @@
                                 :districts="{{ $districts }}"
                                 :property_zones="{{ $property_zones }}"
                                 :amenities="{{$amenities}}"
-                            ></add-property-form>
+                            ></edit-property-form>
                         </div>
                     </div>
                 </div>

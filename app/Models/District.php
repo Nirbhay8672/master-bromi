@@ -15,8 +15,13 @@ class District extends Model
 
 	protected $guarded = [];
 
-	public function talukas()
+	public function supertalukas()
 	{ 
 		return $this->hasMany(SuperTaluka::class);
+	}
+
+	public function talukas()
+	{ 
+		return $this->hasMany(Taluka::class);
 	}
 }

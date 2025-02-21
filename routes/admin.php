@@ -396,5 +396,11 @@ Route::group(['middleware' => 'revalidate'], function () {
 		Route::get('index', [MasterPropertyController::class, 'index'])->name('index');
 		Route::get('data-table', [MasterPropertyController::class, 'dataTable'])->name('data_table');
 		Route::get('form', [MasterPropertyController::class, 'addForm'])->name('addForm');
+		Route::post('store-property', [MasterPropertyController::class , 'store'])->name('storeProperty');
+		Route::get('edit/{masterProperty}', [MasterPropertyController::class , 'updateForm'])->name('updateForm');
+		Route::post('update-property/{masterProperty}', [MasterPropertyController::class , 'update'])->name('update');
+		Route::get('view/{masterProperty}', [MasterPropertyController::class , 'view'])->name('view');
+
+		Route::get('clear-data' , [MasterPropertyController::class , 'resetData'])->name('resetData');
 	});
 });

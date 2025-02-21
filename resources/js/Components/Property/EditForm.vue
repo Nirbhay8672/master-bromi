@@ -19,7 +19,6 @@
             </div>
         </div>
         <div class="col-12 col-md-9 col-lg-10 border-start ps-4 custom-tab" id="first_tab">
-            <!-- first part start -->
             <div class="row">
                 <div class="row mb-2">
                     <div class="col">
@@ -31,8 +30,7 @@
                         <template v-for="(propery_for, index ) in props.property_for_type" :key="`property_for_${index}`">
                             <div class="btn-group me-4" role="group" aria-label="Basic radio toggle button group">
                                 <input type="radio" :value="propery_for.id" class="btn-check" name="property_for"
-                                    :id="`property_for_${index}`" autocomplete="off" v-model="data.property_for"
-                                    @change="resetValue(1)">
+                                    :id="`property_for_${index}`" autocomplete="off" v-model="data.property_for">
                                 <label class="btn btn-outline-info btn-pill btn-sm py-1" :for="`property_for_${index}`">{{
                                     propery_for.name }}</label>
                             </div>
@@ -45,9 +43,9 @@
                                 :key="`property_construction_type_${index}`">
                                 <input class="form-check-input" :id="construction_type.name" type="radio"
                                     name="property_type" :value="construction_type.id"
-                                    v-model="data.property_construction_type" @change="resetValue(2)">
+                                    v-model="data.property_construction_type" @change="resetValue(2)" disabled>
                                 <label class="form-check-label ms-2" :for="construction_type.name">{{ construction_type.name
-                                    }}</label>
+                                }}</label>
                             </template>
                         </div>
                     </div>
@@ -60,11 +58,10 @@
                                     <template v-for="(category, index ) in construction_type.category"
                                         :key="`category_stage_${index}`">
                                         <div class="btn-group bromi-checkbox-btn me-1 property-type-element" role="group"
-                                            v-if="category.id != 8"
-                                            aria-label="Basic radio toggle button group">
+                                            v-if="category.id != 8" aria-label="Basic radio toggle button group">
                                             <input type="radio" class="btn-check" :value="category.id"
                                                 name="property_category" :id="`category-${category.id}}`" autocomplete="off"
-                                                v-model="data.property_category" @change="resetValue(3)">
+                                                v-model="data.property_category" @change="resetValue(3)" disabled>
                                             <label class="btn btn-outline-primary btn-pill btn-sm py-1"
                                                 :for="`category-${category.id}}`">{{ category.name }}</label>
                                         </div>
@@ -75,7 +72,7 @@
                                                 <input type="radio" class="btn-check" :value="category.id"
                                                     name="property_category" :id="`category-${category.id}}`"
                                                     autocomplete="off" v-model="data.property_category"
-                                                    @change="resetValue(3)">
+                                                    @change="resetValue(3)" disabled>
                                                 <label class="btn btn-outline-primary btn-pill btn-sm py-1"
                                                     :for="`category-${category.id}}`">{{ category.name }}</label>
                                             </div>
@@ -99,7 +96,7 @@
                                                 role="group" aria-label="Basic radio toggle button group">
                                                 <input type="radio" class="btn-check" :value="sub_cat.id"
                                                     name="property_sub_category" :id="`sub-category-${sub_cat.id}}`"
-                                                    autocomplete="off" v-model="data.property_sub_category">
+                                                    autocomplete="off" v-model="data.property_sub_category" disabled>
                                                 <label class="btn btn-outline-primary btn-pill btn-sm py-1"
                                                     :for="`sub-category-${sub_cat.id}}`">{{ sub_cat.name }}</label>
                                             </div>
@@ -112,7 +109,7 @@
                 </div>
             </div>
 
-            <div class="row mt-3" v-show="data.property_category !== 4">
+            <div class="row mt-5" v-show="data.property_category !== 4">
                 <div class="col-md-3 m-b-4 mb-4">
                     <select class="form-select" id="project_id">
                         <option value="">Project</option>
@@ -222,68 +219,77 @@
         </div>
 
         <div class="col-12 col-md-9 col-lg-10 border-start ps-4 custom-tab d-none" id="second_tab">
-            <!-- second part start -->
-            <office-retail-form
-                ref="office_retail_form"
-                :land_units="props.land_units"
-                :property_source="props.property_source"
-                :property_category="data.property_category"
-                v-if="[1,2].includes(data.property_category)"
-            ></office-retail-form>
+            <template v-if="data.property_category != ''">
+                <!-- second part start -->
+                <office-retail-form
+                    ref="office_retail_form"
+                    :property_master="property_master"
+                    :land_units="props.land_units"
+                    :property_source="props.property_source"
+                    :property_category="data.property_category"
+                    v-if="[1,2].includes(parseInt(data.property_category))"
+                ></office-retail-form>
 
-            <storage-industrial-form
-                ref="storage_industrial_form"
-                :land_units="props.land_units"
-                :property_source="props.property_source"
-                :property_category="data.property_category"
-                v-if="[3].includes(data.property_category)"
-            ></storage-industrial-form>
+                <storage-industrial-form
+                    ref="storage_industrial_form"
+                    :land_units="props.land_units"
+                    :property_source="props.property_source"
+                    :property_category="data.property_category"
+                    :property_master="property_master"
+                    v-if="[3].includes(parseInt(data.property_category))"
+                ></storage-industrial-form>
 
-            <land-form
-                ref="land_form"
-                :land_units="props.land_units"
-                :property_source="props.property_source"
-                :property_category="data.property_category"
-                v-if="[4].includes(data.property_category)"
-            ></land-form>
+                <land-form
+                    ref="land_form"
+                    :land_units="props.land_units"
+                    :property_source="props.property_source"
+                    :property_category="data.property_category"
+                    :property_master="property_master"
+                    v-if="[4].includes(parseInt(data.property_category))"
+                ></land-form>
 
-            <flat-form
-                ref="flat_form"
-                :land_units="props.land_units"
-                :property_source="props.property_source"
-                :property_category="data.property_category"
-                :amenities="props.amenities"
-                v-if="[5].includes(data.property_category)"
-            ></flat-form>
+                <flat-form
+                    ref="flat_form"
+                    :property_master="property_master"
+                    :land_units="props.land_units"
+                    :property_source="props.property_source"
+                    :property_category="data.property_category"
+                    :amenities="props.amenities"
+                    v-if="[5].includes(parseInt(data.property_category))"
+                ></flat-form>
 
-            <vila-banglow-form
-                ref="villa_banglow_form"
-                :land_units="props.land_units"
-                :property_source="props.property_source"
-                :property_category="data.property_category"
-                :amenities="props.amenities"
-                v-if="[6].includes(data.property_category)"
-            ></vila-banglow-form>
+                <vila-banglow-form
+                    ref="villa_banglow_form"
+                    :property_master="property_master"
+                    :land_units="props.land_units"
+                    :property_source="props.property_source"
+                    :property_category="data.property_category"
+                    :amenities="props.amenities"
+                    v-if="[6].includes(parseInt(data.property_category))"
+                ></vila-banglow-form>
 
-            <penthouse-form
-                ref="penthouse_form"
-                :land_units="props.land_units"
-                :property_source="props.property_source"
-                :property_category="data.property_category"
-                :amenities="props.amenities"
-                v-if="[7].includes(data.property_category)"
-            ></penthouse-form>
+                <penthouse-form
+                    ref="penthouse_form"
+                    :property_master="property_master"
+                    :land_units="props.land_units"
+                    :property_source="props.property_source"
+                    :property_category="data.property_category"
+                    :amenities="props.amenities"
+                    v-if="[7].includes(parseInt(data.property_category))"
+                ></penthouse-form>
 
-            <plot-form
-                ref="plot_form"
-                :land_units="props.land_units"
-                :property_source="props.property_source"
-                :property_category="data.property_category"
-                :amenities="props.amenities"
-                v-if="[8].includes(data.property_category)"
-            ></plot-form>
+                <plot-form
+                    ref="plot_form"
+                    :property_master="property_master"
+                    :land_units="props.land_units"
+                    :property_source="props.property_source"
+                    :property_category="data.property_category"
+                    :amenities="props.amenities"
+                    v-if="[8].includes(parseInt(data.property_category))"
+                ></plot-form>
 
             <!-- second part end -->
+            </template>
 
             <div class="row mt-4">
                 <div class="col-12 col-3">
@@ -293,14 +299,13 @@
             </div>
         </div>
 
+        <!-- 3rd part start -->
         <div class="col-12 col-md-9 col-lg-10 border-start ps-4 custom-tab d-none" id="third_tab">
-            <!-- 3rd part start -->
-
             <div class="row" v-show="data.property_category != 4">
                 <b>Unit Details</b>
                 <template v-for="(unit, index) in unit_details">
                     <div class="row mt-2">
-                        <div class="col-12 col-md-2" v-show="![6,8].includes(data.property_category)">
+                        <div class="col-12 col-md-2" v-show="![6,8].includes(parseInt(data.property_category))">
                             <div class="fname" :class="unit.wing !== '' ? 'focused' : ''">
                                 <label :for="`unit_wing_${index}`">Wing</label>
                                 <div class="fvalue">
@@ -325,7 +330,7 @@
                                 <option value="Sold Out">Sold Out</option>
                             </select>
                         </div>
-                        <div class="col-12 col-md-2" v-if="[1, 3].includes(data.property_for)">
+                        <div class="col-12 col-md-2" v-if="[1, 3].includes(parseInt(data.property_for))">
                             <div class="fname" :class="unit.price_rent !== '' ? 'focused' : ''">
                                 <label :for="`unit_price_rent_${index}`">Price Rent</label>
                                 <div class="fvalue">
@@ -334,7 +339,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for)">
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(parseInt(data.property_for))">
                             <div class="fname" :class="unit.price !== '' ? 'focused' : ''">
                                 <label :for="`unit_price_${index}`">Price</label>
                                 <div class="fvalue">
@@ -343,7 +348,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 7">
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(parseInt(data.property_for)) && data.property_category == 7">
                             <div class="fname" :class="unit.terrace_price !== '' ? 'focused' : ''">
                                 <label :for="`unit_terrace_price_${index}`">Terrace Price</label>
                                 <div class="fvalue">
@@ -352,7 +357,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 7">
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(parseInt(data.property_for)) && data.property_category == 7">
                             <div class="fname" :class="unit.flat_price !== '' ? 'focused' : ''">
                                 <label :for="`unit_flat_price_${index}`">Flat Price</label>
                                 <div class="fvalue">
@@ -361,7 +366,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 6">
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(parseInt(data.property_for)) && data.property_category == 6">
                             <div class="fname" :class="unit.plot_price !== '' ? 'focused' : ''">
                                 <label :for="`unit_plot_price_${index}`">Plot Price</label>
                                 <div class="fvalue">
@@ -370,7 +375,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-2" v-if="[2, 3].includes(data.property_for) && data.property_category == 6">
+                        <div class="col-12 col-md-2" v-if="[2, 3].includes(parseInt(data.property_for)) && data.property_category == 6">
                             <div class="fname" :class="unit.construction_price !== '' ? 'focused' : ''">
                                 <label :for="`unit_construction_price_${index}`">Construction Price</label>
                                 <div class="fvalue">
@@ -379,7 +384,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2 m-b-4 mb-4" v-show="![3,8].includes(data.property_category)">
+                        <div class="col-md-2 m-b-4 mb-4" v-show="![3,8].includes(parseInt(data.property_category))">
                             <select class="form-select" :id="`furnished_status_${index}`">
                                 <option value="">Furnished Status</option>
                                 <option value="1">Furnished</option>
@@ -392,12 +397,12 @@
                             <button class="btn btn-primary" type="button" @click="addUnit()">+</button>
                         </div>
                         <div class="col-md-1 m-b-4 mb-4" v-else>
-                            <button class="btn btn-danger" type="button" @click="removeUnit(index)">-</button>
+                            <button class="btn" :class="unit.id ? 'btn-red' : 'btn-danger'" type="button" @click="removeUnit(index)">-</button>
                         </div>
                     </div>
 
                     <template v-if="[1,2,4].includes( parseInt(unit.furnished_status)) && data.property_category == 1">
-                        <div class="row mt-2 mb-2">
+                        <div class="row mt-2">
                             <div class="col-12 col-md-2">
                                 <div class="fname" :class="unit.no_of_seats !== '' ? 'focused' : ''">
                                     <label :for="`unit_no_of_seats_${index}`">No. of seats</label>
@@ -546,10 +551,10 @@
                         </div>
                     </template>
                 </template>
-                <hr class="ms-3 mr-3">
+                <hr class="ms-3 mr-3 mt-4">
             </div>
 
-            <div class="row" v-show="data.property_category == 4">
+            <div class="row mt-3" v-show="data.property_category == 4">
                 <b>Survey Details</b>
             </div>
 
@@ -578,7 +583,7 @@
                             <div class="form-group">
                                 <select class="form-select" id="survey_plot_size_unit">
                                     <template v-for="(unit) in props.land_units">
-                                        <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
+                                        <option :value="unit.id" v-if="![24,25].includes(parseInt(unit.id))">{{ unit.unit_name }}</option>
                                     </template>
                                 </select>
                             </div>
@@ -634,7 +639,7 @@
                             <div class="form-group">
                                 <select class="form-select" id="tp_plot_size_unit">
                                     <template v-for="(unit) in props.land_units">
-                                        <option :value="unit.id" v-if="![24,25].includes(unit.id)">{{ unit.unit_name }}</option>
+                                        <option :value="unit.id" v-if="![24,25].includes(parseInt(unit.id))">{{ unit.unit_name }}</option>
                                     </template>
                                 </select>
                             </div>
@@ -666,7 +671,7 @@
                     </select>
                 </div>
                 <div class="col-12 col-md-2">
-                    <div class="fname" :class="other_details.owner_name !== '' ? 'focused' : ''">
+                    <div class="fname" :class="other_details.owner_name != '' ? 'focused' : ''">
                         <label for="owner_name">Name</label>
                         <div class="fvalue">
                             <input class="form-control" type="text" value="" id="owner_name"
@@ -798,15 +803,15 @@
 </template>
 
 <script setup>
-
-import { reactive, onMounted, nextTick , ref } from 'vue';
-import officeRetailForm from './Forms/officeRetailForm.vue';
-import storageIndustrialForm from './Forms/storageIndustrialForm.vue';
-import landForm from './Forms/LandForm.vue';
-import flatForm from './Forms/flatForm.vue';
-import vilaBanglowForm from './Forms/VilaBanglow.vue';
-import penthouseForm from './Forms/PenthouseForm.vue';
-import PlotForm from './Forms/PlotForm.vue';
+import { reactive, onMounted, nextTick, ref } from 'vue';
+import axios from 'axios';
+import officeRetailForm from './UpdateForms/officeRetailForm.vue';
+import storageIndustrialForm from './UpdateForms/storageIndustrialForm.vue';
+import landForm from './UpdateForms/LandForm.vue';
+import flatForm from './UpdateForms/flatForm.vue';
+import vilaBanglowForm from './UpdateForms/VilaBanglow.vue';
+import penthouseForm from './UpdateForms/PenthouseForm.vue';
+import PlotForm from './UpdateForms/PlotForm.vue';
 
 let office_retail_form = ref(null);
 let storage_industrial_form = ref(null);
@@ -823,95 +828,8 @@ let files = ref({
 
 let formData = new FormData();
 
-onMounted(() => {
-    $('#project_id').select2().on('change', function () {
-        data.selected_project = $(this).val();
-        if (data.selected_project > 0) {
-            let project = props.projects.find(project => parseInt(project.id) == parseInt(data.selected_project));
-            data.address = project.address;
-            data.location_link = project.location_link;
-        }
-    });
-
-    var allowedselect2s = ['project_id'];
-
-    $(document).on('keydown', '.select2-search__field', function(e) {
-        setTimeout(() => {
-            var par = $(this).closest('.select2-dropdown')
-            var tar = $(par).find('.select2-results')
-            var kar = $(tar).find('.select2-results__options')
-            var opt = $(kar).find('li')
-            if (opt.length == 1 && $(opt[0]).text() == 'No results found' && $(this).val() != '') {
-                var project_id = $(kar).attr('id')
-                project_id = project_id.replace("select2-", "");
-                project_id = project_id.replace("-results", "");
-                if (allowedselect2s.includes(project_id)) {
-                    $("#" + project_id + " option[last_added='" + true + "']").each(function(i, e) {
-                        $('#' + project_id + ' option[value="' + $(this).val() + '"]').detach();
-                    });
-                    if ($("#" + project_id + " option[value='" + $(this).val() + "']").length == 0) {
-                        let vvvv = $.parseHTML('<option last_added="true" value="' + $(this).val() +
-                            '" selected="">' + $(this).val() + '</option>');
-                        $("#" + project_id).append(vvvv).trigger('change');
-                    }
-                }
-            }
-        }, 50);
-    });
-
-    $('#city_id').select2().on('change', function () {
-        data.selected_city = $(this).val();
-    });
-
-    $('#locality_id').select2().on('change', function () {
-        data.selected_locality = $(this).val();
-    });
-
-    $('#district_id').select2().on('change', function () {
-        data.selected_district = $(this).val();
-    });
-
-    $('#taluka_id').select2().on('change', function () {
-        data.selected_taluka = $(this).val();
-    });
-
-    $('#village_id').select2().on('change', function () {
-        data.selected_village = $(this).val();
-    });
-
-    $('#zone_id').select2().on('change', function () {
-        data.selected_zone = $(this).val();
-    });
-
-    $('#city_id').val(props.cities[0]['id']).trigger('change');
-
-    $('#owner_type').select2().on('change', function () {
-        other_details.owner_type = $(this).val();
-    });
-
-    $('#survey_plot_size_unit').select2().on('change', function () {
-        other_details.survey_plot_size_unit = $(this).val();
-        setMainUnits($(this).val());
-    });
-
-    $('#tp_plot_size_unit').select2().on('change', function () {
-        other_details.tp_plot_size_unit = $(this).val();
-        setMainUnits($(this).val());
-    });
-
-    $('#owner_contact_code').select2().on('change', function () {
-        other_details.owner_contact_code = $(this).val();
-    });
-
-    $('#key_available_at').select2().on('change', function () {
-        other_details.key_available_at = $(this).val();
-    });
-
-    unitDetailsSelect2(); // for unit details
-    otherContactSelect2(); // for other contact details
-});
-
 const props = defineProps([
+    'property_master',
     'property_for_type',
     'property_construction_type',
     'projects',
@@ -926,95 +844,275 @@ const props = defineProps([
 ]);
 
 const data = reactive({
-    'property_for': 1,
-    'property_construction_type': 1,
-    'property_category': 1,
-    'property_sub_category': 1,
-    'selected_project': '',
-    'selected_city': '',
-    'selected_locality': '',
-    'selected_district': '',
-    'selected_taluka': '',
-    'selected_village': '',
-    'selected_zone' : '',
-    'address': '',
-    'location_link': '',
+    'property_for': null,
+    'property_construction_type': null,
+    'property_category': null,
+    'property_sub_category': null,
+    'selected_project': null,
+    'selected_city': null,
+    'selected_locality': null,
+    'selected_district': null,
+    'selected_taluka': null,
+    'selected_village': null,
+    'selected_zone': null,
+    'address': null,
+    'location_link': null,
 });
 
 const other_details = reactive({
-
-    'survey_number': '',
-    'survey_plot_size': '',
-    'survey_plot_size_unit': '',
-    'survey_price': '',
-
-    'tp_number' : '',
-    'fp_number' : '',
-    'tp_plot_size' : '',
-    'tp_plot_size_unit' : '',
-    'tp_price' : '',
-
-    'owner_type': '',
-    'owner_name': '',
-    'owner_contact_code': '',
-    'owner_contact': '',
-    'owner_email': '',
-    'is_nri': '',
-
-    'key_available_at': '',
+    'survey_number': null,
+    'survey_plot_size': null,
+    'survey_plot_size_unit': null,
+    'survey_price': null,
+    'tp_number': null,
+    'fp_number': null,
+    'tp_plot_size': null,
+    'tp_plot_size_unit': null,
+    'tp_price': null,
+    'owner_type': null,
+    'owner_name': null,
+    'owner_contact_code': null,
+    'owner_contact': null,
+    'owner_email': null,
+    'is_nri': null,
+    'key_available_at': null,
 });
 
-const unit_details = reactive([
-        {
-            'wing': '',
-            'unit_number': '',
-            'available': '',
-            'price_rent': '',
-            'price': '',
-            'terrace_price': '',
-            'flat_price': '',
-            'construction_price': '',
-            'plot_price': '',
-            'furnished_status': '',
-            'no_of_seats': '',
-            'no_of_cabins': '',
-            'no_of_conference_room': '',
-            'remark' : '',
-            'facilities': [],
-            'furniture_total': {
-                'light' : 0,
-                'ac' : 0,
-                'beds' : 0,
-                'geyser' : 0,
-                'fans' : 0,
-                'tv': 0,
-                'wardobe' : 0,
-                'sofa' : 0,
-            }
-        }
-    ],
-);
+const unit_details = reactive([]);
 
-function unitDetailsSelect2() {
-    unit_details.forEach((unit_detail, index) => {
-        $(`#unit_available_${index}`).select2().on('change', function () {
-            unit_details[index].available = $(this).val();
+const other_contact_details = reactive([]);
+
+onMounted(() => {
+    initializeSelect2();
+
+    if (props.property_master.unit_details.length === 0) {
+        addUnit();
+    }
+
+    if (props.property_master.contact_details.length === 0) {
+        addContact();
+    }
+});
+
+function initializeSelect2() {
+
+    nextTick(() => {
+
+        $('#project_id').select2().on('change', function () {
+            data.selected_project = $(this).val();
+            if (data.selected_project > 0) {
+                let project = props.projects.find(project => parseInt(project.id) == parseInt(data.selected_project));
+                data.address = project.address;
+                data.location_link = project.location_link;
+            }
         });
 
-        $(`#furnished_status_${index}`).select2().on('change', function () {
-            unit_details[index].furnished_status = $(this).val();
-            unit_details[index]['no_of_seats'] = '';
-            unit_details[index]['no_of_cabins'] = '';
-            unit_details[index]['no_of_conference_room'] = '';
-            unit_details[index]['remark'] = '';
-            unit_details[index]['facilities'] = [];
+        $('#city_id').select2().on('change', function () {
+            data.selected_city = $(this).val();
+        });
+
+        $('#locality_id').select2().on('change', function () {
+            data.selected_locality = $(this).val();
+        });
+
+        $('#district_id').select2().on('change', function () {
+            data.selected_district = $(this).val();
+        });
+
+        $('#taluka_id').select2().on('change', function () {
+            data.selected_taluka = $(this).val();
+        });
+
+        $('#village_id').select2().on('change', function () {
+            data.selected_village = $(this).val();
+        });
+
+        $('#zone_id').select2().on('change', function () {
+            data.selected_zone = $(this).val();
+        });
+
+        $('#owner_type').select2().on('change', function () {
+            other_details.owner_type = $(this).val();
+        });
+
+        $('#survey_plot_size_unit').select2().on('change', function () {
+            other_details.survey_plot_size_unit = $(this).val();
+            setMainUnits($(this).val());
+        });
+
+        $('#tp_plot_size_unit').select2().on('change', function () {
+            other_details.tp_plot_size_unit = $(this).val();
+            setMainUnits($(this).val());
+        });
+
+        $('#owner_contact_code').select2().on('change', function () {
+            other_details.owner_contact_code = $(this).val();
+        });
+
+        $('#key_available_at').select2().on('change', function () {
+            other_details.key_available_at = $(this).val();
+        });
+    
+        unitDetailsSelect2();
+        otherContactSelect2();
+    })
+
+    prefillForm();
+}
+
+function prefillForm() {
+    
+    data.property_for = props.property_master.property_for;
+    data.property_construction_type = props.property_master.property_contruction_type_id;
+    data.property_category = props.property_master.category_id;
+    data.property_sub_category = props.property_master.sub_category_id;
+    data.selected_project = props.property_master.project_id;
+    data.selected_city = props.property_master.city_id;
+    data.selected_locality = props.property_master.area_id;
+    data.selected_district = props.property_master.district_id;
+    data.selected_taluka = props.property_master.taluka_id;
+    data.selected_village = props.property_master.village_id;
+    data.selected_zone = props.property_master.zone_id;
+    data.address = props.property_master.address;
+    data.location_link = props.property_master.location_link;
+    
+    Object.assign(other_details, {
+        'survey_number': props.property_master.survey_number,
+        'survey_plot_size': props.property_master.survey_plot_size,
+        'survey_plot_size_unit': props.property_master.survey_plot_size_unit,
+        'survey_price': props.property_master.survey_price,
+        'tp_number': props.property_master.tp_number,
+        'fp_number': props.property_master.fp_number,
+        'tp_plot_size': props.property_master.tp_plot_size,
+        'tp_plot_size_unit': props.property_master.tp_plot_size_unit,
+        'tp_price': props.property_master.tp_price,
+        'owner_type': props.property_master.owner_info?.type ?? '',
+        'owner_name': props.property_master.owner_info?.name ?? '',
+        'owner_contact_code': props.property_master.owner_info?.country_code ?? '',
+        'owner_contact': props.property_master.owner_info?.contact ?? '',
+        'owner_email': props.property_master.owner_info?.email ?? '',
+        'is_nri': props.property_master.owner_info?.is_nri ?? '',
+        'key_available_at': props.property_master.key_available_at,
+    });
+
+    if (props.property_master.unit_details) {
+        
+        props.property_master.unit_details.forEach(unit => {
+            unit_details.push({
+                'id': unit.id,
+                'wing': unit.wing ?? '',
+                'unit_number': unit.unit_no,
+                'available': null,
+                'price_rent': unit.price_rent,
+                'price': unit.price,
+                'terrace_price': unit.terrace_price,
+                'flat_price': unit.flat_price,
+                'construction_price': unit.construction_price,
+                'plot_price': unit.plot_price,
+                'furnished_status': unit.furniture_status,
+                'no_of_seats': unit.no_of_seats,
+                'no_of_cabins': unit.no_of_cabins,
+                'no_of_conference_room': unit.no_of_conference_room,
+                'remark': unit.remark,
+                'facilities': unit.facilities,
+                'furniture_total': unit.furniture_total,
+            });
+        });
+    }
+
+    if (props.property_master.contact_details) {
+        props.property_master.contact_details.forEach(contact => {
+            other_contact_details.push({
+                'name': contact.name ?? '',
+                'contact_code': contact.country_code ?? '',
+                'contact': contact.contact_no ?? '',
+                'position': contact.position ?? '',
+            });
+        });
+    }
+
+    $("#project_id").val(props.property_master.project_id).trigger('change');
+    $("#city_id").val(props.property_master.city_id).trigger('change');
+
+    nextTick(() => {
+        $("#locality_id").val(props.property_master.area_id).trigger('change');
+    });
+
+    $("#district_id").val(props.property_master.district_id).trigger('change');
+
+    nextTick(() => {
+        $("#taluka_id").val(props.property_master.taluka_id).trigger('change');
+        $("#village_id").val(props.property_master.village_id).trigger('change');
+    });
+
+    $("#zone_id").val(props.property_master.zone_id).trigger('change');
+    $("#owner_type").val(props.property_master.owner_info?.type ?? '').trigger('change');
+    $("#survey_plot_size_unit").val(props.property_master.survey_plot_size_unit).trigger('change');
+    $("#tp_plot_size_unit").val(props.property_master.tp_plot_size_unit).trigger('change');
+    $("#owner_contact_code").val(props.property_master.owner_info?.country_code ?? '').trigger('change');
+    $("#key_available_at").val(props.property_master.key_available_at).trigger('change');
+
+    if(props.property_master.unit_details.length > 0){
+        nextTick(() => {
+            props.property_master.unit_details.forEach((unit, index) => {
+                switch (unit.availability_status) {
+                    case 1:
+                        unit_details[index].available = 'Rent Out';
+                        $(`#unit_available_${index}`).val('Rent Out').trigger('change');
+                        break;
+                    case 2:
+                        unit_details[index].available = 'Sold Out';
+                        $(`#unit_available_${index}`).val('Sold Out').trigger('change');
+                        break;
+                    default:
+                        unit_details[index].available = '';
+                        $(`#unit_available_${index}`).val('').trigger('change');
+                        break;
+                }
+    
+                $(`#furnished_status_${index}`).val(unit.furniture_status).trigger('change');
+
+                unit_details[index]['no_of_seats'] = unit.no_of_seats;
+                unit_details[index]['no_of_cabins'] = unit.no_of_cabins;
+                unit_details[index]['no_of_conference_room'] = unit.no_of_conference_room;
+                unit_details[index]['remark'] = unit.remark;
+                unit_details[index]['facilities'] = unit.facilities;
+                unit_details[index]['furniture_total'] = unit.furniture_total;
+            })
+        })
+    }
+    
+    if(props.property_master.contact_details.length > 0){
+        nextTick(() => {
+            props.property_master.contact_details.forEach((contact, index) => {
+                other_contact_details[index].contact_code = contact.country_code;
+                $(`#contact_code_${index}`).val(other_contact_details[index].contact_code).trigger('change');
+            })
+        })
+    }
+}
+
+function unitDetailsSelect2() {
+    unit_details.forEach((unit_detail, unit_detail_index) => {
+        
+        $(`#unit_available_${unit_detail_index}`).select2().on('change', function () {
+            unit_details[unit_detail_index].available = $(this).val();
+        });
+
+        $(`#furnished_status_${unit_detail_index}`).select2().on('change', function () {
+            unit_details[unit_detail_index].furnished_status = $(this).val();
+            unit_details[unit_detail_index]['no_of_seats'] = '';
+            unit_details[unit_detail_index]['no_of_cabins'] = '';
+            unit_details[unit_detail_index]['no_of_conference_room'] = '';
+            unit_details[unit_detail_index]['remark'] = '';
+            unit_details[unit_detail_index]['facilities'] = [];
         });
     });
 }
 
 function addUnit() {
-
     unit_details.push({
+        'id': '',
         'wing': '',
         'unit_number': '',
         'available': '',
@@ -1022,23 +1120,21 @@ function addUnit() {
         'price': '',
         'construction_price': '',
         'plot_price': '',
-        'construction_price': '',
-        'plot_price': '',
         'furnished_status': '',
         'no_of_seats': '',
         'no_of_cabins': '',
         'no_of_conference_room': '',
-        'remark' : '',
+        'remark': '',
         'facilities': [],
         'furniture_total': {
-            'light' : 0,
-            'ac' : 0,
-            'beds' : 0,
-            'geyser' : 0,
-            'fans' : 0,
+            'light': 0,
+            'ac': 0,
+            'beds': 0,
+            'geyser': 0,
+            'fans': 0,
             'tv': 0,
-            'wardobe' : 0,
-            'sofa' : 0,
+            'wardobe': 0,
+            'sofa': 0,
         }
     });
 
@@ -1048,29 +1144,18 @@ function addUnit() {
 }
 
 function removeUnit(index) {
-    unit_details.splice(index , 1);
+    unit_details.splice(index, 1);
 }
 
-const other_contact_details = reactive([
-        {
-            'name': '',
-            'contact_code': '',
-            'contact': '',
-            'position': '',
-        }
-    ],
-);
-
 function otherContactSelect2() {
-    other_contact_details.forEach((unit_detail, index) => {
-        $(`#contact_code_${index}`).select2().on('change', function () {
-            other_contact_details[index].contact_code = $(this).val();
+    other_contact_details.forEach((unit_detail, other_contact_index) => {
+        $(`#contact_code_${other_contact_index}`).select2().on('change', function () {
+            other_contact_details[other_contact_index].contact_code = $(this).val();
         });
     });
 }
 
 function addContact() {
-
     other_contact_details.push({
         'name': '',
         'contact_code': '',
@@ -1088,9 +1173,7 @@ function removeContact(index) {
 }
 
 function resetValue(clicked_value) {
-
-    // reset selected value on change input
-    if(data.property_category == 8) {
+    if (data.property_category == 8) {
         if (clicked_value == 1) {
             data.property_construction_type = null;
         }
@@ -1104,7 +1187,6 @@ function resetValue(clicked_value) {
 let isUpdatingMainUnit = false;
 
 function setMainUnits(value) {
-
     if (isUpdatingMainUnit) return;
     isUpdatingMainUnit = true;
 
@@ -1113,7 +1195,7 @@ function setMainUnits(value) {
         'tp_plot_size_unit',
     ];
 
-    input_array.forEach(select_input => {
+    input_array?.forEach(select_input => {
         $(`#${select_input}`).val(value).trigger('change');
     });
 
@@ -1122,9 +1204,8 @@ function setMainUnits(value) {
     }, 0);
 }
 
-function appendFormData (data, parentKey = ""){
+function appendFormData(data, parentKey = "") {
     Object.keys(data).forEach((key) => {
-
         const fullKey = parentKey ? `${parentKey}[${key}]` : key;
         const value = data[key];
 
@@ -1136,78 +1217,66 @@ function appendFormData (data, parentKey = ""){
             formData.append(fullKey, value ?? "");
         }
     });
-};
+}
 
 function submitForm() {
-
-    formData = new FormData();
-
     let post_data = {
-        'basic_detail' : data,
-        'other_details' : other_details,
-        'unit_details' : unit_details,
-        'other_contact_details' : other_contact_details,
+        'basic_detail': data,
+        'other_details': other_details,
+        'unit_details': unit_details,
+        'other_contact_details': other_contact_details,
     };
 
-
-    if([1,2].includes(data.property_category)) {
-
+    if ([1, 2].includes(parseInt(data.property_category))) {
         let office_retail_data = office_retail_form.value.getData();
-
         post_data.other_details = {
             ...post_data.other_details,
             ...office_retail_data
         };
     }
 
-    if(data.property_category == 3) {
+    if (data.property_category == 3) {
         let storage_industrial_data = storage_industrial_form.value.getData();
-
         post_data.other_details = {
             ...post_data.other_details,
             ...storage_industrial_data
         };
     }
 
-    if(data.property_category == 4) {
+    if (data.property_category == 4) {
         let land_data = land_form.value.getData();
-
         post_data.other_details = {
             ...post_data.other_details,
             ...land_data
         };
     }
 
-    if(data.property_category == 5){
+    if (data.property_category == 5) {
         let flat_data = flat_form.value.getData();
-
         post_data.other_details = {
             ...post_data.other_details,
             ...flat_data
         };
     }
 
-    if(data.property_category == 6){
+    if (data.property_category == 6) {
         let villa_banglow_data = villa_banglow_form.value.getData();
-
         post_data.other_details = {
             ...post_data.other_details,
             ...villa_banglow_data
         };
     }
 
-    if(data.property_category == 7){
+    if (data.property_category == 7) {
         let penthouse_form_data = penthouse_form.value.getData();
-
         post_data.other_details = {
             ...post_data.other_details,
             ...penthouse_form_data
         };
     }
 
-    if(data.property_category == 8){
+    if (data.property_category == 8) {
         let plot_form_data = plot_form.value.getData();
-
         post_data.other_details = {
             ...post_data.other_details,
             ...plot_form_data
@@ -1217,7 +1286,7 @@ function submitForm() {
     appendFormData(post_data);
     appendFormData(files.value);
 
-    axios.post('/admin/master-properties/store-property', formData, {
+    axios.post(`/admin/master-properties/update-property/${props.property_master.id}`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
     })
     .then(response => {
@@ -1225,18 +1294,18 @@ function submitForm() {
     })
     .catch(error => {
         console.error(error);
-    });    
+    });
 }
 
 function handleFileUpload(type, event) {
-    if(event.target.files.length == 0) return;
+    if (event.target.files.length == 0) return;
 
-    if(type == 'image'){
+    if (type == 'image') {
         files.value.images = event.target.files;
     }
 
-    if(type == 'document'){
-        files.value.documents= event.target.files;
+    if (type == 'document') {
+        files.value.documents = event.target.files;
     }
 }
 
@@ -1246,6 +1315,6 @@ function tabChange(tab_id , btn_id) {
     $('.tab-btn').removeClass('btn-primary');
     $(`#${tab_id}`).removeClass('d-none');
     $(`#${btn_id}`).addClass('btn-primary');
-} 
+}
 
 </script>
